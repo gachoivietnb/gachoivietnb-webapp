@@ -13,9 +13,9 @@ export default async function PublicFooter() {
     .maybeSingle()
   const farm =
     ((farmRow as { value?: Record<string, string> } | null)?.value as Record<string, string>) ?? {}
-  const phone = farm.phone ?? '0933.669.639'
-  const address = farm.address ?? 'Hoa Lư, Ninh Bình'
-  const zalo = farm.zalo ?? phone.replace(/[^0-9]/g, '')
+  const phone = farm.phone || '0933.669.639'
+  const address = farm.address || 'Hoa Lư, Ninh Bình'
+  const zalo = farm.zalo || phone.replace(/[^0-9]/g, '')
   const facebook = farm.facebook ?? ''
   const email = farm.email_business ?? 'info@gachoivietnb.com'
 
@@ -86,11 +86,6 @@ export default async function PublicFooter() {
                   🖼️ Thư viện ảnh/video
                 </Link>
               </li>
-              <li>
-                <Link href="/lien-he" className="hover:text-orange-400 transition">
-                  📞 Liên hệ
-                </Link>
-              </li>
             </ul>
           </div>
 
@@ -105,9 +100,14 @@ export default async function PublicFooter() {
                 <span>{address}</span>
               </li>
               <li>
-                <a href={`tel:${phone.replace(/[^0-9]/g, '')}`} className="hover:text-orange-400 transition flex items-center gap-2">
+                <a href={`tel:${phone.replace(/[^0-9]/g, '')}`} className="hover:text-orange-400 transition flex items-start gap-2">
                   <span>📞</span>
-                  <span className="font-semibold text-white">{phone}</span>
+                  <span>
+                    <span className="block text-[10.5px] uppercase tracking-widest text-gray-500 dark:text-gray-400">
+                      Số điện thoại
+                    </span>
+                    <span className="font-semibold text-white">{phone}</span>
+                  </span>
                 </a>
               </li>
               {(() => {

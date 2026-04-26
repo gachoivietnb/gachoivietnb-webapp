@@ -36,6 +36,7 @@ export default async function SettingsPage() {
     email_business?: string
     website?: string
     drive_folder_id?: string
+    map_url?: string
   }
 
   const geminiKeyRaw =

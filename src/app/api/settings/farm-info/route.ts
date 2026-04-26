@@ -12,6 +12,7 @@ const Schema = z.object({
   email_business: z.string().optional(),
   website: z.string().optional(),
   drive_folder_id: z.string().optional(),
+  map_url: z.string().optional(),
 })
 
 export async function PATCH(request: Request) {

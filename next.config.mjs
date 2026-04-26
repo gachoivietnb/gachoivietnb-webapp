@@ -26,6 +26,7 @@ const nextConfig = {
       "media-src 'self' blob: https: http://localhost:*",
       "font-src 'self' data:",
       "connect-src 'self' https://*.supabase.co https://*.supabase.in https://generativelanguage.googleapis.com https://fcm.googleapis.com ws: wss: http://localhost:* http://127.0.0.1:*",
+      "frame-src https://www.google.com https://maps.google.com https://www.youtube.com",
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self'",

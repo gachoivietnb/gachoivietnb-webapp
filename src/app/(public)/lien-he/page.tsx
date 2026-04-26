@@ -19,6 +19,7 @@ export default async function LienHePage() {
     facebook?: string
     email_business?: string
     short_name?: string
+    map_url?: string
   }
 
   const name = farm.name || 'Gà Chọi Việt Ninh Bình'
@@ -28,6 +29,20 @@ export default async function LienHePage() {
   const email = farm.email_business || 'info@gachoivietnb.com'
   const address = farm.address || 'Hoa Lư, Ninh Bình'
   const phoneDigits = phone.replace(/[^0-9]/g, '')
+
+  // Map: prefer admin-provided URL. Embed iframe needs google.com/maps/embed format —
+  // if user pasted a shortlink (maps.app.goo.gl) or a place URL, we extract coordinates
+  // to build an embed URL, fall back to address-based query, fall back to hardcoded coords.
+  const mapUrlRaw = farm.map_url?.trim() || ''
+  const coordsMatch = mapUrlRaw.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/)
+  const embedSrc = mapUrlRaw.includes('/maps/embed?')
+    ? mapUrlRaw
+    : coordsMatch
+      ? `https://www.google.com/maps?q=${coordsMatch[1]},${coordsMatch[2]}&z=15&output=embed`
+      : address
+        ? `https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`
+        : 'https://www.google.com/maps?q=20.2676067,105.9582372&z=14&output=embed'
+  const directionUrl = mapUrlRaw || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`
 
   return (
     <div className="relative bg-gradient-to-b from-blue-50/50 via-white to-amber-50/30 dark:from-gray-950 dark:via-gray-900 dark:to-gray-900 min-h-screen overflow-hidden">
@@ -107,7 +122,7 @@ export default async function LienHePage() {
                 </p>
                 <div className="mt-3 flex flex-wrap items-center gap-2">
                   <a
-                    href="https://maps.app.goo.gl/nXfH7W3YgTy5PAzE8"
+                    href={directionUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-950/60 px-3 py-1.5 rounded-lg border border-emerald-200 dark:border-emerald-900 transition"
@@ -135,7 +150,7 @@ export default async function LienHePage() {
               </div>
               <iframe
                 title="Bản đồ trang trại"
-                src="https://www.google.com/maps?q=20.2676067,105.9582372&z=14&output=embed"
+                src={embedSrc}
                 width="100%"
                 height="320"
                 loading="lazy"

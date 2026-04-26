@@ -16,6 +16,7 @@ export function FarmInfoForm({
     email_business?: string
     website?: string
     drive_folder_id?: string
+    map_url?: string
   }
 }) {
   const router = useRouter()
@@ -29,6 +30,7 @@ export function FarmInfoForm({
     email_business: initial.email_business ?? '',
     website: initial.website ?? 'https://gachoivietnb.com',
     drive_folder_id: initial.drive_folder_id ?? '',
+    map_url: initial.map_url ?? '',
   })
   const [loading, setLoading] = useState(false)
   const [msg, setMsg] = useState<{ type: 'ok' | 'err'; text: string } | null>(null)
@@ -57,8 +59,8 @@ export function FarmInfoForm({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <Field label="Tên đầy đủ" value={form.name} onChange={(v) => setForm({ ...form, name: v })} />
         <Field label="Tên ngắn" value={form.short_name} onChange={(v) => setForm({ ...form, short_name: v })} />
-        <Field label="Địa chỉ" value={form.address} onChange={(v) => setForm({ ...form, address: v })} />
-        <Field label="Hotline" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
+        <Field label="Địa chỉ" value={form.address} onChange={(v) => setForm({ ...form, address: v })} placeholder="Hoa Lư, Ninh Bình" />
+        <Field label="Hotline" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} placeholder="0933.669.639" />
         <Field label="Zalo OA (số ID)" value={form.zalo} onChange={(v) => setForm({ ...form, zalo: v })} />
         <Field label="Facebook URL" value={form.facebook} onChange={(v) => setForm({ ...form, facebook: v })} />
         <Field label="Email" value={form.email_business} onChange={(v) => setForm({ ...form, email_business: v })} />
@@ -74,6 +76,13 @@ export function FarmInfoForm({
           onChange={(v) => setForm({ ...form, drive_folder_id: v })}
           placeholder="1AbcD2...abcXYZ"
           help='Lấy ID từ URL Drive: drive.google.com/drive/folders/<ID>'
+        />
+        <Field
+          label="Link Google Maps (chia sẻ vị trí trại)"
+          value={form.map_url}
+          onChange={(v) => setForm({ ...form, map_url: v })}
+          placeholder="https://maps.app.goo.gl/..."
+          help='Vào Google Maps trên điện thoại → Tìm trại → bấm "Chia sẻ" → Sao chép link → dán vào đây.'
         />
       </div>
 

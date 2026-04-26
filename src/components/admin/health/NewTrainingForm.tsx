@@ -1,9 +1,19 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { removeDiacritics } from '@/lib/utils/slugify'
 import { getBreedColor } from '@/lib/utils/breed-colors'
+import { Camera, Video as VideoIcon, X, Globe, Lock } from 'lucide-react'
+
+type MediaItem = {
+  localId: string
+  file: File
+  previewUrl: string
+  isVideo: boolean
+  caption: string
+  isPublic: boolean
+}
 
 type Chicken = {
   id: string
@@ -42,9 +52,59 @@ export function NewTrainingForm({
   })
   const [loading, setLoading] = useState(false)
   const [err, setErr] = useState<string | null>(null)
+  const [media, setMedia] = useState<MediaItem[]>([])
+  const [uploadStatus, setUploadStatus] = useState<{ done: number; total: number } | null>(null)
+  const photoInputRef = useRef<HTMLInputElement>(null)
+  const videoInputRef = useRef<HTMLInputElement>(null)
+  const galleryInputRef = useRef<HTMLInputElement>(null)
 
   const totalScore = ((form.score_strength + form.score_appearance + form.score_aggression) / 3).toFixed(1)
   const selectedChicken = chickens.find((c) => c.id === form.chicken_id)
+
+  function addMediaFiles(fileList: FileList | null) {
+    if (!fileList || fileList.length === 0) return
+    const incoming: MediaItem[] = Array.from(fileList).map((f) => ({
+      localId: Math.random().toString(36).slice(2),
+      file: f,
+      previewUrl: URL.createObjectURL(f),
+      isVideo: f.type.startsWith('video/'),
+      caption: '',
+      isPublic: false, // training media defaults to PRIVATE — user must opt in
+    }))
+    setMedia((m) => [...m, ...incoming])
+  }
+
+  function removeMedia(localId: string) {
+    setMedia((m) => {
+      const target = m.find((x) => x.localId === localId)
+      if (target) URL.revokeObjectURL(target.previewUrl)
+      return m.filter((x) => x.localId !== localId)
+    })
+  }
+
+  function patchMedia(localId: string, patch: Partial<MediaItem>) {
+    setMedia((m) => m.map((x) => (x.localId === localId ? { ...x, ...patch } : x)))
+  }
+
+  async function uploadMediaForSession(sessionId: string, chickenId: string) {
+    if (media.length === 0) return
+    setUploadStatus({ done: 0, total: media.length })
+    for (let i = 0; i < media.length; i++) {
+      const item = media[i]
+      const fd = new FormData()
+      fd.append('file', item.file)
+      fd.append('chicken_id', chickenId)
+      fd.append('training_session_id', sessionId)
+      fd.append('is_public', String(item.isPublic))
+      if (item.caption) fd.append('caption', item.caption)
+      try {
+        await fetch('/api/chickens/media', { method: 'POST', body: fd })
+      } catch {
+        // continue uploading other files even if one fails
+      }
+      setUploadStatus({ done: i + 1, total: media.length })
+    }
+  }
 
   async function submit(e: React.FormEvent) {
     e.preventDefault()
@@ -70,6 +130,12 @@ export function NewTrainingForm({
     })
     const json = await res.json()
     if (!res.ok) { setErr(typeof json.error === 'string' ? json.error : JSON.stringify(json.error)); setLoading(false); return }
+
+    const sessionId = (json.data as { id?: string } | null)?.id
+    if (sessionId && media.length > 0) {
+      await uploadMediaForSession(sessionId, form.chicken_id)
+    }
+
     router.push('/admin/van-ga')
     router.refresh()
   }
@@ -159,7 +225,182 @@ export function NewTrainingForm({
         </label>
       </div>
 
+      {/* === STEP 5: MEDIA CAPTURE === */}
+      <div className="relative overflow-hidden bg-white dark:bg-gray-800 ring-1 ring-rose-200 dark:ring-rose-900 rounded-lg p-4 md:p-5">
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-rose-500 via-pink-500 to-violet-500" />
+        <h2 className="text-sm font-bold text-gray-900 dark:text-gray-100 mb-1 flex items-center gap-2">
+          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-rose-600 text-white text-xs font-bold">5</span>
+          Ảnh / video buổi vần
+          <span className="text-[11px] font-normal text-gray-500 dark:text-gray-400 ml-1">
+            (tuỳ chọn)
+          </span>
+        </h2>
+        <p className="text-xs text-gray-600 dark:text-gray-400 mb-3">
+          Chụp ảnh / quay clip làm bằng chứng buổi vần — sẽ lưu vào hồ sơ con gà này.
+          Mỗi file bạn tự chọn 🌐 <b>Public</b> (hiện trên trang gia phả) hay 🔒 <b>Private</b> (chỉ trại xem).
+        </p>
+
+        <input
+          ref={photoInputRef}
+          type="file"
+          accept="image/*"
+          capture="environment"
+          multiple
+          onChange={(e) => {
+            addMediaFiles(e.target.files)
+            if (photoInputRef.current) photoInputRef.current.value = ''
+          }}
+          className="hidden"
+        />
+        <input
+          ref={videoInputRef}
+          type="file"
+          accept="video/*"
+          capture="environment"
+          onChange={(e) => {
+            addMediaFiles(e.target.files)
+            if (videoInputRef.current) videoInputRef.current.value = ''
+          }}
+          className="hidden"
+        />
+        <input
+          ref={galleryInputRef}
+          type="file"
+          accept="image/*,video/*"
+          multiple
+          onChange={(e) => {
+            addMediaFiles(e.target.files)
+            if (galleryInputRef.current) galleryInputRef.current.value = ''
+          }}
+          className="hidden"
+        />
+
+        <div className="grid grid-cols-3 gap-2">
+          <button
+            type="button"
+            onClick={() => photoInputRef.current?.click()}
+            className="flex flex-col items-center gap-1 bg-gradient-to-br from-rose-50 to-pink-50 dark:from-rose-950/40 dark:to-pink-950/40 border border-rose-200 dark:border-rose-900 hover:border-rose-400 rounded-lg py-3 transition"
+          >
+            <Camera className="w-5 h-5 text-rose-600 dark:text-rose-400" />
+            <span className="text-xs font-semibold text-rose-800 dark:text-rose-200">Chụp ảnh</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => videoInputRef.current?.click()}
+            className="flex flex-col items-center gap-1 bg-gradient-to-br from-violet-50 to-purple-50 dark:from-violet-950/40 dark:to-purple-950/40 border border-violet-200 dark:border-violet-900 hover:border-violet-400 rounded-lg py-3 transition"
+          >
+            <VideoIcon className="w-5 h-5 text-violet-600 dark:text-violet-400" />
+            <span className="text-xs font-semibold text-violet-800 dark:text-violet-200">Quay clip</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => galleryInputRef.current?.click()}
+            className="flex flex-col items-center gap-1 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/40 dark:to-indigo-950/40 border border-blue-200 dark:border-blue-900 hover:border-blue-400 rounded-lg py-3 transition"
+          >
+            <span className="text-xl leading-none">🖼</span>
+            <span className="text-xs font-semibold text-blue-800 dark:text-blue-200">Chọn từ máy</span>
+          </button>
+        </div>
+
+        {media.length > 0 && (
+          <div className="mt-3 space-y-2">
+            <div className="text-[11px] text-gray-500 dark:text-gray-400">
+              Đã chọn <b className="text-gray-900 dark:text-gray-100">{media.length}</b> file ·{' '}
+              {media.filter((m) => m.isPublic).length} public · {media.filter((m) => !m.isPublic).length} private
+            </div>
+            <ul className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {media.map((m) => (
+                <li
+                  key={m.localId}
+                  className={
+                    'relative group rounded-lg overflow-hidden border-2 ' +
+                    (m.isPublic
+                      ? 'border-emerald-400 dark:border-emerald-700'
+                      : 'border-gray-300 dark:border-gray-600')
+                  }
+                >
+                  <div className="aspect-square bg-gray-100 dark:bg-gray-900">
+                    {m.isVideo ? (
+                      <video
+                        src={m.previewUrl}
+                        className="w-full h-full object-cover"
+                        muted
+                        playsInline
+                      />
+                    ) : (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={m.previewUrl}
+                        alt=""
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeMedia(m.localId)}
+                    className="absolute top-1 right-1 bg-black/60 hover:bg-rose-600 text-white rounded-full p-1 transition"
+                    title="Xoá file này"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                  {m.isVideo && (
+                    <span className="absolute top-1 left-1 bg-violet-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">
+                      VIDEO
+                    </span>
+                  )}
+                  <div className="p-1.5 bg-white dark:bg-gray-800 space-y-1">
+                    <input
+                      value={m.caption}
+                      onChange={(e) => patchMedia(m.localId, { caption: e.target.value })}
+                      placeholder="Mô tả ngắn..."
+                      className="w-full text-[11px] border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 rounded px-1.5 py-1 outline-none focus:border-rose-400"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => patchMedia(m.localId, { isPublic: !m.isPublic })}
+                      className={
+                        'w-full inline-flex items-center justify-center gap-1 text-[10.5px] font-bold rounded px-1.5 py-1 transition ' +
+                        (m.isPublic
+                          ? 'bg-emerald-500 hover:bg-emerald-600 text-white'
+                          : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300')
+                      }
+                      title={m.isPublic ? 'Bấm để đổi sang Private' : 'Bấm để đổi sang Public'}
+                    >
+                      {m.isPublic ? (
+                        <>
+                          <Globe className="w-3 h-3" /> PUBLIC
+                        </>
+                      ) : (
+                        <>
+                          <Lock className="w-3 h-3" /> PRIVATE
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <p className="text-[10.5px] text-gray-500 dark:text-gray-400 italic">
+              💡 Mặc định <b>Private</b> cho an toàn — chuyển <b>Public</b> nếu muốn khoe trên trang gia phả công khai.
+            </p>
+          </div>
+        )}
+      </div>
+
       {err && <div className="bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-800 dark:text-red-300 rounded p-3 text-sm">{err}</div>}
+
+      {uploadStatus && (
+        <div className="bg-violet-50 dark:bg-violet-950/40 border border-violet-200 dark:border-violet-900 text-violet-800 dark:text-violet-200 rounded p-3 text-sm">
+          📤 Đang upload media: <b>{uploadStatus.done}</b> / {uploadStatus.total}
+          <div className="w-full bg-violet-100 dark:bg-violet-900/40 rounded-full h-1.5 mt-1.5 overflow-hidden">
+            <div
+              className="h-full bg-violet-500 transition-all"
+              style={{ width: `${(uploadStatus.done / uploadStatus.total) * 100}%` }}
+            />
+          </div>
+        </div>
+      )}
 
       {/* === SUBMIT === */}
       <div className="sticky bottom-0 bg-gradient-to-t from-white via-white dark:from-gray-900 dark:via-gray-900 pt-3 pb-2 flex gap-2">

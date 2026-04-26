@@ -170,6 +170,7 @@ export default async function GaBioPage({
       .from('chicken_media')
       .select('id, drive_url, thumbnail_url, media_type, caption, is_main')
       .eq('chicken_id', c.id)
+      .eq('is_public', true)
       .order('is_main', { ascending: false })
       .order('display_order')
       .limit(12),

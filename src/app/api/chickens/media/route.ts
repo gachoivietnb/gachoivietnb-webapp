@@ -26,6 +26,14 @@ export async function POST(request: Request) {
   const chickenId = formData.get('chicken_id') as string | null
   const isMain = formData.get('is_main') === 'true'
   const caption = (formData.get('caption') as string | null) ?? null
+  const trainingSessionIdRaw = (formData.get('training_session_id') as string | null) ?? null
+  const trainingSessionId =
+    trainingSessionIdRaw && /^[0-9a-f-]{36}$/i.test(trainingSessionIdRaw)
+      ? trainingSessionIdRaw
+      : null
+  // is_public field; default TRUE if missing for backward compat
+  const isPublicRaw = formData.get('is_public')
+  const isPublic = isPublicRaw == null ? true : isPublicRaw === 'true'
 
   if (!file || !chickenId) {
     return NextResponse.json({ error: 'Thiếu file hoặc chicken_id' }, { status: 400 })
@@ -103,8 +111,10 @@ export async function POST(request: Request) {
       taken_at: new Date().toISOString().slice(0, 10),
       is_main: isMain,
       uploaded_by: user.id,
+      training_session_id: trainingSessionId,
+      is_public: isPublic,
     } as never)
-    .select('id, drive_url, thumbnail_url, media_type')
+    .select('id, drive_url, thumbnail_url, media_type, is_public, training_session_id')
     .single()
 
   if (insertError) {

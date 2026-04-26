@@ -214,7 +214,7 @@ export function HuongDanClient({ sections }: { sections: GuideSection[] }) {
             type="text"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Tìm hướng dẫn: chấm công, gemini, backup, quét QR, watermark…"
+            placeholder="Tìm hướng dẫn: chấm công, AI, backup, quét QR, watermark…"
             className="w-full pl-9 pr-3 py-2.5 text-sm border border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>

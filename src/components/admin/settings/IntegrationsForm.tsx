@@ -67,39 +67,39 @@ export function IntegrationsForm({
   return (
     <div className="space-y-4">
       <div className="bg-blue-50 dark:bg-blue-950/40 border border-blue-200 rounded p-3 text-sm">
-        <p className="mb-1"><strong>📘 Hướng dẫn lấy Gemini API key:</strong></p>
+        <p className="mb-1"><strong>📘 Hướng dẫn lấy khoá AI (miễn phí):</strong></p>
         <ol className="list-decimal list-inside text-xs space-y-0.5">
-          <li>Vào <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noreferrer" className="text-blue-600 dark:text-blue-400 underline">aistudio.google.com/app/apikey</a></li>
-          <li>Click "Create API key" → chọn Google Cloud project (hoặc tạo mới)</li>
-          <li>Copy key và paste vào đây</li>
-          <li>Miễn phí 15 RPM, 1500/ngày cho gemini-2.0-flash-exp — đủ dùng quy mô 1 trang trại</li>
+          <li>Truy cập <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noreferrer" className="text-blue-600 dark:text-blue-400 underline">trang khoá AI của Google</a></li>
+          <li>Bấm "Create API key" → chọn project (hoặc tạo mới)</li>
+          <li>Copy khoá nhận được, dán vào ô bên dưới</li>
+          <li>Miễn phí ~15 lần/phút, 1500 lần/ngày — đủ dùng cho 1 trang trại</li>
         </ol>
       </div>
 
       <label className="block">
-        <span className="text-sm block mb-1">Gemini API Key</span>
+        <span className="text-sm block mb-1">Khoá kết nối AI</span>
         <input
           type="password"
           value={apiKey}
           onChange={(e) => setApiKey(e.target.value)}
-          placeholder={initialKeyMasked ? `Key hiện tại: ${initialKeyMasked} (để trống nếu không đổi)` : 'Dán key vào đây (AIza...)'}
+          placeholder={initialKeyMasked ? `Khoá hiện tại: ${initialKeyMasked} (để trống nếu không đổi)` : 'Dán khoá vào đây (AIza...)'}
           className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 font-mono text-sm"
         />
         {initialKeyMasked && !apiKey && (
-          <p className="text-xs text-green-600 dark:text-green-400 mt-1">✓ Key đã cấu hình. Nhập key mới để thay.</p>
+          <p className="text-xs text-green-600 dark:text-green-400 mt-1">✓ Khoá đã cấu hình. Nhập khoá mới để thay.</p>
         )}
       </label>
 
       <label className="block">
-        <span className="text-sm block mb-1">Model</span>
+        <span className="text-sm block mb-1">Phiên bản mô hình AI</span>
         <select
           value={model}
           onChange={(e) => setModel(e.target.value)}
           className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2"
         >
-          <option value="gemini-2.0-flash-exp">gemini-2.0-flash-exp (nhanh, miễn phí)</option>
-          <option value="gemini-1.5-flash">gemini-1.5-flash</option>
-          <option value="gemini-1.5-pro">gemini-1.5-pro (chất lượng cao, chậm hơn)</option>
+          <option value="gemini-2.0-flash-exp">Tiêu chuẩn (nhanh, miễn phí)</option>
+          <option value="gemini-1.5-flash">Tăng tốc</option>
+          <option value="gemini-1.5-pro">Cao cấp (chất lượng tốt hơn, chậm hơn)</option>
         </select>
       </label>
 

@@ -34,7 +34,7 @@ const TIERS: Array<{
     features: [
       'Đến 1.000 con gà',
       '5 user · phân quyền chi tiết',
-      '✨ AI Marketing (Gemini)',
+      '✨ AI Marketing — viết bài Zalo/FB tự động',
       '📚 Bí Kíp Sư Kê 35 bài',
       '📊 6 báo cáo tài chính',
       'Hỗ trợ ưu tiên 24/7',

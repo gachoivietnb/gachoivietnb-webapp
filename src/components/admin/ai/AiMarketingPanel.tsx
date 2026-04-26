@@ -160,7 +160,7 @@ export function AiMarketingPanel({ enabled }: { enabled: boolean }) {
           AI chưa bật
         </h3>
         <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-          Cấu hình Gemini API key + bật AI trong Cài đặt để dùng panel này.
+          Vui lòng vào Cài đặt → Tích hợp AI để cấu hình và kích hoạt tính năng AI.
         </p>
       </div>
     )

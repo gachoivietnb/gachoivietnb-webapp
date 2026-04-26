@@ -281,10 +281,8 @@ export function BiKipEditor({
             ⚠️ Lưu ý
           </h3>
           <ul className="text-[11px] text-amber-800 dark:text-amber-200 space-y-1 list-disc list-inside leading-relaxed">
-            <li>Local dev: file lưu ngay, page public refresh sau ~3600s (revalidate) hoặc
-              chạy lại dev server</li>
-            <li>Production (Vercel): filesystem read-only — phải redeploy / commit Git để file
-              mới có hiệu lực</li>
+            <li>Bài viết mới sẽ hiển thị trên trang công khai sau khi cập nhật được xử lý xong (vài giây tới vài phút)</li>
+            <li>Trên môi trường thật (production): nội dung cập nhật sẽ được phát hành tự động qua quy trình triển khai</li>
             <li>Đừng đổi dòng <code className="bg-white/60 dark:bg-gray-900/60 px-1 rounded">**Slug gợi ý:**</code> — sẽ phá URL hiện tại</li>
             <li>Bảng HÌNH ẢNH ở cuối file: ảnh #1 = hero, ảnh tiếp theo chèn giữa các H2</li>
           </ul>

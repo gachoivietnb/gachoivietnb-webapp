@@ -277,8 +277,7 @@ export function PermissionsEditor({ staff }: { staff: Staff[] }) {
           Chưa có nhân viên nào
         </h3>
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          Tạo tài khoản qua Supabase Studio (Authentication → Add user) → quay lại đây cấu hình
-          quyền.
+          Mời nhân viên đăng ký tài khoản tại trang đăng nhập, sau đó quay lại đây để cấu hình quyền truy cập.
         </p>
       </div>
     )

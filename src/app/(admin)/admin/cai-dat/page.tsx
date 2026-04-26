@@ -71,7 +71,7 @@ export default async function SettingsPage() {
     },
     {
       id: 'ai',
-      title: 'Tích hợp AI Gemini',
+      title: 'Tích hợp AI',
       icon: '🤖',
       group: 'Tích hợp',
       description:
@@ -195,8 +195,8 @@ export default async function SettingsPage() {
       tone: 'from-emerald-500 to-teal-500',
     },
     {
-      label: 'AI Gemini',
-      value: aiConfigured ? (aiEnabled ? 'Đang bật' : 'Đã có key') : 'Chưa cấu hình',
+      label: 'Tích hợp AI',
+      value: aiConfigured ? (aiEnabled ? 'Đang bật' : 'Đã cấu hình khoá') : 'Chưa cấu hình',
       icon: '🤖',
       tone: aiEnabled ? 'from-violet-500 to-purple-600' : 'from-gray-400 to-gray-500',
       pulse: aiEnabled,

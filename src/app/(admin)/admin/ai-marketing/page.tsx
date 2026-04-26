@@ -78,8 +78,7 @@ export default async function AiMarketingPage() {
             ✨ AI Marketing
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Sinh nội dung Zalo / Facebook / Website cho gà tự động bằng Gemini AI · Tích hợp media
-            đã duyệt
+            Tự động sinh nội dung Zalo / Facebook / Website cho gà bằng AI · Tích hợp media đã duyệt
           </p>
         </div>
       </div>
@@ -90,12 +89,12 @@ export default async function AiMarketingPage() {
             <span className="text-3xl">⚠️</span>
             <div className="flex-1">
               <h3 className="font-semibold text-amber-900 dark:text-amber-100 text-sm">
-                {!keyConfigured ? 'Chưa cấu hình Gemini API key' : 'AI đang TẮT'}
+                {!keyConfigured ? 'Chưa cấu hình AI' : 'AI đang TẮT'}
               </h3>
               <p className="text-xs text-amber-800 dark:text-amber-200 mt-1">
                 {!keyConfigured
-                  ? 'Lấy key miễn phí từ Google AI Studio (15 req/phút, 1500/ngày — đủ cho 1 trại) → vào Cài đặt dán vào.'
-                  : 'Key đã có nhưng chưa bật. Vào Cài đặt → Tích hợp AI tick "Bật AI".'}
+                  ? 'Vào Cài đặt → Tích hợp AI để cấu hình kết nối AI (miễn phí ~1500 lần dùng/ngày, đủ cho 1 trại).'
+                  : 'AI đã được cấu hình nhưng chưa bật. Vào Cài đặt → Tích hợp AI tick "Bật AI".'}
               </p>
               <Link
                 href="/admin/cai-dat"

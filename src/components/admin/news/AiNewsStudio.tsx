@@ -248,7 +248,7 @@ export function AiNewsStudio() {
             ✨ AI Studio · Tạo bài tự động
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Gemini sẽ viết bài SEO đầy đủ · Chọn chủ đề + đối tượng + phong cách + độ dài → Generate
+            AI sẽ viết bài SEO đầy đủ · Chọn chủ đề + đối tượng + phong cách + độ dài → Generate
           </p>
         </div>
         <Link
@@ -266,7 +266,7 @@ export function AiNewsStudio() {
           <Step n={1} title="Chủ đề & Danh mục" desc="Chọn preset hoặc gõ tự do" active={!topic} done={!!topic} />
           <Step n={2} title="Đối tượng đọc" desc="AI điều chỉnh ngôn ngữ" active={!!topic && !audience} done={!!audience} />
           <Step n={3} title="Phong cách & Độ dài" desc="Văn phong + ~từ" active={!!topic && !style} done={!!style} />
-          <Step n={4} title="Generate" desc="Gemini viết 15-30s" active={ready} done={false} />
+          <Step n={4} title="Generate" desc="AI viết 15-30s" active={ready} done={false} />
         </div>
       </section>
 
@@ -618,7 +618,7 @@ export function AiNewsStudio() {
               <li>Audience + Style + Length kết hợp để bài "đúng giọng"</li>
               <li>Keyword SEO 3-7 từ → AI lồng tự nhiên</li>
               <li>Bài tạo xong sẽ mở thẳng trang Sửa để bạn chỉnh tay</li>
-              <li>Free tier Gemini: 15 req/phút · 1500/ngày</li>
+              <li>Giới hạn AI miễn phí: 15 lần/phút · 1500 lần/ngày — đủ cho 1 trại</li>
             </ul>
           </section>
         </aside>

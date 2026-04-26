@@ -291,7 +291,7 @@ function AiAnalysisSection({
             </div>
           )}
           <div className="mt-4 text-xs opacity-75">
-            So sánh {currentLabel} vs {previousLabel} · Cần Gemini API key trong /admin/cai-dat
+            So sánh {currentLabel} vs {previousLabel} · Cần kích hoạt AI trong /admin/cai-dat
           </div>
         </div>
       </section>

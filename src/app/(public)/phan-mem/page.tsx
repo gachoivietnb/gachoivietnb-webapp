@@ -384,7 +384,7 @@ function FeaturesGrid() {
     {
       emoji: '🤖',
       title: 'Phân tích AI báo cáo',
-      desc: 'Trợ lý AI Gemini đóng vai chuyên gia tài chính 15 năm — chấm điểm, gợi ý 3-6 hành động cho tháng tới',
+      desc: 'Trợ lý AI đóng vai chuyên gia tài chính 15 năm — chấm điểm, gợi ý 3-6 hành động cho tháng tới',
       bar: 'from-violet-500 to-fuchsia-500',
       badge: 'MỚI',
     },
@@ -417,7 +417,7 @@ function FeaturesGrid() {
     {
       emoji: '✨',
       title: 'AI Marketing',
-      desc: 'Gemini AI tự sinh bio bán hàng, bài Zalo/Facebook, bài SEO 600-1000 từ — chỉ cần 1 click',
+      desc: 'AI tự sinh bio bán hàng, bài Zalo/Facebook, bài SEO 600-1000 từ — chỉ cần 1 click',
       bar: 'from-violet-500 to-pink-500',
     },
     {
@@ -435,7 +435,7 @@ function FeaturesGrid() {
     {
       emoji: '📔',
       title: 'Nhật ký công việc + AI',
-      desc: 'Ghi nhật ký hằng ngày · upload ảnh · @mention nhân viên · comment thread · 🤖 AI Gemini tóm tắt theo tuần/tháng',
+      desc: 'Ghi nhật ký hằng ngày · upload ảnh · @mention nhân viên · comment thread · 🤖 AI tóm tắt theo tuần/tháng',
       bar: 'from-cyan-500 to-blue-600',
       badge: 'MỚI',
     },
@@ -591,8 +591,8 @@ function Spotlights() {
 
         <Spotlight
           tag="✨ AI Marketing"
-          title="Gemini AI viết bài Zalo / Facebook trong 30 giây"
-          desc="Chọn 1 con gà → AI Gemini tự sinh bài quảng cáo chuẩn SEO theo phong cách bạn chọn (chuyên nghiệp / thân thiện / hấp dẫn). Tích hợp ảnh từ kho watermark của trại. Copy 1 click — dán Zalo / Facebook là đăng được ngay."
+          title="AI viết bài Zalo / Facebook trong 30 giây"
+          desc="Chọn 1 con gà → AI tự sinh bài quảng cáo chuẩn SEO theo phong cách bạn chọn (chuyên nghiệp / thân thiện / hấp dẫn). Tích hợp ảnh từ kho watermark của trại. Copy 1 click — dán Zalo / Facebook là đăng được ngay."
           bullets={[
             'Bio bán hàng 200-300 từ',
             'Bài Zalo / Facebook 100-150 từ',
@@ -620,7 +620,7 @@ function Spotlights() {
         <Spotlight
           tag="🤖 Trợ lý AI quản trị · ĐIỂM KHÁC BIỆT"
           title="Đọc số liệu của bạn như chuyên gia tài chính 15 năm"
-          desc="Một mình bạn — nhưng có chuyên gia tài chính chuyên ngành gà chọi đứng sau lưng 24/7. Gemini AI đọc toàn bộ KPI tháng này so với tháng trước (doanh thu, tỷ lệ sống, dòng tiền, công nợ, kho thuốc cận date, tài sản cần bảo trì…) → chấm điểm 0-100, chỉ điểm yếu cụ thể, gợi ý 3-6 hành động đo lường được cho tháng tới."
+          desc="Một mình bạn — nhưng có chuyên gia tài chính chuyên ngành gà chọi đứng sau lưng 24/7. AI đọc toàn bộ KPI tháng này so với tháng trước (doanh thu, tỷ lệ sống, dòng tiền, công nợ, kho thuốc cận date, tài sản cần bảo trì…) → chấm điểm 0-100, chỉ điểm yếu cụ thể, gợi ý 3-6 hành động đo lường được cho tháng tới."
           bullets={[
             'Score tổng quan + verdict 1-2 câu',
             'Điểm mạnh / yếu / cần cải thiện / lưu ý',

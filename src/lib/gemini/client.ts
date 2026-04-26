@@ -58,7 +58,7 @@ export async function getGeminiClient(): Promise<GoogleGenerativeAI> {
   const config = await getGeminiConfig()
   if (!config.apiKey) {
     throw new Error(
-      'Chưa cấu hình Gemini API key. Vào /admin/cai-dat → Tích hợp để nhập key.'
+      'Chưa cấu hình AI. Vào /admin/cai-dat → Tích hợp AI để cấu hình khoá kết nối.'
     )
   }
   return new GoogleGenerativeAI(config.apiKey)

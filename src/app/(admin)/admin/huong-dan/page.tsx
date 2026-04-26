@@ -1,4 +1,5 @@
 import { HuongDanClient, type GuideSection } from '@/components/admin/help/HuongDanClient'
+import { isSuperAdmin } from '@/lib/multitenancy/super-admin'
 
 const SECTIONS: GuideSection[] = [
   {
@@ -9,7 +10,7 @@ const SECTIONS: GuideSection[] = [
         title: 'Bắt đầu sử dụng',
         content: `1. Đăng nhập với tài khoản được cấp (chủ trại hoặc nhân viên)
 2. Chủ trại lần đầu: Vào Cài đặt → Thông tin trang trại → điền tên, địa chỉ, hotline, Zalo, Facebook, email, website (dùng cho watermark ảnh + báo cáo)
-3. Vào Cài đặt → Tích hợp AI → dán Gemini API key (lấy miễn phí tại https://aistudio.google.com/app/apikey) → bấm "Test kết nối" → "Lưu". Bắt buộc nếu muốn dùng AI Marketing + Phân tích AI báo cáo
+3. Vào Cài đặt → Tích hợp AI → cấu hình khoá kết nối AI (lấy miễn phí tại https://aistudio.google.com/app/apikey — sẽ có hướng dẫn từng bước trong trang Cài đặt) → bấm "Test kết nối" → "Lưu". Bắt buộc nếu muốn dùng AI Marketing + Phân tích AI báo cáo
 4. Vào Cài đặt → Push notification → bấm "Bật thông báo trên thiết bị này" để nhận cảnh báo dịch bệnh / kho hết / lịch tiêm
 5. Mobile: mở Chrome/Safari → menu → "Add to Home Screen" để dùng như app gốc (PWA, hoạt động offline)
 6. Tuỳ chọn: nhập Drive folder ID trong Cài đặt để backup media tự động lên Google Drive
@@ -101,7 +102,7 @@ Mỗi entry có:
 1. 🖼 UPLOAD ẢNH — kéo thả hoặc chọn nhiều file (PNG/JPG/WEBP, max 5MB/ảnh, tối đa 10/entry). Click thumbnail → lightbox full-screen.
 2. 👥 MENTION @nhân viên — gõ "@Tên" trong nội dung → hiển thị highlight xanh. Hoạt động trong cả entry + comment.
 3. 💬 COMMENTS THREAD — mỗi entry có nút "💬 N comment" → expand inline. Trao đổi nhanh giữa chủ trại và nhân viên về sự việc cụ thể. Tác giả + chủ trại xoá được.
-4. 🤖 AI TÓM TẮT — bấm "🤖 Tóm tắt AI" trên hero → AI Gemini đọc nhật ký 7/30/90 ngày → đưa ra: Tổng quan + ✨ Điểm nổi bật + ⚠️ Cần lưu ý (severity) + 🔍 Mẫu hình phát hiện + 🚀 Đề xuất hành động (priority).
+4. 🤖 AI TÓM TẮT — bấm "🤖 Tóm tắt AI" trên hero → AI đọc nhật ký 7/30/90 ngày → đưa ra: Tổng quan + ✨ Điểm nổi bật + ⚠️ Cần lưu ý (severity) + 🔍 Mẫu hình phát hiện + 🚀 Đề xuất hành động (priority).
 
 Filter:
 - Preset thời gian: 7 / 30 / 90 ngày · Năm nay · Tất cả
@@ -183,9 +184,9 @@ Tất cả báo cáo có thể: Print, Export Excel/CSV, một số có Export P
       },
       {
         title: '🤖 Phân tích AI báo cáo (Trợ lý chuyên gia)',
-        content: `Vào /admin/tai-chinh/phan-tich-ai — Gemini AI đóng vai chuyên gia tài chính 15 năm kinh nghiệm gà chọi VN, đọc số liệu báo cáo của bạn rồi đưa nhận định.
+        content: `Vào /admin/tai-chinh/phan-tich-ai — AI đóng vai chuyên gia tài chính 15 năm kinh nghiệm gà chọi VN, đọc số liệu báo cáo của bạn rồi đưa nhận định.
 
-Yêu cầu: đã setup Gemini API key trong Cài đặt → Tích hợp AI.
+Yêu cầu: đã cấu hình AI trong Cài đặt → Tích hợp AI.
 
 Cách dùng:
 1. Chọn kỳ phân tích (Tháng này / Tháng trước / Quý / Năm)
@@ -230,7 +231,7 @@ UPDATE profiles SET role='nhan_vien', full_name='...', phone='...' WHERE id='<us
       },
       {
         title: 'AI Marketing — tự sinh nội dung Zalo / Facebook',
-        content: `Yêu cầu: đã cấu hình Gemini API key ở Cài đặt → Tích hợp AI.
+        content: `Yêu cầu: đã cấu hình AI ở Cài đặt → Tích hợp AI.
 
 Vào /admin/ai-marketing để:
 - Sinh post quảng cáo Zalo / Facebook / Website cho từng con gà — chọn tone (chuyên nghiệp / thân thiện / hấp dẫn)
@@ -244,7 +245,7 @@ Thư viện ảnh dùng cho post: /admin/thu-vien — upload + watermark tự đ
         content: `Vào /admin/bi-kip-su-ke — quản lý bộ 35 bài bí kíp đào tạo sư kê (kinh nghiệm chăm sóc, chiến đấu, dinh dưỡng, vần gà...).
 
 Tính năng:
-- Editor markdown đầy đủ, AI viết bài (nếu có Gemini)
+- Editor markdown đầy đủ, AI viết bài (nếu đã cấu hình AI)
 - Public hiển thị ở /bi-kip-su-ke với layout đẹp + breadcrumb + table of contents
 - Có chống copy: CSS user-select:none + JS chặn keyboard shortcut + chặn right-click → bảo vệ kiến thức trại
 - Phân loại theo category: dinh-duong, vong-doi, ky-thuat, chien-thuat, suc-khoe...
@@ -260,7 +261,7 @@ Chỉ chủ trại có quyền edit. Public mở cho mọi người (tăng SEO, 
 - Bulk publish / draft / archive / delete
 
 Tạo bài:
-- ✨ /admin/tin-tuc/them-moi?mode=ai — AI Gemini tự sinh bài chuẩn SEO theo chủ đề
+- ✨ /admin/tin-tuc/them-moi?mode=ai — AI tự sinh bài chuẩn SEO theo chủ đề
 - + /admin/tin-tuc/them-moi — viết tay với editor + auto slug
 
 6 category: tin-tuc, kinh-nghiem, su-kien, giong-ga, cham-soc — bài "đã đăng" hiện trên public /tin-tuc.`,
@@ -384,16 +385,16 @@ Tip cho điều kiện kém sóng:
     title: '🔧 Kỹ thuật',
     items: [
       {
-        title: 'Cài đặt Gemini API key',
+        title: 'Cài đặt khoá kết nối AI',
         content: `1. Truy cập https://aistudio.google.com/app/apikey
 2. Đăng nhập Google → "Create API key"
-3. Copy key (dạng AIza...)
-4. Paste vào Cài đặt → Tích hợp AI → "Gemini API Key"
+3. Copy khoá (dạng AIza...)
+4. Paste vào Cài đặt → Tích hợp AI → "Khoá kết nối AI"
 5. Bấm "🧪 Test kết nối" — nếu OK → "💾 Lưu cài đặt"
 
-Free tier (gemini-2.0-flash-exp): 15 request/phút, 1500 request/ngày — đủ cho 1 trang trại quy mô vừa.
+Phiên bản tiêu chuẩn miễn phí: ~15 lần/phút, 1500 lần/ngày — đủ cho 1 trang trại quy mô vừa.
 
-Có thể đổi sang model khác (gemini-1.5-flash / gemini-1.5-pro) trong dropdown ngay tại trang Cài đặt nếu cần chất lượng cao hơn (đổi bất cứ lúc nào, không cần redeploy).
+Có thể đổi sang phiên bản nhanh hơn / cao cấp hơn trong dropdown ngay tại trang Cài đặt nếu cần chất lượng cao hơn (đổi bất cứ lúc nào, không cần redeploy).
 
 Dùng cho: AI Marketing (sinh post Zalo/FB), Tin tức AI Studio, Bí Kíp AI Editor, Phân tích AI báo cáo.`,
       },
@@ -527,7 +528,11 @@ Mỗi migration có RLS, auto-fill farm_id, indexes phù hợp.`,
   },
 ]
 
-export default function HuongDanPage() {
+export default async function HuongDanPage() {
+  const superAdmin = await isSuperAdmin()
+  // Section "technical" có thông tin deploy/infra → chỉ super admin (chủ phần mềm) thấy
+  const visible = SECTIONS.filter((s) => s.role !== 'technical' || superAdmin)
+
   return (
     <div className="max-w-5xl">
       <div className="mb-5">
@@ -539,7 +544,7 @@ export default function HuongDanPage() {
         </p>
       </div>
 
-      <HuongDanClient sections={SECTIONS} />
+      <HuongDanClient sections={visible} />
     </div>
   )
 }

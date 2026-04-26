@@ -84,10 +84,7 @@ export default async function BiKipAdminPage() {
       <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900 rounded-xl p-3 mb-4 text-xs text-amber-800 dark:text-amber-200 flex items-start gap-2">
         <span>⚠️</span>
         <div>
-          Bí Kíp Sư Kê lưu dạng <strong>file Markdown</strong> trong repo{' '}
-          <code className="font-mono bg-white/50 dark:bg-gray-900/40 px-1 rounded">bi kip su ke/</code>
-          . Chỉ chủ trại sửa được. Sau khi lưu, chạy build/redeploy để file mới có hiệu lực trên
-          Vercel (production filesystem read-only). Local dev: hot-reload ngay.
+          Bí Kíp Sư Kê lưu dạng <strong>file Markdown</strong>. Chỉ chủ trại sửa được. Sau khi lưu, hệ thống sẽ tự cập nhật bài lên trang công khai trong vài phút.
         </div>
       </div>
 

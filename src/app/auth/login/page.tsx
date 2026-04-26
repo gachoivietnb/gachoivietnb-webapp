@@ -43,7 +43,7 @@ export default function LoginPage() {
         return
       }
       setInfo(
-        'Đã đăng ký. Nếu Supabase project bật email confirmation, vào hộp thư kích hoạt trước khi đăng nhập.'
+        'Đã đăng ký thành công. Nếu hệ thống yêu cầu xác thực email, vui lòng kiểm tra hộp thư để kích hoạt trước khi đăng nhập.'
       )
       setMode('login')
       setLoading(false)

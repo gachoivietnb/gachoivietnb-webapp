@@ -123,7 +123,7 @@ export const DEFAULT_PRICING: PricingTier[] = [
       'Đến 1.000 con gà',
       '5 user · phân quyền chi tiết',
       'Tất cả tính năng Cơ bản',
-      '🤖 Phân tích AI báo cáo (Gemini)',
+      '🤖 Phân tích AI báo cáo',
       '📔 Nhật ký công việc + AI tóm tắt',
       '✨ AI Marketing (Zalo/FB/SEO)',
       '📚 Bí Kíp Sư Kê 35 bài',
@@ -195,7 +195,7 @@ export const DEFAULT_FAQS: Faq[] = [
   },
   {
     q: 'Dữ liệu của tôi có an toàn không?',
-    a: 'Có. Dữ liệu lưu trên Supabase (đối tác Postgres hàng đầu), backup tự động hàng ngày, mã hoá HTTPS đầu cuối. Mỗi trại là một tenant riêng — không ai khác xem được.',
+    a: 'Có. Dữ liệu lưu trên hạ tầng đám mây tiêu chuẩn doanh nghiệp, backup tự động hằng ngày, mã hoá HTTPS đầu cuối. Mỗi trại là một tenant riêng biệt — không ai khác xem được.',
   },
   {
     q: 'Tôi có thể xuất dữ liệu ra Excel không?',

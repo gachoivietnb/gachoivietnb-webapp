@@ -332,22 +332,76 @@ Mục đích: thay vì để khách hàng phải đến trại thật mới xem 
 Sau khi kẹp thẻ, gắn QR với hồ sơ con khi tạo gà mới (form Hồ sơ gà → field "QR tag") hoặc khi tốt nghiệp lứa sinh sản (Sinh sản → Tốt nghiệp). Quản lý vòng đời thẻ ở /admin/qr-tags.`,
       },
       {
-        title: 'Backup dữ liệu',
-        content: `Vào Cài đặt → 💾 Sao lưu dữ liệu:
-- Bấm "Tải backup Excel" → file .xlsx multi-sheet chứa ~40 bảng nghiệp vụ:
-  Core: profiles · areas · cage_rows · cages · breeds · qr_tags · chickens · breeding_litters · chick_groups
-  Sức khỏe: vaccines · vaccinations · medicines · medicine_transactions · feeds · feed_transactions · diseases · disease_outbreaks · training_sessions
-  Kinh doanh: suppliers · purchases · purchase_items · customers · sales_orders · sales_items · expense_categories · expenses
-  Tiền: cash_accounts · cash_transactions · cash_transfers · payment_settings · subscription_orders
-  Tài sản: assets · asset_events
-  Nhân sự: staff_attendance · staff_assignments · payroll_payments
-  Khác: activity_logs · alerts · customer_reviews · system_settings · backup_logs · news_articles · farm_media · ai_generations · push_subscriptions · landing_settings · farms · diary_entries · diary_comments · signup_throttle
+        title: '💾 Sao lưu & Khôi phục dữ liệu (module riêng)',
+        content: `Vào sidebar Hệ thống → 💾 Sao lưu & Khôi phục — đây là module riêng (không còn nằm trong Cài đặt):
 
-- Mỗi lần backup được ghi vào bảng backup_logs (audit)
-- Khuyến nghị: backup cuối tuần và trước mỗi thay đổi lớn (import lô gà mới, đổi giá)
-- File backup với 5000 con: ~25–120 MB
+🎯 HERO STATUS BANNER:
+- Hiển thị màu theo trạng thái backup: 🟠 Vàng (>=30 ngày, cần backup ngay) · 🟢 Xanh lá (<7 ngày, OK) · 🔵 Xanh dương (đang xem)
+- Thời gian backup gần nhất + tên trại
+- Nút shortcut "📥 Backup mới"
 
-Lưu ý: media (ảnh/video) KHÔNG nằm trong file Excel — backup riêng qua Drive folder (cấu hình Drive ID ở Cài đặt → Thông tin trang trại).`,
+📥 TAB SAO LƯU — 3 lựa chọn song song:
+
+1. 📦 BẢN SAO LƯU ĐẦY ĐỦ (ZIP) ⭐ KHUYẾN NGHỊ
+   - Dùng để KHÔI PHỤC khi mất dữ liệu — restore lại nguyên trạng
+   - 39+ bảng dữ liệu trại
+   - Nén deflate, file rất nhỏ
+   - Có manifest + README hướng dẫn restore
+   - Định dạng: backup-{slug}-{timestamp}.zip
+
+2. 📊 BẢN XUẤT EXCEL
+   - Mỗi bảng = 1 sheet riêng
+   - Mở bằng Excel / Google Sheets
+   - Để duyệt / báo cáo / in báo cáo
+   - ⚠️ KHÔNG dùng để khôi phục được
+
+3. ☁️ GOOGLE DRIVE — Coming Soon
+   - Tự backup tuần/tháng
+   - Lưu vào Drive folder của bạn
+   - Giữ N bản gần nhất (tự xoá cũ)
+
+🔄 TAB KHÔI PHỤC:
+- Upload file .zip do hệ thống tạo ra (max 50MB)
+- Type-to-confirm "KHOI-PHUC" để chống bấm nhầm
+- System validate manifest → wipe data hiện tại → re-insert theo FK order
+- Re-sync stock thuốc/cám về backup values
+
+💡 QUY TẮC 3-2-1 — chuẩn vàng an toàn dữ liệu:
+- 3 bản sao của dữ liệu quan trọng
+- 2 loại thiết bị khác nhau (máy + USB / Drive / email)
+- 1 bản off-site (vị trí khác — phòng cháy nổ)
+
+📅 NHẮC NHỞ TỰ ĐỘNG:
+- Dashboard /admin tự hiện banner cam khi >=30 ngày chưa backup
+- Bấm banner → đi thẳng tới module Sao lưu
+
+📜 LỊCH SỬ:
+- Module hiện 10 sự kiện gần nhất (download / restore) trong tab Sao lưu
+- Đọc từ system_logs — biết ai làm gì lúc nào`,
+      },
+      {
+        title: '🎓 Chế độ dữ liệu (Demo / Thật) — chuyển 1 lần',
+        content: `Vào Cài đặt → tile "🎓 Chế độ dữ liệu":
+
+🆕 KHI MỚI ĐĂNG KÝ TÀI KHOẢN:
+- Trại bắt đầu với CHẾ ĐỘ DEMO — có sẵn 80 con gà mẫu, 7 khách hàng, đơn bán, nhật ký, tài sản... để bạn khám phá tính năng
+- Card xanh dương "🎓 Đang dùng DỮ LIỆU DEMO"
+- Mọi thao tác (thêm/sửa/xoá) đều hoạt động bình thường — chỉ là data mẫu để bạn test
+
+🚀 KHI SẴN SÀNG VẬN HÀNH THẬT:
+- Bấm nút "✨ Chuyển sang dữ liệu thật"
+- Xác nhận bằng cách gõ "XOA-DEMO" vào input
+- System xoá toàn bộ data demo (gà, khách, đơn...) → giữ lại cấu trúc (areas, cages, vaccines, expense categories)
+- QR tags reset về chưa gắn → bạn gắn lại cho gà thật
+
+🔒 CHỈ ĐƯỢC LÀM 1 LẦN:
+- Sau khi chuyển sang "real" → KHÔNG quay lại demo nữa (để tránh lạm dụng)
+- Card xanh lá "✅ Đã khoá chế độ dữ liệu"
+- Nếu thực sự cần reset (lý do hợp lý) — liên hệ super admin (đội kỹ thuật bên cung cấp phần mềm)
+
+💡 TIP:
+- Khám phá demo càng kỹ càng tốt trước khi chuyển — quen tay rồi nhập data thật sẽ nhanh
+- Trước khi chuyển nên ghi chú lại các cấu hình bạn đã đặt (giá bán, tier khách...) để khôi phục nhanh`,
       },
     ],
   },

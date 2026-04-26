@@ -61,7 +61,7 @@ function Hero() {
           <div>
             <div className="inline-flex items-center gap-2 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-orange-200 dark:border-orange-900 rounded-full px-3 py-1 text-xs font-semibold text-orange-700 dark:text-orange-300 mb-5 shadow-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              🚀 Đang hoạt động · 30+ module · 🤖 Trợ lý AI · cập nhật 2026
+              🚀 30+ module quản trị · 🤖 Trợ lý AI · 💾 Backup tự động · cập nhật 2026
             </div>
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 dark:text-gray-100 leading-[1.1] tracking-tight">
               Quản lý trang trại gà chọi{' '}
@@ -451,6 +451,86 @@ function FeaturesGrid() {
       desc: 'Cảnh báo dịch bệnh, kho hết thuốc, đơn mới — không bỏ lỡ việc quan trọng',
       bar: 'from-amber-500 to-yellow-500',
     },
+    {
+      emoji: '💾',
+      title: 'Sao lưu & Khôi phục',
+      desc: 'Backup ZIP nén + Excel đa sheet · Khôi phục 1-click · Nhắc nhở hằng tháng · Quy tắc 3-2-1 chuẩn vàng',
+      bar: 'from-blue-500 to-indigo-600',
+      badge: 'MỚI',
+    },
+    {
+      emoji: '🎓',
+      title: 'Chế độ Demo / Thật',
+      desc: 'Bắt đầu với 80 con gà demo để khám phá tính năng · Khi sẵn sàng — 1 click chuyển sang dữ liệu thật',
+      bar: 'from-violet-500 to-indigo-500',
+      badge: 'MỚI',
+    },
+    {
+      emoji: '🛒',
+      title: 'Mua bán & Hoá đơn',
+      desc: 'Đơn bán + đơn mua · Tự xuất invoice PDF · Tự cập nhật trạng thái gà (đã bán) · Track đặt cọc / thanh toán',
+      bar: 'from-orange-500 to-amber-500',
+    },
+    {
+      emoji: '👥',
+      title: 'Khách hàng & CRM',
+      desc: 'Hồ sơ khách + tier VIP/thường · Lịch sử mua · Đánh giá public · Cảnh báo khách bỏ đi',
+      bar: 'from-pink-500 to-rose-500',
+    },
+    {
+      emoji: '💊',
+      title: 'Kho thuốc & cám',
+      desc: 'Tồn kho realtime · Auto trừ khi tiêm/cho ăn · Cảnh báo cận date / sắp hết · Lịch sử nhập xuất',
+      bar: 'from-teal-500 to-cyan-500',
+    },
+    {
+      emoji: '🦠',
+      title: 'Quản lý dịch bệnh',
+      desc: 'Track ổ dịch (outbreak) · Cảnh báo lan đàn · Liên kết hồ sơ y tế từng gà',
+      bar: 'from-rose-500 to-red-500',
+    },
+    {
+      emoji: '🏪',
+      title: 'Site bán hàng public',
+      desc: 'Khách quét QR thấy gia phả + giá + ảnh · Form mua online · Đánh giá từ khách',
+      bar: 'from-emerald-500 to-teal-500',
+    },
+    {
+      emoji: '📰',
+      title: 'Blog tin tức + SEO',
+      desc: 'AI viết bài chuẩn SEO · Quản lý category · Auto generate slug · Reading progress bar',
+      bar: 'from-cyan-500 to-blue-600',
+    },
+    {
+      emoji: '🖼️',
+      title: 'Thư viện ảnh/video',
+      desc: 'Gallery công khai trại · Upload có watermark tự động · 5 category · Featured cards',
+      bar: 'from-purple-500 to-pink-500',
+    },
+    {
+      emoji: '💸',
+      title: 'Chi phí 8 hạng mục',
+      desc: 'Thức ăn · Lương · Thuốc · Điện nước · Vận chuyển · Marketing · Khấu hao · Dự phòng',
+      bar: 'from-amber-500 to-yellow-500',
+    },
+    {
+      emoji: '🐣',
+      title: 'Quản lý đàn con',
+      desc: 'Theo dõi lứa con sau khi nở · Sống còn · Tốt nghiệp lên hồ sơ chiến kê',
+      bar: 'from-yellow-500 to-amber-500',
+    },
+    {
+      emoji: '📞',
+      title: 'Trang liên hệ thông minh',
+      desc: 'Gọi · Zalo · Facebook · Email · Bản đồ Google Maps · Giờ tiếp khách · 4 cam kết minh bạch',
+      bar: 'from-blue-500 to-indigo-500',
+    },
+    {
+      emoji: '🌐',
+      title: 'Multi-tenant SaaS',
+      desc: 'Mỗi trại có không gian riêng · RLS bảo mật · Subdomain riêng (sắp ra mắt) · Custom domain',
+      bar: 'from-violet-500 to-purple-600',
+    },
   ]
 
   return (
@@ -470,7 +550,7 @@ function FeaturesGrid() {
             </span>
           </h2>
           <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 mt-4">
-            17 tính năng cốt lõi · 30+ module phụ trợ · Đủ để chạy trang trại từ 50 đến 10.000 con
+            30+ module quản trị · Hơn 50 báo cáo · AI tích hợp · Đủ để chạy trang trại từ 50 đến 10.000 con
           </p>
         </div>
 

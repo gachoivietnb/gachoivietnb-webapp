@@ -43,7 +43,15 @@ const NAV_GROUPS: { title: string; items: NavItem[] }[] = [
       { href: '/admin/khach-hang', label: 'Khách hàng', emoji: '👥', moduleKey: 'khach_hang' },
       { href: '/admin/quy', label: 'Quản lý quỹ', emoji: '💰', moduleKey: 'quy' },
       { href: '/admin/tai-san', label: 'Tài sản / CCDC', emoji: '🛠', moduleKey: 'tai_san' },
-      { href: '/admin/nhan-su', label: 'Nhân sự', emoji: '👔', moduleKey: 'nhan_su' },
+    ],
+  },
+  {
+    title: 'Quản lý Nhân sự',
+    items: [
+      { href: '/admin/nhan-su', label: 'Nhân sự', emoji: '👤', moduleKey: 'nhan_su' },
+      { href: '/admin/nhan-su/cham-cong', label: 'Chấm công', emoji: '🕐', moduleKey: 'nhan_su' },
+      { href: '/admin/nhan-su/luong', label: 'Tính lương', emoji: '💰', moduleKey: 'nhan_su' },
+      { href: '/admin/nhan-su/phan-quyen', label: 'Phân quyền', emoji: '🔐', moduleKey: 'nhan_su' },
     ],
   },
   {

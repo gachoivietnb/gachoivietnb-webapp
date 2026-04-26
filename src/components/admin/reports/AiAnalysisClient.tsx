@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import { formatVnd } from '@/lib/utils/format'
 import type { PeriodAggregates } from '@/lib/reports/aggregate'
 import type { AiAnalysis } from '@/lib/reports/ai-analysis'
+import { AiNotConfiguredCard, isAiNotConfiguredError } from '@/components/admin/ai/AiNotConfiguredCard'
 
 type Preset = 'this_month' | 'last_month' | 'this_quarter' | 'this_year'
 
@@ -286,9 +287,15 @@ function AiAnalysisSection({
             🚀 Phân tích ngay (~10-20 giây)
           </button>
           {error && (
-            <div className="mt-3 inline-block px-3 py-2 rounded-lg text-sm bg-rose-100 text-rose-700 border border-rose-300">
-              ⚠️ {error}
-            </div>
+            isAiNotConfiguredError(error) ? (
+              <div className="mt-4 text-left text-gray-900">
+                <AiNotConfiguredCard feature="phân tích báo cáo bằng AI" />
+              </div>
+            ) : (
+              <div className="mt-3 inline-block px-3 py-2 rounded-lg text-sm bg-rose-100 text-rose-700 border border-rose-300">
+                ⚠️ {error}
+              </div>
+            )
           )}
           <div className="mt-4 text-xs opacity-75">
             So sánh {currentLabel} vs {previousLabel} · Cần kích hoạt AI trong /admin/cai-dat

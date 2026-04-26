@@ -58,7 +58,7 @@ export async function getGeminiClient(): Promise<GoogleGenerativeAI> {
   const config = await getGeminiConfig()
   if (!config.apiKey) {
     throw new Error(
-      'Chưa cấu hình AI. Vào /admin/cai-dat → Tích hợp AI để cấu hình khoá kết nối.'
+      'AI_NOT_CONFIGURED:Chưa cấu hình khoá AI. Vào Cài đặt → Tích hợp AI để khai báo.'
     )
   }
   return new GoogleGenerativeAI(config.apiKey)

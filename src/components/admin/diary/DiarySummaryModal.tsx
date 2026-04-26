@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { AiNotConfiguredCard, isAiNotConfiguredError } from '@/components/admin/ai/AiNotConfiguredCard'
 
 type Period = 'week' | 'month' | 'quarter'
 
@@ -160,9 +161,13 @@ export function DiarySummaryModal({ onClose }: { onClose: () => void }) {
               )}
 
               {data.ai_error && (
-                <div className="px-3 py-2 rounded-lg text-sm bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900 text-amber-700 dark:text-amber-300">
-                  ⚠️ AI tạm thời không hoạt động. Vui lòng kiểm tra cấu hình AI trong /admin/cai-dat.
-                </div>
+                isAiNotConfiguredError(data.ai_error) ? (
+                  <AiNotConfiguredCard feature="tóm tắt nhật ký" hint="Sau khi cấu hình AI, quay lại bấm 'Tóm tắt' để dùng." />
+                ) : (
+                  <div className="px-3 py-2 rounded-lg text-sm bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900 text-amber-700 dark:text-amber-300">
+                    ⚠️ AI tạm thời không hoạt động: {data.ai_error}
+                  </div>
+                )
               )}
 
               {data.ai && (

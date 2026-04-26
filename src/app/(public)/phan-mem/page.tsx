@@ -384,7 +384,7 @@ function FeaturesGrid() {
     {
       emoji: '🤖',
       title: 'Phân tích AI báo cáo',
-      desc: 'Trợ lý AI đóng vai chuyên gia tài chính 15 năm — chấm điểm, gợi ý 3-6 hành động cho tháng tới',
+      desc: 'Trợ lý AI đóng vai chuyên gia tài chính 15 năm — chấm điểm, gợi ý 3-6 hành động cho tháng tới (cần khoá AI riêng — đăng ký miễn phí)',
       bar: 'from-violet-500 to-fuchsia-500',
       badge: 'MỚI',
     },
@@ -417,7 +417,7 @@ function FeaturesGrid() {
     {
       emoji: '✨',
       title: 'AI Marketing',
-      desc: 'AI tự sinh bio bán hàng, bài Zalo/Facebook, bài SEO 600-1000 từ — chỉ cần 1 click',
+      desc: 'AI tự sinh bio bán hàng, bài Zalo/Facebook, bài SEO 600-1000 từ — chỉ cần 1 click (dùng khoá AI miễn phí của Google)',
       bar: 'from-violet-500 to-pink-500',
     },
     {

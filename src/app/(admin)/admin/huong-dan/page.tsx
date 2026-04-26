@@ -72,6 +72,50 @@ Tip: lúc đi chuồng (vùng kém sóng), cứ thao tác bình thường — đ
     title: '👑 Dành cho chủ trại',
     items: [
       {
+        title: '🔑 Lấy khoá AI miễn phí — chi phí dự kiến',
+        content: `Các tính năng AI (AI Marketing, Phân tích báo cáo, Tóm tắt nhật ký, AI viết tin tức) yêu cầu KHOÁ KẾT NỐI riêng do bạn đăng ký miễn phí từ Google AI Studio. Mỗi trại quản lý quota riêng để chủ động chi phí.
+
+🧭 CÁCH LẤY KHOÁ (3 phút):
+
+1. Mở trình duyệt → vào https://aistudio.google.com/app/apikey
+2. Đăng nhập Google (dùng Gmail bình thường — KHÔNG cần thẻ tín dụng)
+3. Bấm nút "Create API key"
+4. Chọn project mặc định (hoặc tạo project mới đặt tên "ga-choi-trai-cua-toi")
+5. Copy khoá nhận được (dạng "AIza...XXX") — chỉ hiển thị 1 lần, lưu cẩn thận
+6. Vào /admin/cai-dat → Tích hợp AI → dán khoá vào ô "Khoá kết nối AI"
+7. Bấm "🧪 Test kết nối" → nếu hiện "✓ Hoạt động" → bấm "💾 Lưu"
+
+💰 CHI PHÍ DỰ KIẾN:
+
+✅ MIỄN PHÍ (đủ dùng cho hầu hết trại):
+- Phiên bản Tiêu chuẩn: ~15 lần gọi/phút, ~1500 lần/ngày
+- Tương đương: 1500 bài Zalo + 50 phân tích báo cáo + 100 tóm tắt nhật ký mỗi ngày
+- Reset mỗi ngày, không tích luỹ
+
+📊 ƯỚC TÍNH SỬ DỤNG TRUNG BÌNH (1 trại 200 con gà):
+- 1 bài AI Marketing (Zalo/FB/SEO): 1 lần gọi
+- 1 phân tích báo cáo tháng: 1-2 lần gọi
+- 1 tóm tắt nhật ký tuần: 1 lần gọi
+- 1 chatbot trả lời: 1 lần gọi
+→ Trung bình 1 trại: 50-200 lần/ngày → KHÔNG VƯỢT QUOTA MIỄN PHÍ
+
+⚠️ NẾU VƯỢT QUOTA MIỄN PHÍ:
+- Google sẽ tự động chặn tới hôm sau (an toàn — không bị tính tiền bất ngờ)
+- HOẶC bạn có thể bật "Pay-as-you-go" trên Google Cloud (cần thêm thẻ thanh toán)
+- Phí ~0,001 USD đến 0,005 USD / lần gọi (giá rẻ)
+- Thí dụ: 5000 lần/tháng = 5-25 USD/tháng (~120-600 nghìn VND)
+
+🎯 GỢI Ý:
+- Bắt đầu với phiên bản miễn phí — đủ cho hầu hết trại
+- Nếu có nhu cầu chất lượng cao hơn (vd viết bài SEO chuẩn báo) → chọn phiên bản "Cao cấp" trong dropdown Cài đặt
+- Theo dõi quota tại https://aistudio.google.com → Usage
+
+🔒 BẢO MẬT:
+- Khoá AI lưu mã hoá trong DB của bạn — nhân viên KHÔNG thấy được
+- Khoá chỉ dùng được với tên miền của bạn — bị lộ vẫn ít rủi ro
+- Nếu nghi lộ → vào Google AI Studio xoá khoá cũ → tạo khoá mới → cập nhật vào /admin/cai-dat`,
+      },
+      {
         title: 'Dashboard tổng quan',
         content: `Vào /admin để xem:
 - KPI cards: Tổng đàn đang nuôi, Cần tiêm hôm nay, Đến tuổi bán, Doanh thu tháng

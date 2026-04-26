@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { AiNotConfiguredCard, isAiNotConfiguredError } from '@/components/admin/ai/AiNotConfiguredCard'
 
 type Category = 'tin-tuc' | 'kinh-nghiem' | 'su-kien' | 'giong-ga' | 'cham-soc'
 type Audience = '' | 'beginner' | 'pro_farm' | 'buyer' | 'hobby'
@@ -547,9 +548,13 @@ export function AiNewsStudio() {
               </div>
 
               {err && (
-                <div className="bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900 text-rose-800 dark:text-rose-300 rounded-lg p-2.5 text-xs">
-                  ✗ {err}
-                </div>
+                isAiNotConfiguredError(err) ? (
+                  <AiNotConfiguredCard feature="AI Studio viết bài" />
+                ) : (
+                  <div className="bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900 text-rose-800 dark:text-rose-300 rounded-lg p-2.5 text-xs">
+                    ✗ {err}
+                  </div>
+                )
               )}
 
               {loading && (

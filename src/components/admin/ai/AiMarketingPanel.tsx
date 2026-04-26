@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { removeDiacritics } from '@/lib/utils/slugify'
+import { AiNotConfiguredCard, isAiNotConfiguredError } from '@/components/admin/ai/AiNotConfiguredCard'
 
 type Chicken = {
   id: string
@@ -337,9 +338,13 @@ export function AiMarketingPanel({ enabled }: { enabled: boolean }) {
         </div>
 
         {err && (
-          <div className="bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900 text-rose-800 dark:text-rose-300 rounded-lg p-3 text-sm">
-            ✗ {err}
-          </div>
+          isAiNotConfiguredError(err) ? (
+            <AiNotConfiguredCard feature="AI Marketing" />
+          ) : (
+            <div className="bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900 text-rose-800 dark:text-rose-300 rounded-lg p-3 text-sm">
+              ✗ {err}
+            </div>
+          )
         )}
 
         {output && (

@@ -213,6 +213,10 @@ export const DEFAULT_FAQS: Faq[] = [
     q: 'Tôi muốn huỷ thì sao?',
     a: 'Huỷ bất kỳ lúc nào trong tài khoản. Sau khi huỷ vẫn dùng đến hết kỳ đã trả. Dữ liệu của bạn được giữ 30 ngày — đủ thời gian quyết định quay lại hoặc xuất ra Excel.',
   },
+  {
+    q: 'Các tính năng AI có tốn thêm phí không?',
+    a: 'Tính năng AI (Marketing tự sinh bài, Phân tích báo cáo, Tóm tắt nhật ký) yêu cầu khoá kết nối AI riêng do TRẠI tự đăng ký miễn phí từ Google AI Studio (https://aistudio.google.com/app/apikey). Phiên bản tiêu chuẩn miễn phí ~15 lần/phút, 1500 lần/ngày — đủ cho 1 trại quy mô vừa. Nếu vượt quota có thể nâng cấp gói tính phí của Google (~0,001-0,005 USD/lần gọi). Phần mềm không tính thêm phí AI — bạn chủ động quota và chi phí. Hệ thống có hướng dẫn từng bước trong /admin/huong-dan.',
+  },
 ]
 
 /* ============================================================

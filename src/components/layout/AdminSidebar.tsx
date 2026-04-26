@@ -66,6 +66,7 @@ const NAV_GROUPS: { title: string; items: NavItem[] }[] = [
     title: 'Hệ thống',
     items: [
       { href: '/admin/cai-dat', label: 'Cài đặt', emoji: '⚙️', moduleKey: 'cai_dat' },
+      { href: '/admin/sao-luu', label: 'Sao lưu & Khôi phục', emoji: '💾' },
       { href: '/admin/huong-dan', label: 'Hướng dẫn', emoji: '❓' },
       { href: '/admin/nhat-ky', label: 'Nhật ký', emoji: '📝', moduleKey: 'nhat_ky' },
       { href: '/admin/generate-qr', label: 'In thẻ QR', emoji: '🔳', moduleKey: 'generate_qr' },

@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { DashboardClient, type DashboardData } from '@/components/admin/dashboard/DashboardClient'
+import { BackupReminderBanner } from '@/components/admin/backup/BackupReminderBanner'
 
 export const revalidate = 0
 
@@ -174,5 +175,10 @@ export default async function DashboardPage() {
     first_of_month: firstOfMonth,
   }
 
-  return <DashboardClient data={data} />
+  return (
+    <>
+      <BackupReminderBanner />
+      <DashboardClient data={data} />
+    </>
+  )
 }

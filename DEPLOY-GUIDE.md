@@ -122,7 +122,7 @@ Hệ thống cần dựng trên 4 dịch vụ:
 
    VERCEL_TOKEN=...
 
-   GEMINI_API_KEY=AIzaSy...
+   GEMINI_API_KEY=AIzaSyDO0pyeuzUTmYYUtlk4Fj0ma4TkyWAISUY
 
    DOMAIN=gachoivietnb.com
    DOMAIN_REGISTRAR=tên-nhà-cung-cấp-domain   # vd matbao.net / tenten.vn

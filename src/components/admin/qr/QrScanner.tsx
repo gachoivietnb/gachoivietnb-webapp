@@ -32,9 +32,27 @@ function saveRecent(list: RecentScan[]): void {
   }
 }
 
+type Camera = { id: string; label: string }
+
+type Html5QrcodeInstance = {
+  start: (
+    cameraIdOrConstraints: string | { facingMode: string },
+    config: { fps: number; qrbox: number | { width: number; height: number } },
+    onSuccess: (decodedText: string) => void,
+    onError: (err: string) => void
+  ) => Promise<void>
+  stop: () => Promise<void>
+  clear: () => void
+}
+
+type Html5QrcodeConstructor = new (elementId: string) => Html5QrcodeInstance
+type Html5QrcodeStatic = Html5QrcodeConstructor & {
+  getCameras: () => Promise<Camera[]>
+}
+
 export function QrScanner() {
   const router = useRouter()
-  const scannerRef = useRef<{ clear: () => Promise<void> } | null>(null)
+  const scannerRef = useRef<Html5QrcodeInstance | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
   const [lastScan, setLastScan] = useState<string | null>(null)
@@ -42,6 +60,9 @@ export function QrScanner() {
   const [manualLoading, setManualLoading] = useState(false)
   const [recent, setRecent] = useState<RecentScan[]>([])
   const [scannerReady, setScannerReady] = useState(false)
+  const [starting, setStarting] = useState(false)
+  const [cameras, setCameras] = useState<Camera[]>([])
+  const [selectedCameraId, setSelectedCameraId] = useState<string | null>(null)
 
   useEffect(() => {
     setRecent(loadRecent())
@@ -63,54 +84,127 @@ export function QrScanner() {
     saveRecent([])
   }
 
-  useEffect(() => {
-    let cancelled = false
+  async function startScanner(cameraId?: string) {
+    setError(null)
+    setStarting(true)
+    setScannerReady(false)
+    try {
+      // Stop existing
+      if (scannerRef.current) {
+        try {
+          await scannerRef.current.stop()
+        } catch {
+          /* ignore */
+        }
+        scannerRef.current = null
+      }
 
-    import('html5-qrcode')
-      .then(({ Html5QrcodeScanner }) => {
-        if (cancelled) return
-
-        const scanner = new Html5QrcodeScanner(
-          'qr-reader',
-          { fps: 10, qrbox: 250, rememberLastUsedCamera: true },
-          false
+      // Check secure context
+      if (typeof window !== 'undefined' && !window.isSecureContext) {
+        throw new Error(
+          'Camera chỉ hoạt động trên HTTPS hoặc localhost. URL hiện tại không bảo mật.'
         )
+      }
 
-        scanner.render(
-          (decodedText) => {
-            setLastScan(decodedText)
-            const match = decodedText.match(/\/ga\/(\d{4})/)
-            if (match) {
-              const tag = match[1]
-              pushRecent(tag)
-              setSuccess(`✓ Đã nhận diện thẻ #${tag} — đang mở hồ sơ…`)
-              setError(null)
-              scanner.clear().catch(() => {})
-              setTimeout(() => router.push(`/ga/${tag}`), 250)
-            } else {
-              setError(`Mã QR không phải của hệ thống Gà Chọi Việt NB: ${decodedText}`)
-              setSuccess(null)
-            }
-          },
-          () => {
-            // ignore continuous scan errors
-          }
-        )
+      const mod = await import('html5-qrcode')
+      const Html5Qrcode = mod.Html5Qrcode as unknown as Html5QrcodeStatic
 
-        scannerRef.current = scanner
-        setScannerReady(true)
-      })
-      .catch((e) => {
+      // Get camera list (requires user permission first via getUserMedia probe)
+      let cams: Camera[] = []
+      try {
+        cams = await Html5Qrcode.getCameras()
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : String(e)
+        if (/permission|denied|notallowed/i.test(msg)) {
+          throw new Error(
+            'Trình duyệt chặn quyền camera. Vào Cài đặt trình duyệt → Quyền truy cập trang → cho phép Camera → Tải lại.'
+          )
+        }
+        throw new Error('Không liệt kê được camera: ' + msg)
+      }
+
+      if (!cams.length) {
+        throw new Error('Thiết bị không có camera. Hãy nhập 4 số trên thẻ ở khung phải.')
+      }
+
+      setCameras(cams)
+
+      // Pick rear camera by default if no override
+      const pickedId =
+        cameraId ??
+        cams.find((c) => /back|rear|environment|sau/i.test(c.label))?.id ??
+        cams[cams.length - 1]?.id ??
+        cams[0].id
+      setSelectedCameraId(pickedId)
+
+      const instance = new Html5Qrcode('qr-reader')
+      scannerRef.current = instance
+
+      const onSuccess = (decodedText: string) => {
+        setLastScan(decodedText)
+        // Match either /ga/0042 or /ga/0042?... or just 0042 if QR has only number
+        const slashMatch = decodedText.match(/\/ga\/(\d{1,6})/)
+        const justNum = decodedText.match(/^\s*(\d{4,6})\s*$/)
+        const tag = slashMatch?.[1] ?? justNum?.[1]
+        if (tag) {
+          pushRecent(tag)
+          setSuccess(`✓ Đã nhận diện thẻ #${tag} — đang mở hồ sơ…`)
+          setError(null)
+          instance.stop().catch(() => {})
+          setTimeout(() => router.push(`/ga/${tag}`), 250)
+        } else {
+          setError(`Mã QR không phải của hệ thống Gà Chọi Việt NB: ${decodedText.slice(0, 100)}`)
+          setSuccess(null)
+        }
+      }
+
+      const onScanError = () => {
+        // Suppressed — fires on every frame without QR
+      }
+
+      await instance.start(
+        pickedId,
+        { fps: 10, qrbox: { width: 240, height: 240 } },
+        onSuccess,
+        onScanError
+      )
+      setScannerReady(true)
+      setStarting(false)
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e)
+      // Friendlier messages
+      if (/permission|denied|notallowed/i.test(msg)) {
         setError(
-          'Không tải được thư viện scanner: ' + (e instanceof Error ? e.message : String(e))
+          '🚫 Trình duyệt chặn quyền camera. Vào Cài đặt → Quyền trang web → cho phép Camera, sau đó tải lại trang.'
         )
-      })
-
-    return () => {
-      cancelled = true
-      scannerRef.current?.clear().catch(() => {})
+      } else if (/notfound|devicesnotfound/i.test(msg)) {
+        setError('📵 Không tìm thấy camera trên thiết bị. Dùng nhập tay mã thẻ ở cột phải.')
+      } else if (/notreadable|trackstart/i.test(msg)) {
+        setError('🔒 Camera đang bị app khác sử dụng. Đóng app camera khác rồi thử lại.')
+      } else if (/secure context/i.test(msg) || (typeof window !== 'undefined' && !window.isSecureContext)) {
+        setError('🔐 Camera cần HTTPS. URL hiện tại không bảo mật — chỉ dùng được trên gachoivietnb.com hoặc localhost.')
+      } else {
+        setError('Lỗi camera: ' + msg)
+      }
+      setStarting(false)
     }
-  }, [router])
+  }
+
+  // Init scanner on mount
+  useEffect(() => {
+    startScanner()
+    return () => {
+      if (scannerRef.current) {
+        scannerRef.current.stop().catch(() => {})
+        scannerRef.current = null
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  async function handleSwitchCamera(camId: string) {
+    await startScanner(camId)
+  }
 
   async function handleManualLookup(e: React.FormEvent) {
     e.preventDefault()
@@ -161,10 +255,10 @@ export function QrScanner() {
               <span className="text-base">✗</span>
               <div className="flex-1">{error}</div>
               <button
-                onClick={() => setError(null)}
-                className="text-rose-500 hover:text-rose-700"
+                onClick={() => startScanner(selectedCameraId ?? undefined)}
+                className="text-xs bg-rose-600 hover:bg-rose-700 text-white rounded px-2 py-1 font-semibold whitespace-nowrap"
               >
-                ✕
+                🔄 Thử lại
               </button>
             </div>
           )}
@@ -175,11 +269,52 @@ export function QrScanner() {
             </div>
           )}
 
-          <div className="relative bg-black rounded-xl overflow-hidden">
-            <div id="qr-reader" className="w-full" />
-            {!scannerReady && (
-              <div className="absolute inset-0 flex items-center justify-center bg-gray-900/80 text-white text-sm">
-                ⏳ Đang khởi tạo camera…
+          {/* Camera selector — only show if multiple */}
+          {cameras.length > 1 && (
+            <div className="mb-3 flex items-center gap-2 flex-wrap">
+              <span className="text-xs text-gray-500 dark:text-gray-400">📷 Camera:</span>
+              {cameras.map((c) => (
+                <button
+                  key={c.id}
+                  onClick={() => handleSwitchCamera(c.id)}
+                  disabled={starting}
+                  className={
+                    'text-xs rounded-full px-2.5 py-1 border transition disabled:opacity-50 ' +
+                    (selectedCameraId === c.id
+                      ? 'bg-blue-600 text-white border-blue-700'
+                      : 'bg-gray-50 dark:bg-gray-900/40 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-100')
+                  }
+                >
+                  {c.label || `Cam ${c.id.slice(0, 6)}`}
+                </button>
+              ))}
+            </div>
+          )}
+
+          <div className="relative bg-black rounded-xl overflow-hidden aspect-square sm:aspect-video">
+            <div id="qr-reader" className="w-full h-full" />
+            {(starting || (!scannerReady && !error)) && (
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-900/80 text-white text-sm pointer-events-none">
+                <div className="text-center">
+                  <div className="text-4xl mb-2 animate-pulse">📷</div>
+                  <div>Đang khởi tạo camera...</div>
+                  <div className="text-[11px] opacity-75 mt-1">Cho phép quyền camera nếu được hỏi</div>
+                </div>
+              </div>
+            )}
+            {/* Aim overlay */}
+            {scannerReady && !error && !success && (
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="w-[60%] aspect-square max-w-[260px] border-2 border-white/40 rounded-2xl relative">
+                  {[
+                    'top-0 left-0 border-t-4 border-l-4 rounded-tl-2xl',
+                    'top-0 right-0 border-t-4 border-r-4 rounded-tr-2xl',
+                    'bottom-0 left-0 border-b-4 border-l-4 rounded-bl-2xl',
+                    'bottom-0 right-0 border-b-4 border-r-4 rounded-br-2xl',
+                  ].map((cls, i) => (
+                    <div key={i} className={`absolute w-8 h-8 border-emerald-400 ${cls}`} />
+                  ))}
+                </div>
               </div>
             )}
           </div>
@@ -190,13 +325,11 @@ export function QrScanner() {
             </div>
           )}
 
-          <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-3 leading-relaxed border-t border-gray-100 dark:border-gray-700 pt-3">
-            💡 Camera cần HTTPS hoặc localhost. Trên điện thoại trong cùng mạng LAN, mở{' '}
-            <code className="bg-gray-100 dark:bg-gray-900 px-1 rounded">
-              http://&lt;IP-máy&gt;:3000/admin/quet-qr
-            </code>{' '}
-            (không dùng <code>localhost</code>). iOS phải Add to Home Screen trước.
-          </p>
+          <div className="mt-3 text-[11px] text-gray-500 dark:text-gray-400 leading-relaxed border-t border-gray-100 dark:border-gray-700 pt-3 space-y-1">
+            <div>💡 <strong>Hướng camera</strong> tới mã QR trên thẻ — giữ ổn định 1-2 giây cho đến khi nhận diện.</div>
+            <div>🔒 Cần kết nối <strong>HTTPS</strong> (gachoivietnb.com) — http thường không cấp quyền camera.</div>
+            <div>📱 Lần đầu trình duyệt sẽ hỏi quyền camera — bấm <strong>"Cho phép"</strong>.</div>
+          </div>
         </div>
       </section>
 
@@ -288,7 +421,7 @@ export function QrScanner() {
             <li>Thẻ bóng → nghiêng nhẹ tránh phản chiếu đèn</li>
             <li>Tối → bật đèn flash điện thoại trước khi quét</li>
             <li>Thẻ rách → dùng input nhập tay 4 số cạnh phải</li>
-            <li>iOS: thêm vào Home Screen rồi mở app để dùng camera mượt hơn</li>
+            <li>Có nhiều camera → bấm chip phía trên để đổi (chọn camera sau)</li>
           </ul>
         </section>
       </aside>

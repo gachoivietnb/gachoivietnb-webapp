@@ -3,7 +3,6 @@ import { createClient } from '@/lib/supabase/server'
 import { IntegrationsForm } from '@/components/admin/settings/IntegrationsForm'
 import { FarmInfoForm } from '@/components/admin/settings/FarmInfoForm'
 import { PushNotificationToggle } from '@/components/admin/settings/PushNotificationToggle'
-import { BackupSection } from '@/components/admin/settings/BackupSection'
 import { FarmDataModeSection } from '@/components/admin/settings/FarmDataModeSection'
 import { CaiDatHub, type SectionMeta } from '@/components/admin/settings/CaiDatHub'
 import { getFarmContext } from '@/lib/multitenancy/farm-context'
@@ -138,18 +137,6 @@ export default async function SettingsPage() {
         }])
       : []),
     {
-      id: 'backup',
-      title: 'Sao lưu dữ liệu',
-      icon: '💾',
-      group: 'Dữ liệu',
-      description:
-        'Tải toàn bộ dữ liệu (gà, gia phả, mua bán, chi phí, khách hàng, tiêm phòng…) ra file Excel — mỗi bảng một sheet.',
-      keywords: 'backup sao luu data du lieu excel xlsx export download tai ve',
-      bar: 'from-blue-400 to-indigo-500',
-      status: 'info',
-      statusLabel: 'Tải khi cần',
-    },
-    {
       id: 'qr-guide',
       title: 'Hướng dẫn thẻ QR',
       icon: '🔳',
@@ -175,7 +162,6 @@ export default async function SettingsPage() {
     ),
     push: <PushNotificationToggle />,
     'data-mode': <FarmDataModeSection initialMode={dataMode} switchedAt={dataModeSwitchedAt} />,
-    backup: <BackupSection />,
     'qr-guide': (
       <div className="space-y-3">
         <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">

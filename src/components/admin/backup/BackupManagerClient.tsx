@@ -3,16 +3,25 @@
 import { useState, useTransition, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 
+type HistoryEntry = {
+  id: string
+  level: string
+  message: string
+  created_at: string
+  user_email: string | null
+  size_kb: number | null
+}
+
 type Props = {
   farmName: string
   lastBackupAt: string | null
+  history: HistoryEntry[]
 }
 
-export function BackupManagerClient({ farmName, lastBackupAt }: Props) {
+export function BackupManagerClient({ farmName, lastBackupAt, history }: Props) {
   const router = useRouter()
   const [tab, setTab] = useState<'backup' | 'restore'>('backup')
-  const [downloading, setDownloading] = useState(false)
-  const [restoring, setRestoring] = useState(false)
+  const [busy, setBusy] = useState<'zip' | 'excel' | 'restore' | null>(null)
   const [restoreFile, setRestoreFile] = useState<File | null>(null)
   const [restoreConfirm, setRestoreConfirm] = useState('')
   const [, startTransition] = useTransition()
@@ -29,11 +38,12 @@ export function BackupManagerClient({ farmName, lastBackupAt }: Props) {
     ? Math.floor((Date.now() - new Date(lastBackupAt).getTime()) / (1000 * 60 * 60 * 24))
     : null
   const overdue = !lastBackupAt || (daysSince !== null && daysSince >= 30)
+  const healthy = !overdue && daysSince !== null && daysSince < 7
 
-  async function downloadBackup() {
-    setDownloading(true)
+  async function downloadFile(endpoint: string, kind: 'zip' | 'excel') {
+    setBusy(kind)
     try {
-      const r = await fetch('/api/admin/backup/export')
+      const r = await fetch(endpoint)
       if (!r.ok) {
         const err = (await r.json().catch(() => ({}))) as { error?: string }
         showToast('err', '❌ ' + (err.error ?? `HTTP ${r.status}`))
@@ -41,7 +51,7 @@ export function BackupManagerClient({ farmName, lastBackupAt }: Props) {
       }
       const blob = await r.blob()
       const cd = r.headers.get('content-disposition') ?? ''
-      const fname = cd.match(/filename="([^"]+)"/)?.[1] ?? 'backup.zip'
+      const fname = cd.match(/filename="([^"]+)"/)?.[1] ?? (kind === 'zip' ? 'backup.zip' : 'backup.xlsx')
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
@@ -55,17 +65,13 @@ export function BackupManagerClient({ farmName, lastBackupAt }: Props) {
     } catch (e) {
       showToast('err', '❌ ' + (e instanceof Error ? e.message : 'Lỗi không rõ'))
     } finally {
-      setDownloading(false)
+      setBusy(null)
     }
   }
 
   async function uploadRestore() {
-    if (!restoreFile) return
-    if (restoreConfirm !== 'KHOI-PHUC') {
-      showToast('err', 'Vui lòng gõ đúng KHOI-PHUC để xác nhận')
-      return
-    }
-    setRestoring(true)
+    if (!restoreFile || restoreConfirm !== 'KHOI-PHUC') return
+    setBusy('restore')
     try {
       const fd = new FormData()
       fd.append('file', restoreFile)
@@ -85,7 +91,7 @@ export function BackupManagerClient({ farmName, lastBackupAt }: Props) {
     } catch (e) {
       showToast('err', '❌ ' + (e instanceof Error ? e.message : 'Lỗi không rõ'))
     } finally {
-      setRestoring(false)
+      setBusy(null)
     }
   }
 
@@ -104,42 +110,66 @@ export function BackupManagerClient({ farmName, lastBackupAt }: Props) {
         </div>
       )}
 
-      {/* Status banner */}
+      {/* Hero status banner */}
       <div
         className={
-          'rounded-2xl p-4 md:p-5 border ' +
+          'relative overflow-hidden rounded-2xl p-5 md:p-6 ' +
           (overdue
-            ? 'bg-amber-50 dark:bg-amber-950/30 border-amber-300 dark:border-amber-800'
-            : 'bg-emerald-50 dark:bg-emerald-950/30 border-emerald-300 dark:border-emerald-800')
+            ? 'bg-gradient-to-br from-amber-50 via-orange-50 to-amber-50 dark:from-amber-950/30 dark:via-orange-950/30 dark:to-amber-950/30 border border-amber-300 dark:border-amber-800'
+            : healthy
+              ? 'bg-gradient-to-br from-emerald-50 via-teal-50 to-emerald-50 dark:from-emerald-950/30 dark:via-teal-950/30 dark:to-emerald-950/30 border border-emerald-300 dark:border-emerald-800'
+              : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-50 dark:from-blue-950/30 dark:via-indigo-950/30 dark:to-blue-950/30 border border-blue-300 dark:border-blue-800')
         }
       >
-        <div className="flex items-start gap-3">
-          <div className="text-3xl">{overdue ? '⚠️' : '✅'}</div>
-          <div className="flex-1">
+        <div className="absolute -right-8 -top-8 w-40 h-40 rounded-full bg-white/40 dark:bg-white/5 blur-3xl pointer-events-none" />
+        <div className="relative flex items-start gap-4 flex-wrap">
+          <div className="text-5xl shrink-0">{overdue ? '⚠️' : healthy ? '✅' : '🛡'}</div>
+          <div className="flex-1 min-w-0">
             <div
               className={
-                'text-base md:text-lg font-bold ' +
-                (overdue ? 'text-amber-900 dark:text-amber-200' : 'text-emerald-900 dark:text-emerald-200')
+                'text-[10px] font-bold uppercase tracking-widest mb-0.5 ' +
+                (overdue
+                  ? 'text-amber-700 dark:text-amber-300'
+                  : healthy
+                    ? 'text-emerald-700 dark:text-emerald-300'
+                    : 'text-blue-700 dark:text-blue-300')
+              }
+            >
+              Trạng thái sao lưu — {farmName}
+            </div>
+            <div
+              className={
+                'text-xl md:text-2xl font-extrabold leading-tight ' +
+                (overdue
+                  ? 'text-amber-900 dark:text-amber-100'
+                  : healthy
+                    ? 'text-emerald-900 dark:text-emerald-100'
+                    : 'text-blue-900 dark:text-blue-100')
               }
             >
               {!lastBackupAt
                 ? 'Chưa có bản sao lưu nào'
                 : overdue
-                  ? `Đã ${daysSince} ngày kể từ lần sao lưu cuối — Nên backup ngay!`
-                  : `Lần backup cuối: ${daysSince === 0 ? 'hôm nay' : `${daysSince} ngày trước`}`}
+                  ? `Đã ${daysSince} ngày — Nên backup ngay!`
+                  : daysSince === 0
+                    ? 'Đã backup hôm nay — Tuyệt vời!'
+                    : `Backup gần nhất: ${daysSince} ngày trước`}
             </div>
-            <div
-              className={
-                'text-sm mt-0.5 ' +
-                (overdue ? 'text-amber-800 dark:text-amber-300' : 'text-emerald-800 dark:text-emerald-300')
-              }
-            >
+            <p className="text-sm text-gray-700 dark:text-gray-300 mt-1.5 leading-relaxed">
               {overdue
-                ? 'Khuyến nghị: backup ít nhất 1 lần/tháng để phòng mất dữ liệu (mất điện, hư máy, lỡ tay xoá...).'
+                ? 'Khuyến nghị backup ít nhất 1 lần/tháng. Một lúc rảnh tay 30 giây là đủ — đừng chần chừ để mất dữ liệu vì sự cố không lường trước.'
                 : lastBackupAt
-                  ? `Vào lúc: ${new Date(lastBackupAt).toLocaleString('vi-VN')}`
-                  : 'Hãy tải ngay bản đầu tiên.'}
-            </div>
+                  ? `Lần cuối: ${new Date(lastBackupAt).toLocaleString('vi-VN')}. Tốt lắm — nhớ duy trì lịch backup đều đặn.`
+                  : 'Hãy tạo bản sao lưu đầu tiên ngay để bảo vệ công sức bạn đã đầu tư vào hệ thống.'}
+            </p>
+            {!overdue && lastBackupAt && (
+              <button
+                onClick={() => setTab('backup')}
+                className="mt-3 text-xs bg-white/60 dark:bg-white/10 hover:bg-white/80 dark:hover:bg-white/20 text-gray-800 dark:text-gray-200 font-semibold rounded-lg px-3 py-1.5 transition"
+              >
+                📥 Backup mới
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -171,70 +201,154 @@ export function BackupManagerClient({ farmName, lastBackupAt }: Props) {
       </div>
 
       {tab === 'backup' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-          {/* Local backup */}
-          <section className="relative overflow-hidden bg-white dark:bg-gray-800 ring-1 ring-gray-200 dark:ring-gray-700 rounded-2xl shadow-sm">
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-500" />
-            <div className="p-5">
-              <div className="flex items-start justify-between mb-2">
-                <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
-                  <span className="w-9 h-9 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg">💻</span>
-                  Tải về máy
-                </h2>
-                <span className="text-[10px] font-bold uppercase tracking-widest bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 rounded-full px-2 py-0.5 border border-emerald-200 dark:border-emerald-900">
-                  Sẵn sàng
-                </span>
+        <>
+          {/* 3 backup options */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
+            {/* ZIP — RECOMMENDED */}
+            <section className="relative overflow-hidden bg-white dark:bg-gray-800 ring-2 ring-blue-500 dark:ring-blue-700 rounded-2xl shadow-md hover:shadow-lg transition">
+              <div className="absolute top-0 right-0 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-bl-lg shadow">
+                ⭐ Khuyến nghị
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
-                Tải toàn bộ dữ liệu trại của bạn về dạng <b>file ZIP nén</b> để lưu trên máy tính / USB / ổ cứng ngoài.
-                File chứa toàn bộ JSON các bảng + manifest để có thể khôi phục lại dễ dàng.
-              </p>
-              <ul className="text-xs text-gray-700 dark:text-gray-300 space-y-1 mb-4 list-disc pl-5">
-                <li>Chứa: gà, gia phả, đơn hàng, chi phí, nhật ký, ảnh URL, tiêm phòng, kho thuốc/cám…</li>
-                <li>Định dạng nén deflate (level 6) — dung lượng nhỏ</li>
-                <li>Tải xong sẽ được đánh dấu là "đã backup" để tắt nhắc nhở</li>
-              </ul>
-              <button
-                onClick={downloadBackup}
-                disabled={downloading}
-                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:opacity-50 text-white text-sm font-bold rounded-xl px-4 py-3 shadow-md hover:shadow-lg transition flex items-center justify-center gap-2"
-              >
-                {downloading ? '⏳ Đang nén & tải...' : '📥 Tải backup ZIP về máy'}
-              </button>
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-500" />
+              <div className="p-5">
+                <div className="text-3xl mb-2">📦</div>
+                <h3 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-1">
+                  Bản sao lưu đầy đủ (ZIP)
+                </h3>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                  Dùng để KHÔI PHỤC khi bị mất dữ liệu
+                </p>
+                <ul className="text-xs text-gray-700 dark:text-gray-300 space-y-1 mb-4 list-disc pl-5">
+                  <li>Đầy đủ 39+ bảng dữ liệu</li>
+                  <li>Restore lại được nguyên trạng</li>
+                  <li>Nén deflate — file rất nhỏ</li>
+                  <li>Có manifest + README hướng dẫn</li>
+                </ul>
+                <button
+                  onClick={() => downloadFile('/api/admin/backup/export', 'zip')}
+                  disabled={busy !== null}
+                  className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:opacity-50 text-white text-sm font-bold rounded-xl px-4 py-2.5 shadow hover:shadow-lg transition"
+                >
+                  {busy === 'zip' ? '⏳ Đang nén...' : '📥 Tải ZIP về máy'}
+                </button>
+              </div>
+            </section>
+
+            {/* Excel */}
+            <section className="relative overflow-hidden bg-white dark:bg-gray-800 ring-1 ring-gray-200 dark:ring-gray-700 rounded-2xl shadow-sm hover:shadow-md transition">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 to-teal-500" />
+              <div className="p-5">
+                <div className="text-3xl mb-2">📊</div>
+                <h3 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-1">
+                  Bản xuất Excel
+                </h3>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                  Để xem / báo cáo trên máy tính
+                </p>
+                <ul className="text-xs text-gray-700 dark:text-gray-300 space-y-1 mb-4 list-disc pl-5">
+                  <li>Mỗi bảng = 1 sheet riêng</li>
+                  <li>Mở bằng Excel / Google Sheets</li>
+                  <li>Để duyệt, tổng kết, in báo cáo</li>
+                  <li className="text-amber-700 dark:text-amber-400">
+                    ⚠️ KHÔNG dùng để khôi phục
+                  </li>
+                </ul>
+                <button
+                  onClick={() => downloadFile('/api/admin/backup-all', 'excel')}
+                  disabled={busy !== null}
+                  className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 disabled:opacity-50 text-white text-sm font-bold rounded-xl px-4 py-2.5 shadow hover:shadow-lg transition"
+                >
+                  {busy === 'excel' ? '⏳ Đang tạo Excel...' : '📊 Tải Excel về máy'}
+                </button>
+              </div>
+            </section>
+
+            {/* Google Drive — Coming Soon */}
+            <section className="relative overflow-hidden bg-gray-50 dark:bg-gray-900/50 ring-1 ring-gray-200 dark:ring-gray-700 rounded-2xl shadow-sm">
+              <div className="absolute top-0 right-0 bg-amber-500 text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-bl-lg">
+                Coming Soon
+              </div>
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 to-orange-500" />
+              <div className="p-5">
+                <div className="text-3xl mb-2 opacity-60">☁️</div>
+                <h3 className="text-base font-bold text-gray-700 dark:text-gray-300 mb-1">
+                  Tự động lên Google Drive
+                </h3>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                  Backup không cần nhớ
+                </p>
+                <ul className="text-xs text-gray-500 dark:text-gray-400 space-y-1 mb-4 list-disc pl-5 italic">
+                  <li>Tự backup tuần/tháng</li>
+                  <li>Lưu Drive folder của bạn</li>
+                  <li>Giữ N bản gần nhất</li>
+                  <li>Restore từ Drive trực tiếp</li>
+                </ul>
+                <button
+                  disabled
+                  className="w-full bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-sm font-bold rounded-xl px-4 py-2.5 cursor-not-allowed"
+                >
+                  🚧 Đang phát triển
+                </button>
+              </div>
+            </section>
+          </div>
+
+          {/* Best practice tips */}
+          <section className="bg-gradient-to-br from-violet-50/50 to-indigo-50/50 dark:from-violet-950/20 dark:to-indigo-950/20 border border-violet-200 dark:border-violet-900 rounded-2xl p-4 md:p-5 mt-4">
+            <h3 className="text-base font-bold text-violet-900 dark:text-violet-200 mb-3 flex items-center gap-2">
+              <span>💡</span> Quy tắc 3-2-1 — chuẩn vàng cho an toàn dữ liệu
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <Tip
+                num="3"
+                title="Bản sao"
+                desc="Giữ ít nhất 3 bản sao của dữ liệu quan trọng — 1 bản gốc + 2 bản backup."
+              />
+              <Tip
+                num="2"
+                title="Loại lưu trữ"
+                desc="Trên 2 loại thiết bị khác nhau — vd máy tính + USB / ổ cứng ngoài / đám mây."
+              />
+              <Tip
+                num="1"
+                title="Off-site"
+                desc="Ít nhất 1 bản ở vị trí khác — phòng cháy nổ, mất trộm, hỏng cả nhà."
+              />
             </div>
+            <ul className="text-xs text-violet-800 dark:text-violet-300 space-y-1 mt-3 list-disc pl-5">
+              <li>Đặt lịch nhắc trên điện thoại: 1 tháng/lần — đầu tháng tải file ZIP</li>
+              <li>Đổi tên file rõ ràng: <code className="bg-white/60 dark:bg-gray-900/60 px-1 rounded">backup-trai-T05-2026.zip</code></li>
+              <li>Lưu vào Google Drive cá nhân + USB + email tự gửi mình</li>
+              <li>Kiểm tra định kỳ: thử khôi phục vào chế độ test để chắc file backup hoạt động</li>
+            </ul>
           </section>
 
-          {/* Google Drive — coming soon */}
-          <section className="relative overflow-hidden bg-gray-50 dark:bg-gray-900/50 ring-1 ring-gray-200 dark:ring-gray-700 rounded-2xl shadow-sm opacity-90">
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 to-orange-500" />
-            <div className="p-5">
-              <div className="flex items-start justify-between mb-2">
-                <h2 className="text-base font-bold text-gray-700 dark:text-gray-300 flex items-center gap-2">
-                  <span className="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center text-lg">☁️</span>
-                  Google Drive
-                </h2>
-                <span className="text-[10px] font-bold uppercase tracking-widest bg-amber-100 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 rounded-full px-2 py-0.5 border border-amber-200 dark:border-amber-900">
-                  Coming Soon
-                </span>
-              </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
-                Tự động sao lưu định kỳ lên Google Drive folder của bạn — không cần nhớ tải về máy mỗi tháng.
-              </p>
-              <ul className="text-xs text-gray-500 dark:text-gray-400 space-y-1 mb-4 list-disc pl-5 italic">
-                <li>Tự động backup mỗi tuần/tháng (cấu hình được)</li>
-                <li>Lưu ra folder Drive riêng của trại</li>
-                <li>Giữ N bản gần nhất (tự xoá cũ)</li>
-                <li>Khôi phục từ Drive trực tiếp</li>
+          {/* Recent backup history */}
+          {history.length > 0 && (
+            <section className="bg-white dark:bg-gray-800 ring-1 ring-gray-200 dark:ring-gray-700 rounded-2xl p-4 md:p-5 mt-4">
+              <h3 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-3 flex items-center gap-2">
+                <span>📜</span> Lịch sử sao lưu gần đây
+              </h3>
+              <ul className="divide-y divide-gray-100 dark:divide-gray-700">
+                {history.map((h) => (
+                  <li key={h.id} className="py-2.5 flex items-center gap-3">
+                    <span className="text-lg shrink-0">
+                      {/restored from/i.test(h.message) ? '🔄' : '📥'}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm text-gray-900 dark:text-gray-100 truncate">{h.message}</div>
+                      <div className="text-[11px] text-gray-500 dark:text-gray-400">
+                        {new Date(h.created_at).toLocaleString('vi-VN')}
+                        {h.user_email && ' · ' + h.user_email}
+                        {h.size_kb !== null && ` · ${h.size_kb} KB`}
+                      </div>
+                    </div>
+                  </li>
+                ))}
               </ul>
-              <button
-                disabled
-                className="w-full bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-sm font-bold rounded-xl px-4 py-3 cursor-not-allowed"
-              >
-                🚧 Đang phát triển — sắp ra mắt
-              </button>
-            </div>
-          </section>
-        </div>
+            </section>
+          )}
+        </>
       )}
 
       {tab === 'restore' && (
@@ -249,7 +363,7 @@ export function BackupManagerClient({ farmName, lastBackupAt }: Props) {
                 <ul className="text-sm text-rose-800 dark:text-rose-300 space-y-1.5 list-disc pl-5">
                   <li><b>TOÀN BỘ dữ liệu hiện tại của trại sẽ bị xoá</b> trước khi nạp data từ file backup.</li>
                   <li>Hãy <b>tải bản backup hiện tại</b> trước (tab Sao lưu) để có chỗ lùi nếu file bị lỗi.</li>
-                  <li>Chỉ khôi phục được file zip do hệ thống Gà Chọi Việt NB tạo ra.</li>
+                  <li>Chỉ khôi phục được file ZIP do hệ thống Gà Chọi Việt NB tạo ra (file Excel KHÔNG khôi phục được).</li>
                   <li>Sau khi khôi phục, kiểm kê tồn kho thuốc/cám thủ công (1 số trigger có thể đã chỉnh).</li>
                 </ul>
               </div>
@@ -259,7 +373,7 @@ export function BackupManagerClient({ farmName, lastBackupAt }: Props) {
           <section className="bg-white dark:bg-gray-800 ring-1 ring-gray-200 dark:ring-gray-700 rounded-2xl p-5">
             <h3 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-3 flex items-center gap-2">
               <span className="w-9 h-9 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center text-lg">🔄</span>
-              Chọn file backup
+              Chọn file backup ZIP
             </h3>
 
             <input
@@ -294,21 +408,32 @@ export function BackupManagerClient({ farmName, lastBackupAt }: Props) {
 
                 <button
                   onClick={uploadRestore}
-                  disabled={restoring || restoreConfirm !== 'KHOI-PHUC'}
+                  disabled={busy === 'restore' || restoreConfirm !== 'KHOI-PHUC'}
                   className="w-full bg-rose-600 hover:bg-rose-700 disabled:opacity-50 text-white text-sm font-bold rounded-xl px-4 py-3 shadow-md transition flex items-center justify-center gap-2"
                 >
-                  {restoring ? '⏳ Đang khôi phục... (có thể mất 1-2 phút)' : '🔄 Xoá dữ liệu hiện tại & nạp file này'}
+                  {busy === 'restore' ? '⏳ Đang khôi phục... (có thể mất 1-2 phút)' : '🔄 Xoá dữ liệu hiện tại & nạp file này'}
                 </button>
               </div>
             )}
           </section>
         </div>
       )}
-
-      <p className="text-xs text-gray-500 dark:text-gray-400 mt-4 leading-relaxed">
-        💡 <b>Tip:</b> Sao lưu định kỳ <b>1 tháng/lần</b> — đầu tháng. Lưu file zip vào nhiều chỗ:
-        máy tính, USB, email tự gửi, Google Drive cá nhân — đề phòng máy hỏng / mất.
-      </p>
     </>
+  )
+}
+
+function Tip({ num, title, desc }: { num: string; title: string; desc: string }) {
+  return (
+    <div className="bg-white/70 dark:bg-gray-800/70 rounded-xl p-3 border border-violet-200/60 dark:border-violet-900/50">
+      <div className="flex items-start gap-2.5">
+        <div className="shrink-0 w-9 h-9 rounded-full bg-gradient-to-br from-violet-500 to-indigo-500 text-white font-extrabold text-lg flex items-center justify-center shadow-sm">
+          {num}
+        </div>
+        <div>
+          <div className="text-sm font-bold text-violet-900 dark:text-violet-200">{title}</div>
+          <p className="text-xs text-violet-800 dark:text-violet-300 mt-0.5 leading-relaxed">{desc}</p>
+        </div>
+      </div>
+    </div>
   )
 }

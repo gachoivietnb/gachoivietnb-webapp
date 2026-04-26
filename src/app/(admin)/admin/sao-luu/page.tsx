@@ -24,15 +24,34 @@ export default async function BackupPage() {
   }
 
   const admin = createAdminClient()
-  const { data: farmRow } = await admin
-    .from('farms')
-    .select('last_backup_at, name, slug')
-    .eq('id', ctx.farm.id)
-    .maybeSingle()
+  const [farmRes, historyRes] = await Promise.all([
+    admin
+      .from('farms')
+      .select('last_backup_at, name, slug')
+      .eq('id', ctx.farm.id)
+      .maybeSingle(),
+    admin
+      .from('system_logs')
+      .select('id, level, message, context, created_at, user_email')
+      .eq('farm_id', ctx.farm.id)
+      .or('message.ilike.%Backup%,message.ilike.%backup%,message.ilike.%restored from%')
+      .order('created_at', { ascending: false })
+      .limit(10),
+  ])
 
-  const lastBackupAt =
-    (farmRow as { last_backup_at: string | null } | null)?.last_backup_at ?? null
-  const farmName = (farmRow as { name: string } | null)?.name ?? ctx.farm.name
+  const farmRow = farmRes.data as { last_backup_at: string | null; name: string } | null
+  const lastBackupAt = farmRow?.last_backup_at ?? null
+  const farmName = farmRow?.name ?? ctx.farm.name
+
+  type LogRow = {
+    id: string
+    level: string
+    message: string
+    context: Record<string, unknown> | null
+    created_at: string
+    user_email: string | null
+  }
+  const history = (historyRes.data ?? []) as LogRow[]
 
   return (
     <div className="space-y-3">
@@ -41,11 +60,23 @@ export default async function BackupPage() {
           💾 Sao lưu & Khôi phục
         </h1>
         <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-          Bảo vệ dữ liệu trại — sao lưu định kỳ, khôi phục nhanh khi cần
+          Bảo vệ dữ liệu trại — nhiều định dạng để bạn yên tâm tuyệt đối
         </p>
       </div>
 
-      <BackupManagerClient farmName={farmName} lastBackupAt={lastBackupAt} />
+      <BackupManagerClient
+        farmName={farmName}
+        lastBackupAt={lastBackupAt}
+        history={history.map((h) => ({
+          id: h.id,
+          level: h.level,
+          message: h.message,
+          created_at: h.created_at,
+          user_email: h.user_email,
+          size_kb:
+            (h.context as { size_kb?: number } | null)?.size_kb ?? null,
+        }))}
+      />
     </div>
   )
 }

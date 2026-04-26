@@ -56,17 +56,28 @@ export default async function LienHePage() {
             )}
           </div>
 
-          {farm.address && (
-            <div className="mt-6">
-              <iframe
-                src={`https://www.google.com/maps?q=${encodeURIComponent(farm.address)}&output=embed`}
-                width="100%"
-                height="240"
-                loading="lazy"
-                className="rounded border border-gray-200 dark:border-gray-700"
-              />
+          <div className="mt-6">
+            <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2 flex items-center gap-1.5">
+              <span>📍</span> Bản đồ
             </div>
-          )}
+            <iframe
+              title="Bản đồ trang trại"
+              src="https://www.google.com/maps?q=20.2676067,105.9582372&z=14&output=embed"
+              width="100%"
+              height="280"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm"
+            />
+            <a
+              href="https://maps.app.goo.gl/nXfH7W3YgTy5PAzE8"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+            >
+              🗺️ Mở trên Google Maps để chỉ đường →
+            </a>
+          </div>
         </div>
 
         <div>

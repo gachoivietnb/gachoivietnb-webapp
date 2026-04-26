@@ -4,6 +4,7 @@ import AdminSidebar from '@/components/layout/AdminSidebar'
 import AdminBottomNav from '@/components/layout/AdminBottomNav'
 import AdminHeader from '@/components/layout/AdminHeader'
 import { ChatbotFloatingButton } from '@/components/admin/chatbot/ChatbotFloatingButton'
+import { BackToTopButton } from '@/components/public/BackToTopButton'
 import { OnlineStatusBar } from '@/components/admin/OnlineStatusBar'
 import { OnboardingTour } from '@/components/admin/OnboardingTour'
 
@@ -54,6 +55,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       </div>
       <AdminBottomNav />
       <ChatbotFloatingButton />
+      <BackToTopButton />
       <OnlineStatusBar />
       {!onboardingDone && (
         <OnboardingTour profile={{ id: profileData.id, onboarding_completed: false }} />

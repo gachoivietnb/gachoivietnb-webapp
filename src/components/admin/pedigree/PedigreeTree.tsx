@@ -63,7 +63,9 @@ export function PedigreeTree({ chickenId, initialDepth = 3 }: { chickenId: strin
             key={d}
             onClick={() => setDepth(d)}
             className={`px-3 py-1 text-sm rounded ${
-              depth === d ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              depth === d
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
             }`}
           >
             {d} đời
@@ -71,7 +73,13 @@ export function PedigreeTree({ chickenId, initialDepth = 3 }: { chickenId: strin
         ))}
       </div>
 
-      <div className="overflow-x-auto pb-4">
+      {/* Mobile (vertical recursive tree) */}
+      <div className="md:hidden">
+        <PedigreeVertical node={tree} depth={depth} />
+      </div>
+
+      {/* Desktop (horizontal grid) */}
+      <div className="hidden md:block overflow-x-auto pb-4">
         <div
           className="grid gap-2 min-w-max"
           style={{
@@ -82,6 +90,51 @@ export function PedigreeTree({ chickenId, initialDepth = 3 }: { chickenId: strin
           {cells}
         </div>
       </div>
+    </div>
+  )
+}
+
+/**
+ * Vertical tree for mobile — recursive nested layout.
+ * Shows Bố lineage trên, Mẹ lineage dưới; thụt lề theo level.
+ */
+function PedigreeVertical({ node, depth }: { node: PedigreeNode | null; depth: number }) {
+  if (!node) return null
+  return (
+    <div className="space-y-3">
+      <PedigreeCard node={node} />
+      {depth > 0 && (node.father || node.mother) && (
+        <div className="space-y-3">
+          {node.father && <Branch node={node.father} side="father" depth={depth - 1} />}
+          {node.mother && <Branch node={node.mother} side="mother" depth={depth - 1} />}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function Branch({
+  node,
+  side,
+  depth,
+}: {
+  node: PedigreeNode
+  side: 'father' | 'mother'
+  depth: number
+}) {
+  const accent =
+    side === 'father'
+      ? 'border-l-blue-300 dark:border-l-blue-700'
+      : 'border-l-pink-300 dark:border-l-pink-700'
+  return (
+    <div className={`pl-3 border-l-4 ${accent} space-y-2`}>
+      <PedigreeCard node={node} />
+      {depth > 0 && (node.father || node.mother) && (
+        <div className="space-y-2">
+          {node.father && <Branch node={node.father} side="father" depth={depth - 1} />}
+          {node.mother && <Branch node={node.mother} side="mother" depth={depth - 1} />}
+        </div>
+      )}
     </div>
   )
 }
@@ -114,7 +167,11 @@ function renderRecursive(
 function PedigreeCard({ node }: { node: PedigreeNode }) {
   const isMale = node.gender === 'trong'
   const isFemale = node.gender === 'mai'
-  const bg = isMale ? 'bg-blue-50 border-blue-200' : isFemale ? 'bg-pink-50 border-pink-200' : 'bg-gray-50 border-gray-200'
+  const bg = isMale
+    ? 'bg-blue-50 border-blue-200 dark:bg-blue-950/30 dark:border-blue-900'
+    : isFemale
+      ? 'bg-pink-50 border-pink-200 dark:bg-pink-950/30 dark:border-pink-900'
+      : 'bg-gray-50 border-gray-200 dark:bg-gray-900/40 dark:border-gray-700'
   const label = POSITION_LABELS[node.position] ?? node.position
 
   return (

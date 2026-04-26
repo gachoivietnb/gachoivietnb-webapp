@@ -237,11 +237,11 @@ Tại **[Gà Chọi Việt Ninh Bình — gachoivietnb.com](https://gachoivietnb
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Gà chọi tắm nắng buổi sáng — ánh nắng vàng chiếu vào chuồng | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Combatant_cock.jpg/800px-Combatant_cock.jpg | Ngay sau tiêu đề H1 (ảnh hero) | ánh sáng nhiệt độ độ ẩm ảnh hưởng gà chọi |
-| 2 | Nhiệt ẩm kế điện tử — thiết bị theo dõi môi trường chuồng | https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Digital_hygrometer_thermometer.jpg/800px-Digital_hygrometer_thermometer.jpg | Mục "Ngưỡng độ ẩm — dụng cụ cần có" | nhiệt ẩm kế điện tử theo dõi môi trường chuồng gà chọi |
-| 3 | Gà chọi thu mình lông xù — dấu hiệu bị lạnh | https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Cold_chicken_puffed.jpg/800px-Cold_chicken_puffed.jpg | Mục "Dấu hiệu gà bị quá lạnh" | gà chọi bị lạnh lông xù thu mình dấu hiệu nhận biết |
-| 4 | Đèn sưởi hồng ngoại trong chuồng gà con mùa đông | https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Heat_lamp_brooder.jpg/800px-Heat_lamp_brooder.jpg | Mục "Biện pháp xử lý nhiệt độ thấp" | đèn sưởi hồng ngoại chuồng gà chọi mùa đông |
-| 5 | Quạt thông gió chuồng gà — kiểm soát nhiệt độ và độ ẩm | https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Poultry_house_ventilation_fan.jpg/800px-Poultry_house_ventilation_fan.jpg | Mục "Kiểm soát độ ẩm — tăng thông gió" | quạt thông gió chuồng gà chọi kiểm soát độ ẩm |
+| 1 | Gà chọi tắm nắng buổi sáng — ánh nắng vàng chiếu vào chuồng | https://images.pexels.com/photos/195226/pexels-photo-195226.jpeg?auto=compress&cs=tinysrgb&w=1280 | Ngay sau tiêu đề H1 (ảnh hero) | ánh sáng nhiệt độ độ ẩm ảnh hưởng gà chọi |
+| 2 | Nhiệt ẩm kế điện tử — thiết bị theo dõi môi trường chuồng | https://images.pexels.com/photos/2255801/pexels-photo-2255801.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Ngưỡng độ ẩm — dụng cụ cần có" | nhiệt ẩm kế điện tử theo dõi môi trường chuồng gà chọi |
+| 3 | Gà chọi thu mình lông xù — dấu hiệu bị lạnh | https://images.pexels.com/photos/302280/pexels-photo-302280.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Dấu hiệu gà bị quá lạnh" | gà chọi bị lạnh lông xù thu mình dấu hiệu nhận biết |
+| 4 | Đèn sưởi hồng ngoại trong chuồng gà con mùa đông | https://images.pexels.com/photos/1314550/pexels-photo-1314550.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Biện pháp xử lý nhiệt độ thấp" | đèn sưởi hồng ngoại chuồng gà chọi mùa đông |
+| 5 | Quạt thông gió chuồng gà — kiểm soát nhiệt độ và độ ẩm | https://images.pexels.com/photos/1300355/pexels-photo-1300355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Kiểm soát độ ẩm — tăng thông gió" | quạt thông gió chuồng gà chọi kiểm soát độ ẩm |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://unsplash.com` hoặc `https://commons.wikimedia.org` với từ khoá: "digital hygrometer thermometer", "cold chicken puffed feathers", "heat lamp brooder chicks", "poultry ventilation fan", "rooster sunbathing". Ưu tiên license **CC0**, **CC BY-SA** hoặc **Unsplash License**.
 

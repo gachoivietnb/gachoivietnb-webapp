@@ -283,11 +283,11 @@ Tại **[Gà Chọi Việt Ninh Bình — gachoivietnb.com](https://gachoivietnb
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Gà chọi đứng cạnh phân bất thường — dấu hiệu tiêu chảy | https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Cold_chicken_puffed.jpg/800px-Cold_chicken_puffed.jpg | Ngay sau tiêu đề H1 (ảnh hero) | gà chọi bị tiêu chảy dấu hiệu nhận biết nguyên nhân |
-| 2 | Bảng màu phân gà — các màu bình thường và bất thường | https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Chicken_droppings_abnormal.jpg/800px-Chicken_droppings_abnormal.jpg | Mục "Bảng màu phân — chẩn đoán" | bảng màu phân gà chọi bình thường và bất thường |
-| 3 | Lọ Toltrazuril Baycox — thuốc trị cầu trùng gà | https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Vaccine_vial_syringe.jpg/800px-Vaccine_vial_syringe.jpg | Mục "Cầu trùng — Toltrazuril" | thuốc toltrazuril baycox trị cầu trùng gà chọi |
-| 4 | Men vi sinh probiotic gia cầm — phục hồi đường ruột gà | https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Probiotic_poultry.jpg/800px-Probiotic_poultry.jpg | Mục "Nguyên nhân 1 — Men vi sinh" | men vi sinh probiotic phục hồi đường ruột gà chọi |
-| 5 | Lá ổi tươi — tanin se niêm mạc ruột trị tiêu chảy | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Guava_leaves_fresh.jpg/800px-Guava_leaves_fresh.jpg | Mục "Nguyên nhân 2 — Lá ổi" | lá ổi tươi tanin trị tiêu chảy gà chọi tự nhiên |
+| 1 | Gà chọi đứng cạnh phân bất thường — dấu hiệu tiêu chảy | https://images.pexels.com/photos/2255355/pexels-photo-2255355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Ngay sau tiêu đề H1 (ảnh hero) | gà chọi bị tiêu chảy dấu hiệu nhận biết nguyên nhân |
+| 2 | Bảng màu phân gà — các màu bình thường và bất thường | https://images.pexels.com/photos/195226/pexels-photo-195226.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Bảng màu phân — chẩn đoán" | bảng màu phân gà chọi bình thường và bất thường |
+| 3 | Lọ Toltrazuril Baycox — thuốc trị cầu trùng gà | https://images.pexels.com/photos/2255801/pexels-photo-2255801.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Cầu trùng — Toltrazuril" | thuốc toltrazuril baycox trị cầu trùng gà chọi |
+| 4 | Men vi sinh probiotic gia cầm — phục hồi đường ruột gà | https://images.pexels.com/photos/302280/pexels-photo-302280.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Nguyên nhân 1 — Men vi sinh" | men vi sinh probiotic phục hồi đường ruột gà chọi |
+| 5 | Lá ổi tươi — tanin se niêm mạc ruột trị tiêu chảy | https://images.pexels.com/photos/1314550/pexels-photo-1314550.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Nguyên nhân 2 — Lá ổi" | lá ổi tươi tanin trị tiêu chảy gà chọi tự nhiên |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://unsplash.com` hoặc `https://commons.wikimedia.org` với từ khoá: "sick chicken diarrhea", "chicken droppings color chart", "Toltrazuril Baycox poultry", "probiotic poultry supplement", "guava leaves fresh". Ưu tiên license **CC0**, **CC BY-SA** hoặc **Unsplash License**.
 

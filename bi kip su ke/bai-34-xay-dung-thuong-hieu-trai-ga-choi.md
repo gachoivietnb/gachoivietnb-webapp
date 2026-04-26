@@ -265,11 +265,11 @@ Nếu bạn muốn mua gà từ một trại **minh bạch, chuyên nghiệp và
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Điện thoại hiển thị fanpage gà chọi — xây thương hiệu online | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Social_media_phone.jpg/800px-Social_media_phone.jpg | Ngay sau tiêu đề H1 (ảnh hero) | xây dựng thương hiệu trại gà chọi facebook zalo tiktok |
-| 2 | Logo trại gà chọi đơn giản chuyên nghiệp — nhận diện thương hiệu | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Combatant_cock.jpg/800px-Combatant_cock.jpg | Mục "Logo và nhận diện thương hiệu" | logo trại gà chọi nhận diện thương hiệu chuyên nghiệp |
-| 3 | Người quay video gà chọi cho TikTok Facebook | https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Smartphone_video.jpg/800px-Smartphone_video.jpg | Mục "Chiến lược nội dung Facebook" | quay video gà chọi tiktok facebook xây thương hiệu |
-| 4 | Màn hình laptop website trại gà chọi — SEO Google | https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Laptop_website.jpg/800px-Laptop_website.jpg | Mục "Website và SEO" | website trại gà chọi seo google tìm kiếm |
-| 5 | Lịch nội dung xây thương hiệu — kế hoạch 12 tháng | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Checklist_notebook.jpg/800px-Checklist_notebook.jpg | Mục "Lịch xây dựng thương hiệu 12 tháng" | lịch xây dựng thương hiệu trại gà chọi 12 tháng |
+| 1 | Điện thoại hiển thị fanpage gà chọi — xây thương hiệu online | https://commons.wikimedia.org/wiki/Special:FilePath/Chicken_coop.jpg?width=1200 | Ngay sau tiêu đề H1 (ảnh hero) | xây dựng thương hiệu trại gà chọi facebook zalo tiktok |
+| 2 | Logo trại gà chọi đơn giản chuyên nghiệp — nhận diện thương hiệu | https://images.pexels.com/photos/2255355/pexels-photo-2255355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Logo và nhận diện thương hiệu" | logo trại gà chọi nhận diện thương hiệu chuyên nghiệp |
+| 3 | Người quay video gà chọi cho TikTok Facebook | https://images.pexels.com/photos/195226/pexels-photo-195226.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Chiến lược nội dung Facebook" | quay video gà chọi tiktok facebook xây thương hiệu |
+| 4 | Màn hình laptop website trại gà chọi — SEO Google | https://images.pexels.com/photos/2255801/pexels-photo-2255801.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Website và SEO" | website trại gà chọi seo google tìm kiếm |
+| 5 | Lịch nội dung xây thương hiệu — kế hoạch 12 tháng | https://images.pexels.com/photos/302280/pexels-photo-302280.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Lịch xây dựng thương hiệu 12 tháng" | lịch xây dựng thương hiệu trại gà chọi 12 tháng |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://unsplash.com` hoặc `https://commons.wikimedia.org` với từ khoá: "social media phone screen", "rooster logo brand", "smartphone filming content creator", "laptop website browser", "content calendar planning notebook". Ưu tiên license **CC0**, **CC BY-SA** hoặc **Unsplash License**.
 

@@ -270,11 +270,11 @@ Khi bạn mua gà choai hay gà trưởng thành từ trại, sẽ được cung
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Gà con nhỏ đang ăn thức ăn mềm — úm gà con giai đoạn đầu | https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Baby_chicks.jpg/800px-Baby_chicks.jpg | Ngay sau tiêu đề H1 (ảnh hero) | thực đơn gà chọi theo giai đoạn gà con tuần đầu |
-| 2 | Gà choai 4–5 tháng đứng trong chuồng — đang phát triển | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Combatant_cock.jpg/800px-Combatant_cock.jpg | Mục "Giai đoạn 2 — Gà choai" | thực đơn gà chọi choai 3 đến 8 tháng tuổi |
-| 3 | Bữa ăn đầy đủ cho gà trưởng thành — lúa, giun, rau xanh | https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Grain_feed_for_chickens.jpg/800px-Grain_feed_for_chickens.jpg | Mục "Giai đoạn 3 — Gà trưởng thành" | thực đơn gà chọi trưởng thành lúa giun rau xanh |
-| 4 | Lòng đỏ trứng và giun — thức ăn đạm cao trước thi đấu | https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Egg_yolk.jpg/800px-Egg_yolk.jpg | Mục "Giai đoạn 4 — Chuẩn bị thi đấu" | thực đơn gà chọi trước thi đấu lòng đỏ trứng giun |
-| 5 | Mật ong nguyên chất — bổ sung 48 giờ trước trận đấu | https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Honey-bee.jpg/800px-Honey-bee.jpg | Mục "48 giờ trước trận — chế độ đặc biệt" | mật ong bổ sung năng lượng gà chọi trước thi đấu |
+| 1 | Gà con nhỏ đang ăn thức ăn mềm — úm gà con giai đoạn đầu | https://images.pexels.com/photos/2255801/pexels-photo-2255801.jpeg?auto=compress&cs=tinysrgb&w=1280 | Ngay sau tiêu đề H1 (ảnh hero) | thực đơn gà chọi theo giai đoạn gà con tuần đầu |
+| 2 | Gà choai 4–5 tháng đứng trong chuồng — đang phát triển | https://images.pexels.com/photos/302280/pexels-photo-302280.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Giai đoạn 2 — Gà choai" | thực đơn gà chọi choai 3 đến 8 tháng tuổi |
+| 3 | Bữa ăn đầy đủ cho gà trưởng thành — lúa, giun, rau xanh | https://images.pexels.com/photos/1314550/pexels-photo-1314550.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Giai đoạn 3 — Gà trưởng thành" | thực đơn gà chọi trưởng thành lúa giun rau xanh |
+| 4 | Lòng đỏ trứng và giun — thức ăn đạm cao trước thi đấu | https://images.pexels.com/photos/1300355/pexels-photo-1300355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Giai đoạn 4 — Chuẩn bị thi đấu" | thực đơn gà chọi trước thi đấu lòng đỏ trứng giun |
+| 5 | Mật ong nguyên chất — bổ sung 48 giờ trước trận đấu | https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=1200&q=80 | Mục "48 giờ trước trận — chế độ đặc biệt" | mật ong bổ sung năng lượng gà chọi trước thi đấu |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://unsplash.com` hoặc `https://commons.wikimedia.org` với từ khoá: "baby chicks feeding", "fighting rooster young", "grain feed chickens natural", "egg yolk protein", "pure honey jar". Ưu tiên license **CC0**, **CC BY-SA** hoặc **Unsplash License**.
 

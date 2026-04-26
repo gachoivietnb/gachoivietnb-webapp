@@ -249,11 +249,11 @@ Khi mua gà từ trại, bạn cũng được tư vấn về **đặc tính chi�
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Gà chọi trẻ đang được luyện tập chạy bộ sáng sớm | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Combatant_cock.jpg/800px-Combatant_cock.jpg | Ngay sau tiêu đề H1 (ảnh hero) | luyện gà chọi từ con các bước cơ bản huấn luyện |
-| 2 | Gà chọi con đứng nhìn qua hàng rào — giai đoạn làm quen | https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Aseel_rooster.jpg/800px-Aseel_rooster.jpg | Mục "Giai đoạn 2 — kích thích bản năng" | gà chọi con làm quen bản năng lãnh thổ qua hàng rào |
-| 3 | Hai gà chọi đấu tập có bịt cựa — sparring kiểm soát | https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Cockfighting_roosters.jpg/800px-Cockfighting_roosters.jpg | Mục "Giai đoạn 4 — đấu tập" | gà chọi đấu tập sparring bịt cựa kiểm soát |
-| 4 | Gà chọi bơi trong bể nước nông — bài tập kháng lực | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Rooster_swimming_water.jpg/800px-Rooster_swimming_water.jpg | Mục "Bài tập phụ — bơi nước" | gà chọi bơi nước bài tập kháng lực xây dựng cơ bắp |
-| 5 | Lịch luyện tập gà chọi trên bảng — kế hoạch 4 tuần trước trận | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Checklist_notebook.jpg/800px-Checklist_notebook.jpg | Mục "Lịch luyện tập 4 tuần trước trận" | lịch luyện tập gà chọi 4 tuần trước thi đấu kế hoạch |
+| 1 | Gà chọi trẻ đang được luyện tập chạy bộ sáng sớm | https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=1200&q=80 | Ngay sau tiêu đề H1 (ảnh hero) | luyện gà chọi từ con các bước cơ bản huấn luyện |
+| 2 | Gà chọi con đứng nhìn qua hàng rào — giai đoạn làm quen | https://images.unsplash.com/photo-1612170153139-6f881ff067e0?w=1200&q=80 | Mục "Giai đoạn 2 — kích thích bản năng" | gà chọi con làm quen bản năng lãnh thổ qua hàng rào |
+| 3 | Hai gà chọi đấu tập có bịt cựa — sparring kiểm soát | https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=1200&q=80 | Mục "Giai đoạn 4 — đấu tập" | gà chọi đấu tập sparring bịt cựa kiểm soát |
+| 4 | Gà chọi bơi trong bể nước nông — bài tập kháng lực | https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=1200&q=80 | Mục "Bài tập phụ — bơi nước" | gà chọi bơi nước bài tập kháng lực xây dựng cơ bắp |
+| 5 | Lịch luyện tập gà chọi trên bảng — kế hoạch 4 tuần trước trận | https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=1200&q=80 | Mục "Lịch luyện tập 4 tuần trước trận" | lịch luyện tập gà chọi 4 tuần trước thi đấu kế hoạch |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://unsplash.com` hoặc `https://commons.wikimedia.org` với từ khoá: "young rooster training exercise", "Aseel rooster young alert", "roosters sparring controlled", "rooster water resistance training", "training schedule plan notebook". Ưu tiên license **CC0**, **CC BY-SA** hoặc **Unsplash License**.
 

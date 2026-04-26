@@ -246,11 +246,11 @@ Hiểu được các giống gà là một chuyện — **mua được gà đún
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Gà Nòi Việt Nam dáng đứng đặc trưng, thân to, chân vàng | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Combatant_cock.jpg/800px-Combatant_cock.jpg | Ngay sau tiêu đề H1 (ảnh hero) | các giống gà chọi phổ biến việt nam |
-| 2 | Gà Asil cơ bắp cuồn cuộn, mắt vàng đặc trưng | https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Aseel_rooster.jpg/800px-Aseel_rooster.jpg | Mục "Gà Asil" | gà asil á tế lan đặc điểm cơ bắp |
-| 3 | Gà Shamo (Mã Lai) cao to, lông sát mình | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Shamo_rooster.jpg/800px-Shamo_rooster.jpg | Mục "Gà Mã Lai" | gà mã lai shamo cao to việt nam |
-| 4 | Gà Tre nhỏ gọn, cựa dài tự nhiên | https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Old_English_Game_bantam.jpg/800px-Old_English_Game_bantam.jpg | Mục "Gà Tre" | gà tre gà cựa nhỏ gọn việt nam |
-| 5 | Bảng so sánh / infographic các giống gà chọi (ảnh minh hoạ tổng hợp) | https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Cockfighting_roosters.jpg/800px-Cockfighting_roosters.jpg | Sau bảng so sánh tổng hợp | so sánh các giống gà chọi việt nam |
+| 1 | Gà Nòi Việt Nam dáng đứng đặc trưng, thân to, chân vàng | https://commons.wikimedia.org/wiki/Special:FilePath/Shamo_chicken.jpg?width=1200 | Ngay sau tiêu đề H1 (ảnh hero) | các giống gà chọi phổ biến việt nam |
+| 2 | Gà Asil cơ bắp cuồn cuộn, mắt vàng đặc trưng | https://commons.wikimedia.org/wiki/Special:FilePath/Chicken_coop.jpg?width=1200 | Mục "Gà Asil" | gà asil á tế lan đặc điểm cơ bắp |
+| 3 | Gà Shamo (Mã Lai) cao to, lông sát mình | https://images.pexels.com/photos/2255355/pexels-photo-2255355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Gà Mã Lai" | gà mã lai shamo cao to việt nam |
+| 4 | Gà Tre nhỏ gọn, cựa dài tự nhiên | https://images.pexels.com/photos/195226/pexels-photo-195226.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Gà Tre" | gà tre gà cựa nhỏ gọn việt nam |
+| 5 | Bảng so sánh / infographic các giống gà chọi (ảnh minh hoạ tổng hợp) | https://images.pexels.com/photos/2255801/pexels-photo-2255801.jpeg?auto=compress&cs=tinysrgb&w=1280 | Sau bảng so sánh tổng hợp | so sánh các giống gà chọi việt nam |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra từng link trước khi tải. Nếu link lỗi, tìm ảnh thay thế trên `https://commons.wikimedia.org` với từ khoá: "Aseel rooster", "Shamo chicken", "Old English Game bantam", "fighting cock Vietnam". Ưu tiên license **CC BY-SA** hoặc **Public Domain**.
 

@@ -299,11 +299,11 @@ Tại **[Gà Chọi Việt Ninh Bình — gachoivietnb.com](https://gachoivietnb
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Gà chọi đang chạy bộ buổi sáng — bài tập nền tảng | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Combatant_cock.jpg/800px-Combatant_cock.jpg | Ngay sau tiêu đề H1 (ảnh hero) | bài tập thể lực gà chọi chạy bộ leo dốc đấu giả |
-| 2 | Đường dốc tập leo cho gà chọi — mô hình đơn giản | https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Chicken_coop.jpg/800px-Chicken_coop.jpg | Mục "Bài tập leo dốc" | đường dốc luyện tập gà chọi tăng cơ đùi sức bền |
-| 3 | Gà chọi bơi trong bể nước nông — bài tập kháng lực | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Rooster_swimming_water.jpg/800px-Rooster_swimming_water.jpg | Mục "Bài tập bơi" | gà chọi bơi nước kháng lực tăng cơ bắp toàn thân |
-| 4 | Gà chọi trước gương tấn công bóng phản chiếu — đấu giả | https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Aseel_rooster.jpg/800px-Aseel_rooster.jpg | Mục "Đấu giả gương" | gà chọi đấu giả trước gương rèn phản xạ đòn thế |
-| 5 | Lịch tập tuần gà chọi — bảng kế hoạch luyện tập | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Checklist_notebook.jpg/800px-Checklist_notebook.jpg | Mục "Lịch tập tuần mẫu" | lịch tập tuần gà chọi kế hoạch luyện thể lực |
+| 1 | Gà chọi đang chạy bộ buổi sáng — bài tập nền tảng | https://commons.wikimedia.org/wiki/Special:FilePath/Asil_chicken.jpg?width=1200 | Ngay sau tiêu đề H1 (ảnh hero) | bài tập thể lực gà chọi chạy bộ leo dốc đấu giả |
+| 2 | Đường dốc tập leo cho gà chọi — mô hình đơn giản | https://commons.wikimedia.org/wiki/Special:FilePath/Shamo_chicken.jpg?width=1200 | Mục "Bài tập leo dốc" | đường dốc luyện tập gà chọi tăng cơ đùi sức bền |
+| 3 | Gà chọi bơi trong bể nước nông — bài tập kháng lực | https://commons.wikimedia.org/wiki/Special:FilePath/Chicken_coop.jpg?width=1200 | Mục "Bài tập bơi" | gà chọi bơi nước kháng lực tăng cơ bắp toàn thân |
+| 4 | Gà chọi trước gương tấn công bóng phản chiếu — đấu giả | https://images.pexels.com/photos/2255355/pexels-photo-2255355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Đấu giả gương" | gà chọi đấu giả trước gương rèn phản xạ đòn thế |
+| 5 | Lịch tập tuần gà chọi — bảng kế hoạch luyện tập | https://images.pexels.com/photos/195226/pexels-photo-195226.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Lịch tập tuần mẫu" | lịch tập tuần gà chọi kế hoạch luyện thể lực |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://unsplash.com` hoặc `https://commons.wikimedia.org` với từ khoá: "rooster running exercise morning", "chicken ramp incline training", "rooster swimming water tank", "rooster fighting mirror reflection", "training schedule weekly plan". Ưu tiên license **CC0**, **CC BY-SA** hoặc **Unsplash License**.
 

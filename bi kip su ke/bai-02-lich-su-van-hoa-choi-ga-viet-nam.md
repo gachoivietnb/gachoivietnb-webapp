@@ -148,11 +148,11 @@ Bài tiếp theo trong serie, chúng tôi sẽ đi vào phần **kỹ thuật c�
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Trống đồng Đông Sơn — hình khắc văn hoá cổ đại Việt Nam | https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Dong_Son_drum.jpg/800px-Dong_Son_drum.jpg | Ngay sau tiêu đề H1 (ảnh hero) | trống đồng đông sơn văn hoá việt nam cổ đại |
-| 2 | Tranh Đông Hồ cảnh lễ hội dân gian Việt Nam | https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Dong_Ho_painting.jpg/800px-Dong_Ho_painting.jpg | Mục "Chọi gà trong văn học dân gian" | tranh đông hồ lễ hội dân gian việt nam |
-| 3 | Lễ hội mùa xuân làng quê Việt Nam | https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Vietnam_spring_festival.jpg/800px-Vietnam_spring_festival.jpg | Mục "Chọi gà trong đời sống làng xã" | lễ hội mùa xuân làng quê việt nam truyền thống |
-| 4 | Gà chọi Nòi Bình Định đặc trưng | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Combatant_cock.jpg/800px-Combatant_cock.jpg | Mục "Bình Định — kinh đô gà chọi" | gà chọi nòi bình định đặc trưng |
-| 5 | Cảnh chọi gà truyền thống ngày Tết Việt Nam | https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Cockfighting_Vietnam.jpg/800px-Cockfighting_Vietnam.jpg | Mục "Tết Nguyên Đán" | chọi gà truyền thống ngày tết việt nam |
+| 1 | Trống đồng Đông Sơn — hình khắc văn hoá cổ đại Việt Nam | https://images.unsplash.com/photo-1612170153139-6f881ff067e0?w=1200&q=80 | Ngay sau tiêu đề H1 (ảnh hero) | trống đồng đông sơn văn hoá việt nam cổ đại |
+| 2 | Tranh Đông Hồ cảnh lễ hội dân gian Việt Nam | https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=1200&q=80 | Mục "Chọi gà trong văn học dân gian" | tranh đông hồ lễ hội dân gian việt nam |
+| 3 | Lễ hội mùa xuân làng quê Việt Nam | https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=1200&q=80 | Mục "Chọi gà trong đời sống làng xã" | lễ hội mùa xuân làng quê việt nam truyền thống |
+| 4 | Gà chọi Nòi Bình Định đặc trưng | https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=1200&q=80 | Mục "Bình Định — kinh đô gà chọi" | gà chọi nòi bình định đặc trưng |
+| 5 | Cảnh chọi gà truyền thống ngày Tết Việt Nam | https://commons.wikimedia.org/wiki/Special:FilePath/Asil_chicken.jpg?width=1200 | Mục "Tết Nguyên Đán" | chọi gà truyền thống ngày tết việt nam |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Ưu tiên ảnh license **CC BY-SA** hoặc **Public Domain** từ Wikimedia Commons. Nếu cần ảnh thay thế, tìm trên `https://commons.wikimedia.org` với từ khoá tiếng Anh tương ứng.
 

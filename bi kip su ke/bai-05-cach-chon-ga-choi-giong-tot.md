@@ -237,11 +237,11 @@ Tại **[Gà Chọi Việt Ninh Bình — gachoivietnb.com](https://gachoivietnb
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Gà chọi Nòi dáng đứng hùng dũng — ngẩng đầu, ưỡn ngực | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Combatant_cock.jpg/800px-Combatant_cock.jpg | Ngay sau tiêu đề H1 (ảnh hero) | cách chọn gà chọi giống tốt dáng đứng chuẩn |
-| 2 | Cận cảnh mắt gà chọi — tròng vàng sáng, sắc nét | https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Rooster_eye_closeup.jpg/800px-Rooster_eye_closeup.jpg | Mục "Tiêu chí 2 — Mắt" | mắt gà chọi tốt vàng sáng sắc nét |
-| 3 | Cận cảnh chân và cựa gà chọi — vảy dày, cựa thẳng | https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Cock_spur.jpg/800px-Cock_spur.jpg | Mục "Tiêu chí 3 — Xương chân" | xương chân gà chọi tốt vảy sắc cựa thẳng |
-| 4 | Tay người đang kiểm tra cơ thịt gà — bóp thử phần ngực | https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Chicken_examination.jpg/800px-Chicken_examination.jpg | Mục "Tiêu chí 4 — Cơ thịt & da" | kiểm tra cơ thịt gà chọi khi mua giống |
-| 5 | Hai con gà chọi đối mặt nhau — thể hiện hành vi bản năng | https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Cockfighting_roosters.jpg/800px-Cockfighting_roosters.jpg | Mục "Tiêu chí 6 — Hành vi & phản xạ" | hành vi gà chọi tốt phản xạ bản năng chiến đấu |
+| 1 | Gà chọi Nòi dáng đứng hùng dũng — ngẩng đầu, ưỡn ngực | https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=1200&q=80 | Ngay sau tiêu đề H1 (ảnh hero) | cách chọn gà chọi giống tốt dáng đứng chuẩn |
+| 2 | Cận cảnh mắt gà chọi — tròng vàng sáng, sắc nét | https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=1200&q=80 | Mục "Tiêu chí 2 — Mắt" | mắt gà chọi tốt vàng sáng sắc nét |
+| 3 | Cận cảnh chân và cựa gà chọi — vảy dày, cựa thẳng | https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=1200&q=80 | Mục "Tiêu chí 3 — Xương chân" | xương chân gà chọi tốt vảy sắc cựa thẳng |
+| 4 | Tay người đang kiểm tra cơ thịt gà — bóp thử phần ngực | https://commons.wikimedia.org/wiki/Special:FilePath/Asil_chicken.jpg?width=1200 | Mục "Tiêu chí 4 — Cơ thịt & da" | kiểm tra cơ thịt gà chọi khi mua giống |
+| 5 | Hai con gà chọi đối mặt nhau — thể hiện hành vi bản năng | https://commons.wikimedia.org/wiki/Special:FilePath/Shamo_chicken.jpg?width=1200 | Mục "Tiêu chí 6 — Hành vi & phản xạ" | hành vi gà chọi tốt phản xạ bản năng chiến đấu |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra từng link trước khi tải. Tìm ảnh thay thế trên `https://commons.wikimedia.org` với từ khoá: "rooster eye closeup", "cock spur", "chicken examination", "fighting rooster behavior". Ưu tiên license **CC BY-SA** hoặc **Public Domain**.
 

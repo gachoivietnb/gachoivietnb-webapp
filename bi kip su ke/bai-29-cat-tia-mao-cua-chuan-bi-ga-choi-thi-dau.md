@@ -239,11 +239,11 @@ Tại **[Gà Chọi Việt Ninh Bình — gachoivietnb.com](https://gachoivietnb
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Gà chọi sau khi cắt tỉa mào gọn gàng — chuẩn bị thi đấu | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Combatant_cock.jpg/800px-Combatant_cock.jpg | Ngay sau tiêu đề H1 (ảnh hero) | chuẩn bị gà chọi thi đấu cắt tỉa mào cựa đúng kỹ thuật |
-| 2 | Cựa gà chọi được mài nhọn — cận cảnh kỹ thuật | https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Cock_spur.jpg/800px-Cock_spur.jpg | Mục "Kỹ thuật xử lý cựa" | cựa gà chọi mài nhọn kỹ thuật đúng trước thi đấu |
-| 3 | Dụng cụ cắt tỉa gà chọi — kéo, dũa, iodine, mật ong | https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Veterinary_supplies.jpg/800px-Veterinary_supplies.jpg | Mục "Dụng cụ cần chuẩn bị" | dụng cụ cắt tỉa chuẩn bị gà chọi trước thi đấu |
-| 4 | Gà chọi được tắm nước ấm trước trận — vệ sinh toàn thân | https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Chicken_examination.jpg/800px-Chicken_examination.jpg | Mục "Tắm gà trước thi đấu" | tắm gà chọi trước thi đấu vệ sinh toàn thân |
-| 5 | Hai con gà chọi đối mặt tại sới — kiểm tra tinh thần cuối | https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Cockfighting_roosters.jpg/800px-Cockfighting_roosters.jpg | Mục "Kiểm tra cuối tại sới" | gà chọi kiểm tra tinh thần cuối trước khi vào trận |
+| 1 | Gà chọi sau khi cắt tỉa mào gọn gàng — chuẩn bị thi đấu | https://images.pexels.com/photos/2255801/pexels-photo-2255801.jpeg?auto=compress&cs=tinysrgb&w=1280 | Ngay sau tiêu đề H1 (ảnh hero) | chuẩn bị gà chọi thi đấu cắt tỉa mào cựa đúng kỹ thuật |
+| 2 | Cựa gà chọi được mài nhọn — cận cảnh kỹ thuật | https://images.pexels.com/photos/302280/pexels-photo-302280.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Kỹ thuật xử lý cựa" | cựa gà chọi mài nhọn kỹ thuật đúng trước thi đấu |
+| 3 | Dụng cụ cắt tỉa gà chọi — kéo, dũa, iodine, mật ong | https://images.pexels.com/photos/1314550/pexels-photo-1314550.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Dụng cụ cần chuẩn bị" | dụng cụ cắt tỉa chuẩn bị gà chọi trước thi đấu |
+| 4 | Gà chọi được tắm nước ấm trước trận — vệ sinh toàn thân | https://images.pexels.com/photos/1300355/pexels-photo-1300355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Tắm gà trước thi đấu" | tắm gà chọi trước thi đấu vệ sinh toàn thân |
+| 5 | Hai con gà chọi đối mặt tại sới — kiểm tra tinh thần cuối | https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=1200&q=80 | Mục "Kiểm tra cuối tại sới" | gà chọi kiểm tra tinh thần cuối trước khi vào trận |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://commons.wikimedia.org` hoặc `https://unsplash.com` với từ khoá: "fighting cock trimmed comb", "cock spur sharp close up", "poultry grooming tools", "rooster bathing water warm", "roosters facing off competition". Ưu tiên license **CC0**, **CC BY-SA** hoặc **Public Domain**.
 

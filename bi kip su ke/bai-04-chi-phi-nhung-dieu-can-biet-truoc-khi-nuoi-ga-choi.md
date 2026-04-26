@@ -209,11 +209,11 @@ Tại **[Gà Chọi Việt Ninh Bình — gachoivietnb.com](https://gachoivietnb
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Chuồng gà chọi đơn giản bằng tre và lưới — góc nhìn tổng thể | https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Chicken_coop.jpg/800px-Chicken_coop.jpg | Ngay sau tiêu đề H1 (ảnh hero) | chuồng nuôi gà chọi đơn giản chi phí thấp |
-| 2 | Thức ăn cho gà chọi — lúa, ngô, rau xanh trên mâm | https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Grain_feed_for_chickens.jpg/800px-Grain_feed_for_chickens.jpg | Mục "Chi phí vận hành — Thức ăn" | thức ăn gà chọi lúa ngô rau xanh |
-| 3 | Gà choai 5 tháng tuổi — gà Nòi đứng trong chuồng | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Combatant_cock.jpg/800px-Combatant_cock.jpg | Mục "Mua gà giống — gà choai" | gà chọi choai 5 tháng tuổi nòi việt |
-| 4 | Dụng cụ thú y cơ bản cho gà — bơm tiêm, thuốc, bông băng | https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Veterinary_supplies.jpg/800px-Veterinary_supplies.jpg | Mục "Kiến thức thú y cơ bản" | dụng cụ thú y chăm sóc gà chọi |
-| 5 | Checklist / sổ tay ghi chép nuôi gà — minh hoạ bàn làm việc | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Checklist_notebook.jpg/800px-Checklist_notebook.jpg | Mục "Checklist chuẩn bị" | checklist chuẩn bị nuôi gà chọi cho người mới |
+| 1 | Chuồng gà chọi đơn giản bằng tre và lưới — góc nhìn tổng thể | https://images.pexels.com/photos/302280/pexels-photo-302280.jpeg?auto=compress&cs=tinysrgb&w=1280 | Ngay sau tiêu đề H1 (ảnh hero) | chuồng nuôi gà chọi đơn giản chi phí thấp |
+| 2 | Thức ăn cho gà chọi — lúa, ngô, rau xanh trên mâm | https://images.pexels.com/photos/1314550/pexels-photo-1314550.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Chi phí vận hành — Thức ăn" | thức ăn gà chọi lúa ngô rau xanh |
+| 3 | Gà choai 5 tháng tuổi — gà Nòi đứng trong chuồng | https://images.pexels.com/photos/1300355/pexels-photo-1300355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Mua gà giống — gà choai" | gà chọi choai 5 tháng tuổi nòi việt |
+| 4 | Dụng cụ thú y cơ bản cho gà — bơm tiêm, thuốc, bông băng | https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=1200&q=80 | Mục "Kiến thức thú y cơ bản" | dụng cụ thú y chăm sóc gà chọi |
+| 5 | Checklist / sổ tay ghi chép nuôi gà — minh hoạ bàn làm việc | https://images.unsplash.com/photo-1612170153139-6f881ff067e0?w=1200&q=80 | Mục "Checklist chuẩn bị" | checklist chuẩn bị nuôi gà chọi cho người mới |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Nếu link lỗi, tìm ảnh thay thế trên `https://commons.wikimedia.org` hoặc `https://unsplash.com` với từ khoá: "chicken coop", "grain feed chickens", "veterinary supplies poultry", "farm checklist". Ưu tiên license **CC0**, **CC BY-SA** hoặc **Unsplash License**.
 

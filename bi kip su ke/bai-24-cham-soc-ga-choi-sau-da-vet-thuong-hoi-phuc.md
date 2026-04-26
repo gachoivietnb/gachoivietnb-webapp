@@ -287,11 +287,11 @@ Tại **[Gà Chọi Việt Ninh Bình — gachoivietnb.com](https://gachoivietnb
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Sơ cứu gà chọi sau trận — tay người đang xử lý vết thương | https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Chicken_examination.jpg/800px-Chicken_examination.jpg | Ngay sau tiêu đề H1 (ảnh hero) | chăm sóc gà chọi sau đá sơ cứu vết thương tại chỗ |
-| 2 | Bộ sơ cứu thú y — bông gạc, iodine, kéo, băng y tế | https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Veterinary_supplies.jpg/800px-Veterinary_supplies.jpg | Mục "Dụng cụ sơ cứu" | bộ sơ cứu thú y chăm sóc gà chọi sau trận đấu |
-| 3 | Mật ong nguyên chất bôi vết thương gà — kháng khuẩn tự nhiên | https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Honey_jar.jpg/800px-Honey_jar.jpg | Mục "Xử lý vết thương — mật ong" | mật ong kháng khuẩn bôi vết thương gà chọi sau thi đấu |
-| 4 | Gà chọi đang nghỉ ngơi trong chuồng tối yên tĩnh | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Combatant_cock.jpg/800px-Combatant_cock.jpg | Mục "Ngày 1–2 — Nghỉ ngơi tuyệt đối" | gà chọi nghỉ ngơi phục hồi sau trận đấu |
-| 5 | Lòng đỏ trứng và giun — thức ăn hồi phục sau trận | https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Egg_yolk.jpg/800px-Egg_yolk.jpg | Mục "Chế độ dinh dưỡng hồi phục" | dinh dưỡng hồi phục gà chọi sau thi đấu lòng đỏ trứng |
+| 1 | Sơ cứu gà chọi sau trận — tay người đang xử lý vết thương | https://images.pexels.com/photos/1300355/pexels-photo-1300355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Ngay sau tiêu đề H1 (ảnh hero) | chăm sóc gà chọi sau đá sơ cứu vết thương tại chỗ |
+| 2 | Bộ sơ cứu thú y — bông gạc, iodine, kéo, băng y tế | https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=1200&q=80 | Mục "Dụng cụ sơ cứu" | bộ sơ cứu thú y chăm sóc gà chọi sau trận đấu |
+| 3 | Mật ong nguyên chất bôi vết thương gà — kháng khuẩn tự nhiên | https://images.unsplash.com/photo-1612170153139-6f881ff067e0?w=1200&q=80 | Mục "Xử lý vết thương — mật ong" | mật ong kháng khuẩn bôi vết thương gà chọi sau thi đấu |
+| 4 | Gà chọi đang nghỉ ngơi trong chuồng tối yên tĩnh | https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=1200&q=80 | Mục "Ngày 1–2 — Nghỉ ngơi tuyệt đối" | gà chọi nghỉ ngơi phục hồi sau trận đấu |
+| 5 | Lòng đỏ trứng và giun — thức ăn hồi phục sau trận | https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=1200&q=80 | Mục "Chế độ dinh dưỡng hồi phục" | dinh dưỡng hồi phục gà chọi sau thi đấu lòng đỏ trứng |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://unsplash.com` hoặc `https://commons.wikimedia.org` với từ khoá: "first aid chicken poultry", "veterinary first aid kit supplies", "honey wound healing natural", "rooster resting calm", "egg yolk protein recovery". Ưu tiên license **CC0**, **CC BY-SA** hoặc **Unsplash License**.
 

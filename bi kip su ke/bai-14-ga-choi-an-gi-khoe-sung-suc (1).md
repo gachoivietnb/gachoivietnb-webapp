@@ -253,11 +253,11 @@ Khi mua gà tại trại, bạn sẽ được cung cấp chi tiết **thực đ�
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Mâm thức ăn gà chọi — lúa, ngô, rau xanh, giun đất | https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Grain_feed_for_chickens.jpg/800px-Grain_feed_for_chickens.jpg | Ngay sau tiêu đề H1 (ảnh hero) | gà chọi ăn gì thức ăn lúa ngô rau xanh giun đất |
-| 2 | Giun đất tươi — thức ăn đạm tốt nhất cho gà chọi | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Earthworms_fresh.jpg/800px-Earthworms_fresh.jpg | Mục "Giun đất — đạm tốt nhất" | giun đất thức ăn đạm tốt nhất cho gà chọi |
-| 3 | Rau muống và rau xanh — bổ sung vitamin cho gà chọi | https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Water_morning_glory.jpg/800px-Water_morning_glory.jpg | Mục "Nhóm 4 — Rau xanh" | rau muống rau xanh bổ sung vitamin gà chọi |
-| 4 | Lòng đỏ trứng gà — bổ sung đạm cao cấp cho gà thi đấu | https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Egg_yolk.jpg/800px-Egg_yolk.jpg | Mục "Trứng lòng đỏ" | lòng đỏ trứng bổ sung đạm gà chọi trước thi đấu |
-| 5 | Cá khô nhỏ — omega-3 và đạm cho gà chọi | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Dried_small_fish.jpg/800px-Dried_small_fish.jpg | Mục "Cá tươi cá khô" | cá khô nhỏ omega-3 thức ăn đạm gà chọi |
+| 1 | Mâm thức ăn gà chọi — lúa, ngô, rau xanh, giun đất | https://commons.wikimedia.org/wiki/Special:FilePath/Asil_chicken.jpg?width=1200 | Ngay sau tiêu đề H1 (ảnh hero) | gà chọi ăn gì thức ăn lúa ngô rau xanh giun đất |
+| 2 | Giun đất tươi — thức ăn đạm tốt nhất cho gà chọi | https://commons.wikimedia.org/wiki/Special:FilePath/Shamo_chicken.jpg?width=1200 | Mục "Giun đất — đạm tốt nhất" | giun đất thức ăn đạm tốt nhất cho gà chọi |
+| 3 | Rau muống và rau xanh — bổ sung vitamin cho gà chọi | https://commons.wikimedia.org/wiki/Special:FilePath/Chicken_coop.jpg?width=1200 | Mục "Nhóm 4 — Rau xanh" | rau muống rau xanh bổ sung vitamin gà chọi |
+| 4 | Lòng đỏ trứng gà — bổ sung đạm cao cấp cho gà thi đấu | https://images.pexels.com/photos/2255355/pexels-photo-2255355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Trứng lòng đỏ" | lòng đỏ trứng bổ sung đạm gà chọi trước thi đấu |
+| 5 | Cá khô nhỏ — omega-3 và đạm cho gà chọi | https://images.pexels.com/photos/195226/pexels-photo-195226.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Cá tươi cá khô" | cá khô nhỏ omega-3 thức ăn đạm gà chọi |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://unsplash.com` hoặc `https://commons.wikimedia.org` với từ khoá: "grain feed chickens", "fresh earthworms", "water morning glory vegetable", "egg yolk nutrition", "dried small fish". Ưu tiên license **CC0**, **CC BY-SA** hoặc **Unsplash License**.
 

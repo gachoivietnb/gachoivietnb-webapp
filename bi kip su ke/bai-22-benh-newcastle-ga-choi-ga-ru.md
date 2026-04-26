@@ -236,11 +236,11 @@ Khi bạn mua gà từ trại, bạn không chỉ mua một con gà — bạn mu
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Gà chọi bị vặn cổ — triệu chứng Newcastle điển hình nhất | https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Newcastle_disease_torticollis.jpg/800px-Newcastle_disease_torticollis.jpg | Ngay sau tiêu đề H1 (ảnh hero) | bệnh newcastle gà chọi triệu chứng vặn cổ điển hình |
-| 2 | Gà bệnh hô hấp — há miệng thở khó — giai đoạn khởi phát | https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Cold_chicken_puffed.jpg/800px-Cold_chicken_puffed.jpg | Mục "Giai đoạn 2 — Khởi phát" | gà chọi bị newcastle giai đoạn khởi phát thở khó |
-| 3 | Nhỏ mắt vaccine Newcastle La Sota khẩn cấp cho đàn | https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Eye_drop_chicken_vaccine.jpg/800px-Egg_yolk.jpg | Mục "Bước 2 — Vaccine khẩn cấp" | tiêm vaccine newcastle la sota khẩn cấp phòng dịch |
-| 4 | Phun khử trùng chuồng gà bằng Iodine — phòng Newcastle | https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Disinfectant_sprayer_farm.jpg/800px-Disinfectant_sprayer_farm.jpg | Mục "Lớp 4 — Vệ sinh khử trùng" | phun khử trùng chuồng gà chọi phòng bệnh newcastle iodine |
-| 5 | Thảm khử trùng lối vào chuồng gà — kiểm soát mầm bệnh | https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Disinfection_mat_farm.jpg/800px-Disinfection_mat_farm.jpg | Mục "Lớp 2 — Kiểm soát ra vào" | thảm khử trùng lối vào trại gà chọi phòng newcastle |
+| 1 | Gà chọi bị vặn cổ — triệu chứng Newcastle điển hình nhất | https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=1200&q=80 | Ngay sau tiêu đề H1 (ảnh hero) | bệnh newcastle gà chọi triệu chứng vặn cổ điển hình |
+| 2 | Gà bệnh hô hấp — há miệng thở khó — giai đoạn khởi phát | https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=1200&q=80 | Mục "Giai đoạn 2 — Khởi phát" | gà chọi bị newcastle giai đoạn khởi phát thở khó |
+| 3 | Nhỏ mắt vaccine Newcastle La Sota khẩn cấp cho đàn | https://commons.wikimedia.org/wiki/Special:FilePath/Asil_chicken.jpg?width=1200 | Mục "Bước 2 — Vaccine khẩn cấp" | tiêm vaccine newcastle la sota khẩn cấp phòng dịch |
+| 4 | Phun khử trùng chuồng gà bằng Iodine — phòng Newcastle | https://commons.wikimedia.org/wiki/Special:FilePath/Shamo_chicken.jpg?width=1200 | Mục "Lớp 4 — Vệ sinh khử trùng" | phun khử trùng chuồng gà chọi phòng bệnh newcastle iodine |
+| 5 | Thảm khử trùng lối vào chuồng gà — kiểm soát mầm bệnh | https://commons.wikimedia.org/wiki/Special:FilePath/Chicken_coop.jpg?width=1200 | Mục "Lớp 2 — Kiểm soát ra vào" | thảm khử trùng lối vào trại gà chọi phòng newcastle |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://commons.wikimedia.org` với từ khoá: "Newcastle disease torticollis chicken", "sick chicken respiratory", "poultry vaccination eye drop", "disinfectant sprayer poultry farm", "disinfection foot bath farm". Ưu tiên license **CC BY-SA** hoặc **Public Domain**.
 

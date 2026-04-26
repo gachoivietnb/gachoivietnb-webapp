@@ -251,11 +251,11 @@ Một trại gà chọi chuyên nghiệp không chỉ chú trọng thức ăn m�
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Máng nước inox sạch đầy nước trong chuồng gà | https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Poultry_feeder_waterer.jpg/800px-Poultry_feeder_waterer.jpg | Ngay sau tiêu đề H1 (ảnh hero) | nước uống sạch cho gà chọi máng inox tiêu chuẩn |
-| 2 | Vỏ trứng gà phơi khô và nghiền mịn — nguồn canxi tự nhiên | https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Eggshell_powder.jpg/800px-Eggshell_powder.jpg | Mục "Nguồn canxi — vỏ trứng nghiền" | vỏ trứng nghiền nguồn canxi tự nhiên bổ sung gà chọi |
-| 3 | Gói điện giải Electrolyte thú y và ly nước pha | https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Electrolyte_powder.jpg/800px-Electrolyte_powder.jpg | Mục "Điện giải — khi nào cần dùng" | điện giải electrolyte bổ sung gà chọi sau luyện tập |
-| 4 | Tép khô — nguồn canxi và khoáng chất tự nhiên cho gà | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Dried_shrimp_small.jpg/800px-Dried_shrimp_small.jpg | Mục "Nguồn canxi — tép khô" | tép khô nguồn canxi khoáng chất tự nhiên gà chọi |
-| 5 | Nước dừa tươi — nguồn kali tự nhiên cho điện giải | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Coconut_water_fresh.jpg/800px-Coconut_water_fresh.jpg | Mục "Công thức điện giải tự pha" | nước dừa tươi kali điện giải tự nhiên cho gà chọi |
+| 1 | Máng nước inox sạch đầy nước trong chuồng gà | https://images.pexels.com/photos/302280/pexels-photo-302280.jpeg?auto=compress&cs=tinysrgb&w=1280 | Ngay sau tiêu đề H1 (ảnh hero) | nước uống sạch cho gà chọi máng inox tiêu chuẩn |
+| 2 | Vỏ trứng gà phơi khô và nghiền mịn — nguồn canxi tự nhiên | https://images.pexels.com/photos/1314550/pexels-photo-1314550.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Nguồn canxi — vỏ trứng nghiền" | vỏ trứng nghiền nguồn canxi tự nhiên bổ sung gà chọi |
+| 3 | Gói điện giải Electrolyte thú y và ly nước pha | https://images.pexels.com/photos/1300355/pexels-photo-1300355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Điện giải — khi nào cần dùng" | điện giải electrolyte bổ sung gà chọi sau luyện tập |
+| 4 | Tép khô — nguồn canxi và khoáng chất tự nhiên cho gà | https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=1200&q=80 | Mục "Nguồn canxi — tép khô" | tép khô nguồn canxi khoáng chất tự nhiên gà chọi |
+| 5 | Nước dừa tươi — nguồn kali tự nhiên cho điện giải | https://images.unsplash.com/photo-1612170153139-6f881ff067e0?w=1200&q=80 | Mục "Công thức điện giải tự pha" | nước dừa tươi kali điện giải tự nhiên cho gà chọi |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://unsplash.com` hoặc `https://commons.wikimedia.org` với từ khoá: "poultry water feeder clean", "eggshell powder calcium", "electrolyte powder drink", "dried small shrimp", "fresh coconut water". Ưu tiên license **CC0**, **CC BY-SA** hoặc **Unsplash License**.
 

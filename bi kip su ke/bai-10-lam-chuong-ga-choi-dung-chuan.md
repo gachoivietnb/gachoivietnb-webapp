@@ -276,11 +276,11 @@ Ngoài ra, khi mua gà tại trại, đội ngũ sẵn sàng **tư vấn trực 
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Chuồng gà chọi bằng sắt lưới B40 — tổng thể gọn gàng | https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Chicken_coop.jpg/800px-Chicken_coop.jpg | Ngay sau tiêu đề H1 (ảnh hero) | chuồng nuôi gà chọi đúng chuẩn sắt lưới b40 |
-| 2 | Hàng chuồng gà chọi trại chuyên nghiệp — bố cục ngăn nắp | https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Chicken_farm_rows.jpg/800px-Chicken_farm_rows.jpg | Mục "Phần 6 — Bố cục trại 5–10 con" | bố cục trại gà chọi chuyên nghiệp hàng chuồng ngăn nắp |
-| 3 | Cầu đậu gà — thanh tre ngang trong chuồng | https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Chicken_roost_perch.jpg/800px-Chicken_roost_perch.jpg | Mục "Cầu đậu" | cầu đậu gà chọi tiêu chuẩn tre ngang trong chuồng |
-| 4 | Máng ăn inox và máng uống gà chọi | https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Poultry_feeder_waterer.jpg/800px-Poultry_feeder_waterer.jpg | Mục "Máng ăn và máng uống" | máng ăn máng uống inox gà chọi tiêu chuẩn |
-| 5 | Nền chuồng lót trấu khô — vệ sinh sạch sẽ | https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Rice_husk_bedding_coop.jpg/800px-Rice_husk_bedding_coop.jpg | Mục "Nền chuồng — vật liệu lót" | nền chuồng gà chọi lót trấu khô vệ sinh |
+| 1 | Chuồng gà chọi bằng sắt lưới B40 — tổng thể gọn gàng | https://images.pexels.com/photos/1300355/pexels-photo-1300355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Ngay sau tiêu đề H1 (ảnh hero) | chuồng nuôi gà chọi đúng chuẩn sắt lưới b40 |
+| 2 | Hàng chuồng gà chọi trại chuyên nghiệp — bố cục ngăn nắp | https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=1200&q=80 | Mục "Phần 6 — Bố cục trại 5–10 con" | bố cục trại gà chọi chuyên nghiệp hàng chuồng ngăn nắp |
+| 3 | Cầu đậu gà — thanh tre ngang trong chuồng | https://images.unsplash.com/photo-1612170153139-6f881ff067e0?w=1200&q=80 | Mục "Cầu đậu" | cầu đậu gà chọi tiêu chuẩn tre ngang trong chuồng |
+| 4 | Máng ăn inox và máng uống gà chọi | https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=1200&q=80 | Mục "Máng ăn và máng uống" | máng ăn máng uống inox gà chọi tiêu chuẩn |
+| 5 | Nền chuồng lót trấu khô — vệ sinh sạch sẽ | https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=1200&q=80 | Mục "Nền chuồng — vật liệu lót" | nền chuồng gà chọi lót trấu khô vệ sinh |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://unsplash.com` hoặc `https://commons.wikimedia.org` với từ khoá: "chicken coop wire mesh", "poultry farm rows", "chicken roost perch", "poultry feeder waterer", "rice husk bedding poultry". Ưu tiên license **CC0**, **CC BY-SA** hoặc **Unsplash License**.
 

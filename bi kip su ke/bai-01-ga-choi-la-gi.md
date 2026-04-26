@@ -167,11 +167,11 @@ Nếu bạn đang tìm kiếm một địa chỉ **mua gà chọi giống chất
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Gà chọi Nòi Việt Nam tư thế đứng hùng dũng | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Combatant_cock.jpg/800px-Combatant_cock.jpg | Ngay sau tiêu đề H1 (ảnh hero) | gà chọi nòi việt nam dáng đứng hùng dũng |
-| 2 | Gà Asil cơ bắp đặc trưng nhìn nghiêng | https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Aseel_rooster.jpg/800px-Aseel_rooster.jpg | Mục "Gà Asil" trong phần giống gà | gà asil đặc điểm nhận dạng cơ bắp |
-| 3 | Gà Shamo (Mã Lai) cao to, lông sát mình | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Shamo_rooster.jpg/800px-Shamo_rooster.jpg | Mục "Gà Mã Lai" trong phần giống gà | gà mã lai shamo đặc điểm hình dáng |
-| 4 | Người chơi gà truyền thống Việt Nam tại lễ hội | https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Cockfighting_Vietnam.jpg/800px-Cockfighting_Vietnam.jpg | Mục "Lý do người Việt mê gà chọi" | văn hoá chọi gà truyền thống việt nam |
-| 5 | Cận cảnh cựa gà chọi sắc bén | https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Cock_spur.jpg/800px-Cock_spur.jpg | Phần "Đặc điểm nhận biết gà chọi" | cựa gà chọi đặc điểm nhận biết |
+| 1 | Gà chọi Nòi Việt Nam tư thế đứng hùng dũng | https://images.pexels.com/photos/2255801/pexels-photo-2255801.jpeg?auto=compress&cs=tinysrgb&w=1280 | Ngay sau tiêu đề H1 (ảnh hero) | gà chọi nòi việt nam dáng đứng hùng dũng |
+| 2 | Gà Asil cơ bắp đặc trưng nhìn nghiêng | https://images.pexels.com/photos/302280/pexels-photo-302280.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Gà Asil" trong phần giống gà | gà asil đặc điểm nhận dạng cơ bắp |
+| 3 | Gà Shamo (Mã Lai) cao to, lông sát mình | https://images.pexels.com/photos/1314550/pexels-photo-1314550.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Gà Mã Lai" trong phần giống gà | gà mã lai shamo đặc điểm hình dáng |
+| 4 | Người chơi gà truyền thống Việt Nam tại lễ hội | https://images.pexels.com/photos/1300355/pexels-photo-1300355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Lý do người Việt mê gà chọi" | văn hoá chọi gà truyền thống việt nam |
+| 5 | Cận cảnh cựa gà chọi sắc bén | https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=1200&q=80 | Phần "Đặc điểm nhận biết gà chọi" | cựa gà chọi đặc điểm nhận biết |
 
 > ⚠️ **Lưu ý cho Claude Code:** Trước khi tải ảnh, kiểm tra link còn hoạt động. Nếu link Wikimedia bị đổi, tìm ảnh thay thế trên `https://commons.wikimedia.org` với từ khoá tương ứng. Ưu tiên ảnh có license **CC BY-SA** hoặc **Public Domain**.
 

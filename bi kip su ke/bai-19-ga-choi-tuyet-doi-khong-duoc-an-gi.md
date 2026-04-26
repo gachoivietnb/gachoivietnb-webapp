@@ -300,11 +300,11 @@ Tránh thức ăn có hại chỉ là một phần — phần còn lại là đ�
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Dấu cấm đỏ trên một số loại thức ăn — cảnh báo thức ăn độc | https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/No_sign_red.jpg/800px-No_sign_red.jpg | Ngay sau tiêu đề H1 (ảnh hero) | thức ăn gà chọi tuyệt đối không được ăn danh sách |
-| 2 | Quả bơ cắt đôi — thực phẩm cực độc với gia cầm | https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Avocado_cut.jpg/800px-Avocado_cut.jpg | Mục "Avocado — Rất nguy hiểm" | bơ avocado độc với gà chọi tuyệt đối không cho ăn |
-| 3 | Ngô hạt bị mốc xanh đen — Aflatoxin nguy hiểm | https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Moldy_corn_aflatoxin.jpg/800px-Moldy_corn_aflatoxin.jpg | Mục "Ngô ẩm mốc — Aflatoxin" | ngô mốc aflatoxin nguy hiểm cho gà chọi |
-| 4 | Hành tây cắt — họ hành gây thiếu máu gà chọi | https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Onion_cut.jpg/800px-Onion_cut.jpg | Mục "Hành tây — Nguy hiểm" | hành tây gây thiếu máu tan huyết gà chọi |
-| 5 | Cám công nghiệp đóng bao — không phù hợp gà chọi | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Commercial_feed_bag.jpg/800px-Commercial_feed_bag.jpg | Mục "Cám công nghiệp gà thịt" | cám công nghiệp gà thịt không phù hợp cho gà chọi |
+| 1 | Dấu cấm đỏ trên một số loại thức ăn — cảnh báo thức ăn độc | https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=1200&q=80 | Ngay sau tiêu đề H1 (ảnh hero) | thức ăn gà chọi tuyệt đối không được ăn danh sách |
+| 2 | Quả bơ cắt đôi — thực phẩm cực độc với gia cầm | https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=1200&q=80 | Mục "Avocado — Rất nguy hiểm" | bơ avocado độc với gà chọi tuyệt đối không cho ăn |
+| 3 | Ngô hạt bị mốc xanh đen — Aflatoxin nguy hiểm | https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=1200&q=80 | Mục "Ngô ẩm mốc — Aflatoxin" | ngô mốc aflatoxin nguy hiểm cho gà chọi |
+| 4 | Hành tây cắt — họ hành gây thiếu máu gà chọi | https://commons.wikimedia.org/wiki/Special:FilePath/Asil_chicken.jpg?width=1200 | Mục "Hành tây — Nguy hiểm" | hành tây gây thiếu máu tan huyết gà chọi |
+| 5 | Cám công nghiệp đóng bao — không phù hợp gà chọi | https://commons.wikimedia.org/wiki/Special:FilePath/Shamo_chicken.jpg?width=1200 | Mục "Cám công nghiệp gà thịt" | cám công nghiệp gà thịt không phù hợp cho gà chọi |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://unsplash.com` hoặc `https://commons.wikimedia.org` với từ khoá: "no sign red circle", "avocado cut half", "moldy corn aflatoxin", "onion cut fresh", "commercial poultry feed bag". Ưu tiên license **CC0**, **CC BY-SA** hoặc **Unsplash License**.
 

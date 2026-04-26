@@ -238,11 +238,11 @@ Với những khách lần đầu mua gà và chưa có kinh nghiệm phân bi�
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Gà Nòi Việt thuần chủng — dáng đứng đặc trưng toàn thân | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Combatant_cock.jpg/800px-Combatant_cock.jpg | Ngay sau tiêu đề H1 (ảnh hero) | gà chọi thuần chủng nhận biết đặc điểm nòi việt |
-| 2 | Gà Asil thuần chủng — lông thưa, cơ bắp, mắt vàng | https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Aseel_rooster.jpg/800px-Aseel_rooster.jpg | Mục "Nhận biết gà Asil thuần chủng" | gà asil thuần chủng đặc điểm lông thưa cơ bắp |
-| 3 | Gà Shamo Mã Lai thuần — thân cao, lông sát, đuôi cụp | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Shamo_rooster.jpg/800px-Shamo_rooster.jpg | Mục "Nhận biết gà Mã Lai thuần chủng" | gà mã lai shamo thuần chủng thân cao lông sát |
-| 4 | So sánh hai con gà — thuần và lai đứng cạnh nhau | https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Cockfighting_roosters.jpg/800px-Cockfighting_roosters.jpg | Mục "Bảng tổng hợp phân biệt 3 loại" | so sánh gà chọi thuần chủng và gà lai f1 |
-| 5 | Cận cảnh đặc điểm đầu gà Asil — mào đậu nhỏ, mặt nhăn | https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Rooster_head_closeup.jpg/800px-Rooster_head_closeup.jpg | Mục "Dấu hiệu gà Asil không thuần" | đặc điểm nhận dạng gà asil thuần chủng đầu mào |
+| 1 | Gà Nòi Việt thuần chủng — dáng đứng đặc trưng toàn thân | https://images.pexels.com/photos/2255355/pexels-photo-2255355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Ngay sau tiêu đề H1 (ảnh hero) | gà chọi thuần chủng nhận biết đặc điểm nòi việt |
+| 2 | Gà Asil thuần chủng — lông thưa, cơ bắp, mắt vàng | https://images.pexels.com/photos/195226/pexels-photo-195226.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Nhận biết gà Asil thuần chủng" | gà asil thuần chủng đặc điểm lông thưa cơ bắp |
+| 3 | Gà Shamo Mã Lai thuần — thân cao, lông sát, đuôi cụp | https://images.pexels.com/photos/2255801/pexels-photo-2255801.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Nhận biết gà Mã Lai thuần chủng" | gà mã lai shamo thuần chủng thân cao lông sát |
+| 4 | So sánh hai con gà — thuần và lai đứng cạnh nhau | https://images.pexels.com/photos/302280/pexels-photo-302280.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Bảng tổng hợp phân biệt 3 loại" | so sánh gà chọi thuần chủng và gà lai f1 |
+| 5 | Cận cảnh đặc điểm đầu gà Asil — mào đậu nhỏ, mặt nhăn | https://images.pexels.com/photos/1314550/pexels-photo-1314550.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Dấu hiệu gà Asil không thuần" | đặc điểm nhận dạng gà asil thuần chủng đầu mào |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra từng link trước khi tải. Tìm ảnh thay thế trên `https://commons.wikimedia.org` với từ khoá: "Aseel purebred rooster", "Shamo purebred", "fighting cock comparison", "rooster head Asil". Ưu tiên license **CC BY-SA** hoặc **Public Domain**.
 

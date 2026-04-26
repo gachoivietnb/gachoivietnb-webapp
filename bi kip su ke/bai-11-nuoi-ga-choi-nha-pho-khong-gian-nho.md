@@ -264,11 +264,11 @@ Khi mua gà tại trại, đội ngũ sẽ tư vấn cụ thể dòng gà nào p
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Chuồng gà nhỏ gọn trên sân thượng nhà phố | https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Chicken_coop.jpg/800px-Chicken_coop.jpg | Ngay sau tiêu đề H1 (ảnh hero) | nuôi gà chọi nhà phố chuồng nhỏ gọn sân thượng |
-| 2 | Gà Tre nhỏ gọn — phù hợp nuôi không gian hạn chế | https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Old_English_Game_bantam.jpg/800px-Old_English_Game_bantam.jpg | Mục "Giống gà phù hợp — Gà Tre" | gà tre nhỏ gọn nuôi không gian nhỏ nhà phố |
-| 3 | Sân thượng nhà phố Việt Nam — không gian nuôi gà tiềm năng | https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Vietnamese_rooftop.jpg/800px-Vietnamese_rooftop.jpg | Mục "Tận dụng sân thượng" | sân thượng nhà phố việt nam nuôi gà chọi |
-| 4 | Chuồng gà tầng đứng — thiết kế thông minh tiết kiệm diện tích | https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Vertical_chicken_coop.jpg/800px-Vertical_chicken_coop.jpg | Mục "Giải pháp 1 — Chuồng tầng đứng" | chuồng gà chọi tầng đứng tiết kiệm diện tích |
-| 5 | Gà chọi đang vận động trên sân nhỏ — thả ra buổi sáng | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Combatant_cock.jpg/800px-Combatant_cock.jpg | Mục "Vận động thủ công mỗi ngày" | gà chọi vận động sân nhỏ nhà phố mỗi ngày |
+| 1 | Chuồng gà nhỏ gọn trên sân thượng nhà phố | https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=1200&q=80 | Ngay sau tiêu đề H1 (ảnh hero) | nuôi gà chọi nhà phố chuồng nhỏ gọn sân thượng |
+| 2 | Gà Tre nhỏ gọn — phù hợp nuôi không gian hạn chế | https://commons.wikimedia.org/wiki/Special:FilePath/Asil_chicken.jpg?width=1200 | Mục "Giống gà phù hợp — Gà Tre" | gà tre nhỏ gọn nuôi không gian nhỏ nhà phố |
+| 3 | Sân thượng nhà phố Việt Nam — không gian nuôi gà tiềm năng | https://commons.wikimedia.org/wiki/Special:FilePath/Shamo_chicken.jpg?width=1200 | Mục "Tận dụng sân thượng" | sân thượng nhà phố việt nam nuôi gà chọi |
+| 4 | Chuồng gà tầng đứng — thiết kế thông minh tiết kiệm diện tích | https://commons.wikimedia.org/wiki/Special:FilePath/Chicken_coop.jpg?width=1200 | Mục "Giải pháp 1 — Chuồng tầng đứng" | chuồng gà chọi tầng đứng tiết kiệm diện tích |
+| 5 | Gà chọi đang vận động trên sân nhỏ — thả ra buổi sáng | https://images.pexels.com/photos/2255355/pexels-photo-2255355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Vận động thủ công mỗi ngày" | gà chọi vận động sân nhỏ nhà phố mỗi ngày |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://unsplash.com` hoặc `https://commons.wikimedia.org` với từ khoá: "small chicken coop urban", "bantam rooster small", "rooftop Vietnam urban", "vertical chicken coop small space", "rooster exercise yard". Ưu tiên license **CC0**, **CC BY-SA** hoặc **Unsplash License**.
 

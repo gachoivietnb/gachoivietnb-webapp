@@ -291,11 +291,11 @@ Khi mua gà tại trại, bạn sẽ được chia sẻ **lịch sử dụng th�
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Cỏ mực (nhọ nồi) tươi — thảo dược bổ máu gà chọi | https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Eclipta_prostrata.jpg/800px-Eclipta_prostrata.jpg | Ngay sau tiêu đề H1 (ảnh hero) | cỏ mực nhọ nồi thảo dược bổ máu gà chọi |
-| 2 | Nghệ tươi cắt lát vàng tươi — chống viêm cho gà chọi | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Turmeric_roots.jpg/800px-Turmeric_roots.jpg | Mục "Nghệ tươi — chống viêm" | nghệ tươi curcumin chống viêm bồi bổ gà chọi |
-| 3 | Tỏi tươi và gừng tươi — thảo dược kháng khuẩn gà chọi | https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Garlic_and_ginger.jpg/800px-Garlic_and_ginger.jpg | Mục "Tỏi và Gừng" | tỏi gừng thảo dược kháng khuẩn tăng miễn dịch gà chọi |
-| 4 | Lá đu đủ non xanh tươi — enzyme tiêu hoá gà chọi | https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Papaya_leaves_fresh.jpg/800px-Papaya_leaves_fresh.jpg | Mục "Lá đu đủ" | lá đu đủ tươi enzyme papain tiêu hoá gà chọi |
-| 5 | Mật ong nguyên chất trong hũ thuỷ tinh | https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Honey_jar.jpg/800px-Honey_jar.jpg | Mục "Mật ong nguyên chất" | mật ong nguyên chất bổ dưỡng gà chọi trước thi đấu |
+| 1 | Cỏ mực (nhọ nồi) tươi — thảo dược bổ máu gà chọi | https://commons.wikimedia.org/wiki/Special:FilePath/Shamo_chicken.jpg?width=1200 | Ngay sau tiêu đề H1 (ảnh hero) | cỏ mực nhọ nồi thảo dược bổ máu gà chọi |
+| 2 | Nghệ tươi cắt lát vàng tươi — chống viêm cho gà chọi | https://commons.wikimedia.org/wiki/Special:FilePath/Chicken_coop.jpg?width=1200 | Mục "Nghệ tươi — chống viêm" | nghệ tươi curcumin chống viêm bồi bổ gà chọi |
+| 3 | Tỏi tươi và gừng tươi — thảo dược kháng khuẩn gà chọi | https://images.pexels.com/photos/2255355/pexels-photo-2255355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Tỏi và Gừng" | tỏi gừng thảo dược kháng khuẩn tăng miễn dịch gà chọi |
+| 4 | Lá đu đủ non xanh tươi — enzyme tiêu hoá gà chọi | https://images.pexels.com/photos/195226/pexels-photo-195226.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Lá đu đủ" | lá đu đủ tươi enzyme papain tiêu hoá gà chọi |
+| 5 | Mật ong nguyên chất trong hũ thuỷ tinh | https://images.pexels.com/photos/2255801/pexels-photo-2255801.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Mật ong nguyên chất" | mật ong nguyên chất bổ dưỡng gà chọi trước thi đấu |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://commons.wikimedia.org` với từ khoá: "Eclipta prostrata plant", "turmeric fresh roots", "garlic ginger fresh", "papaya leaves fresh", "honey jar pure". Ưu tiên license **CC BY-SA** hoặc **Public Domain**.
 

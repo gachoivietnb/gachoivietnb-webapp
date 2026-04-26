@@ -224,11 +224,11 @@ Trại chuyên cung cấp:
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Biểu tượng pháp lý — búa toà án và luật pháp | https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Law_gavel_book.jpg/800px-Law_gavel_book.jpg | Ngay sau tiêu đề H1 (ảnh hero) | pháp lý nuôi kinh doanh gà chọi việt nam quy định |
-| 2 | Giấy kiểm dịch thú y — vận chuyển gà hợp pháp | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Checklist_notebook.jpg/800px-Checklist_notebook.jpg | Mục "Kiểm dịch vận chuyển" | giấy kiểm dịch thú y vận chuyển gà chọi hợp pháp |
-| 3 | Trại gà chọi hoạt động hợp pháp — chuồng trại ngăn nắp | https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Chicken_farm_rows.jpg/800px-Chicken_farm_rows.jpg | Mục "Nuôi gà chọi hợp pháp" | trại gà chọi hoạt động hợp pháp việt nam |
-| 4 | Lễ hội chọi gà truyền thống — văn hoá dân gian hợp pháp | https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Cockfighting_Vietnam.jpg/800px-Cockfighting_Vietnam.jpg | Mục "Tổ chức thi đấu có kiểm soát" | lễ hội chọi gà truyền thống việt nam hợp pháp văn hoá |
-| 5 | Gà chọi Nòi khoẻ mạnh — thành quả nuôi gà đúng nghề | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Combatant_cock.jpg/800px-Combatant_cock.jpg | Mục "Lời kết toàn serie" | gà chọi nòi khoẻ mạnh thành quả nuôi gà chọi chuyên nghiệp |
+| 1 | Biểu tượng pháp lý — búa toà án và luật pháp | https://images.pexels.com/photos/1314550/pexels-photo-1314550.jpeg?auto=compress&cs=tinysrgb&w=1280 | Ngay sau tiêu đề H1 (ảnh hero) | pháp lý nuôi kinh doanh gà chọi việt nam quy định |
+| 2 | Giấy kiểm dịch thú y — vận chuyển gà hợp pháp | https://images.pexels.com/photos/1300355/pexels-photo-1300355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Kiểm dịch vận chuyển" | giấy kiểm dịch thú y vận chuyển gà chọi hợp pháp |
+| 3 | Trại gà chọi hoạt động hợp pháp — chuồng trại ngăn nắp | https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=1200&q=80 | Mục "Nuôi gà chọi hợp pháp" | trại gà chọi hoạt động hợp pháp việt nam |
+| 4 | Lễ hội chọi gà truyền thống — văn hoá dân gian hợp pháp | https://images.unsplash.com/photo-1612170153139-6f881ff067e0?w=1200&q=80 | Mục "Tổ chức thi đấu có kiểm soát" | lễ hội chọi gà truyền thống việt nam hợp pháp văn hoá |
+| 5 | Gà chọi Nòi khoẻ mạnh — thành quả nuôi gà đúng nghề | https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=1200&q=80 | Mục "Lời kết toàn serie" | gà chọi nòi khoẻ mạnh thành quả nuôi gà chọi chuyên nghiệp |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://unsplash.com` hoặc `https://commons.wikimedia.org` với từ khoá: "law gavel legal book", "veterinary certificate document", "poultry farm legal operation", "traditional cockfighting Vietnam cultural", "healthy fighting rooster proud". Ưu tiên license **CC0**, **CC BY-SA** hoặc **Public Domain**.
 

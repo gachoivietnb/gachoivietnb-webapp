@@ -228,11 +228,11 @@ Muốn kinh doanh gà chọi thành công, bước đầu tiên là **có đư�
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Trại gà chọi quy mô vừa — chuồng trại ngăn nắp, chuyên nghiệp | https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Chicken_farm_rows.jpg/800px-Chicken_farm_rows.jpg | Ngay sau tiêu đề H1 (ảnh hero) | kinh doanh gà chọi mô hình trại giống chuyên nghiệp |
-| 2 | Gà chọi bố mẹ giống tốt — đàn bố mẹ chất lượng cao | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Combatant_cock.jpg/800px-Combatant_cock.jpg | Mục "Mô hình 1 — Bán gà giống" | đàn gà chọi bố mẹ giống chất lượng mô hình kinh doanh |
-| 3 | Giao dịch mua bán gà chọi — bắt tay thương lượng | https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Handshake.jpg/800px-Handshake.jpg | Mục "Yếu tố uy tín và thương hiệu" | kinh doanh gà chọi uy tín thương hiệu giao dịch |
-| 4 | Sổ sách kế toán trại gà — quản lý tài chính | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Checklist_notebook.jpg/800px-Checklist_notebook.jpg | Mục "Quản lý tài chính" | quản lý tài chính kinh doanh gà chọi sổ sách kế toán |
-| 5 | Gà chọi con nhiều lứa — sản phẩm bán chính của trại giống | https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Baby_chicks.jpg/800px-Baby_chicks.jpg | Mục "Doanh thu kỳ vọng — gà con" | gà chọi con bán giống trại doanh thu kinh doanh |
+| 1 | Trại gà chọi quy mô vừa — chuồng trại ngăn nắp, chuyên nghiệp | https://images.pexels.com/photos/302280/pexels-photo-302280.jpeg?auto=compress&cs=tinysrgb&w=1280 | Ngay sau tiêu đề H1 (ảnh hero) | kinh doanh gà chọi mô hình trại giống chuyên nghiệp |
+| 2 | Gà chọi bố mẹ giống tốt — đàn bố mẹ chất lượng cao | https://images.pexels.com/photos/1314550/pexels-photo-1314550.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Mô hình 1 — Bán gà giống" | đàn gà chọi bố mẹ giống chất lượng mô hình kinh doanh |
+| 3 | Giao dịch mua bán gà chọi — bắt tay thương lượng | https://images.pexels.com/photos/1300355/pexels-photo-1300355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Yếu tố uy tín và thương hiệu" | kinh doanh gà chọi uy tín thương hiệu giao dịch |
+| 4 | Sổ sách kế toán trại gà — quản lý tài chính | https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=1200&q=80 | Mục "Quản lý tài chính" | quản lý tài chính kinh doanh gà chọi sổ sách kế toán |
+| 5 | Gà chọi con nhiều lứa — sản phẩm bán chính của trại giống | https://images.unsplash.com/photo-1612170153139-6f881ff067e0?w=1200&q=80 | Mục "Doanh thu kỳ vọng — gà con" | gà chọi con bán giống trại doanh thu kinh doanh |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://unsplash.com` hoặc `https://commons.wikimedia.org` với từ khoá: "poultry farm professional rows", "fighting cock rooster breeding", "business handshake deal", "farm accounting notebook", "baby chicks hatching". Ưu tiên license **CC0**, **CC BY-SA** hoặc **Unsplash License**.
 

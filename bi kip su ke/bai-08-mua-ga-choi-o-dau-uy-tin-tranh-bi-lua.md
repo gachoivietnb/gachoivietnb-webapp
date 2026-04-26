@@ -213,11 +213,11 @@ Bạn không cần phải đánh cược khi mua gà chọi — hãy đến đú
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Người đang kiểm tra gà chọi tại trại — tay cầm gà xem kỹ | https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Chicken_examination.jpg/800px-Chicken_examination.jpg | Ngay sau tiêu đề H1 (ảnh hero) | mua gà chọi uy tín kiểm tra trực tiếp tại trại |
-| 2 | Trại gà chọi — hàng chuồng gà ngăn nắp, sạch sẽ | https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Chicken_coop.jpg/800px-Chicken_coop.jpg | Mục "Tiêu chí trại gà uy tín" | trại gà chọi uy tín chuồng trại sạch sẽ ngăn nắp |
-| 3 | Điện thoại quay video gà chọi — mua gà online | https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Smartphone_video.jpg/800px-Smartphone_video.jpg | Mục "Mua gà online — quy trình 5 bước" | mua gà chọi online xem video trực tiếp zalo |
-| 4 | Gà chọi con trong chuồng úm — gà nhỏ tuổi | https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Baby_chicks.jpg/800px-Baby_chicks.jpg | Mục "Lưu ý mua gà con & gà choai" | mua gà chọi con gà choai lưu ý quan trọng |
-| 5 | Tay bắt tay — giao dịch uy tín, tin cậy | https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Handshake.jpg/800px-Handshake.jpg | Mục "Checklist bảo vệ bản thân" | mua bán gà chọi uy tín tin cậy an toàn |
+| 1 | Người đang kiểm tra gà chọi tại trại — tay cầm gà xem kỹ | https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=1200&q=80 | Ngay sau tiêu đề H1 (ảnh hero) | mua gà chọi uy tín kiểm tra trực tiếp tại trại |
+| 2 | Trại gà chọi — hàng chuồng gà ngăn nắp, sạch sẽ | https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=1200&q=80 | Mục "Tiêu chí trại gà uy tín" | trại gà chọi uy tín chuồng trại sạch sẽ ngăn nắp |
+| 3 | Điện thoại quay video gà chọi — mua gà online | https://commons.wikimedia.org/wiki/Special:FilePath/Asil_chicken.jpg?width=1200 | Mục "Mua gà online — quy trình 5 bước" | mua gà chọi online xem video trực tiếp zalo |
+| 4 | Gà chọi con trong chuồng úm — gà nhỏ tuổi | https://commons.wikimedia.org/wiki/Special:FilePath/Shamo_chicken.jpg?width=1200 | Mục "Lưu ý mua gà con & gà choai" | mua gà chọi con gà choai lưu ý quan trọng |
+| 5 | Tay bắt tay — giao dịch uy tín, tin cậy | https://commons.wikimedia.org/wiki/Special:FilePath/Chicken_coop.jpg?width=1200 | Mục "Checklist bảo vệ bản thân" | mua bán gà chọi uy tín tin cậy an toàn |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://unsplash.com` hoặc `https://commons.wikimedia.org` với từ khoá: "chicken farm inspection", "poultry farm coop", "smartphone video call", "baby chicks brooder", "handshake deal". Ưu tiên license **CC0**, **CC BY-SA** hoặc **Unsplash License**.
 

@@ -265,11 +265,11 @@ Tại **[Gà Chọi Việt Ninh Bình — gachoivietnb.com](https://gachoivietnb
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Các nguyên liệu thức ăn gà chọi tự nhiên — lúa ngô rau giun bày trên mặt bàn | https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Grain_feed_for_chickens.jpg/800px-Grain_feed_for_chickens.jpg | Ngay sau tiêu đề H1 (ảnh hero) | thức ăn tự nhiên gà chọi lúa ngô cám rau phối trộn đúng tỷ lệ |
-| 2 | Cân điện tử nhà bếp — dụng cụ cân thức ăn gà chọi chính xác | https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Kitchen_scale_digital.jpg/800px-Kitchen_scale_digital.jpg | Mục "Phần 5 — Dụng cụ cần có" | cân điện tử dụng cụ phối trộn thức ăn gà chọi chính xác |
-| 3 | Rau muống và rau xanh tươi — nguyên liệu rau cho gà chọi | https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Water_morning_glory.jpg/800px-Water_morning_glory.jpg | Mục "Nguyên tắc — rau xanh" | rau muống rau xanh tươi nguyên liệu thức ăn gà chọi |
-| 4 | Giun đất tươi trong bàn tay — đạm tự nhiên cho gà chọi | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Earthworms_fresh.jpg/800px-Earthworms_fresh.jpg | Mục "Cách chế biến — giun đất" | giun đất tươi chế biến đúng cách cho gà chọi ăn |
-| 5 | Cám gạo vàng — nguyên liệu bổ sung vitamin B cho gà chọi | https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Rice_bran.jpg/800px-Rice_bran.jpg | Mục "Nguyên liệu — cám gạo" | cám gạo tươi bổ sung vitamin b thức ăn gà chọi |
+| 1 | Các nguyên liệu thức ăn gà chọi tự nhiên — lúa ngô rau giun bày trên mặt bàn | https://images.unsplash.com/photo-1612170153139-6f881ff067e0?w=1200&q=80 | Ngay sau tiêu đề H1 (ảnh hero) | thức ăn tự nhiên gà chọi lúa ngô cám rau phối trộn đúng tỷ lệ |
+| 2 | Cân điện tử nhà bếp — dụng cụ cân thức ăn gà chọi chính xác | https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=1200&q=80 | Mục "Phần 5 — Dụng cụ cần có" | cân điện tử dụng cụ phối trộn thức ăn gà chọi chính xác |
+| 3 | Rau muống và rau xanh tươi — nguyên liệu rau cho gà chọi | https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=1200&q=80 | Mục "Nguyên tắc — rau xanh" | rau muống rau xanh tươi nguyên liệu thức ăn gà chọi |
+| 4 | Giun đất tươi trong bàn tay — đạm tự nhiên cho gà chọi | https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=1200&q=80 | Mục "Cách chế biến — giun đất" | giun đất tươi chế biến đúng cách cho gà chọi ăn |
+| 5 | Cám gạo vàng — nguyên liệu bổ sung vitamin B cho gà chọi | https://commons.wikimedia.org/wiki/Special:FilePath/Asil_chicken.jpg?width=1200 | Mục "Nguyên liệu — cám gạo" | cám gạo tươi bổ sung vitamin b thức ăn gà chọi |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://unsplash.com` hoặc `https://commons.wikimedia.org` với từ khoá: "grain feed chickens natural", "digital kitchen scale", "water morning glory fresh", "earthworms fresh soil", "rice bran natural". Ưu tiên license **CC0**, **CC BY-SA** hoặc **Unsplash License**.
 

@@ -247,11 +247,11 @@ Nếu bạn muốn tham khảo cách một trại uy tín vận hành mô hình 
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Người đang quay video gà chọi bằng điện thoại — bán online | https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Smartphone_video.jpg/800px-Smartphone_video.jpg | Ngay sau tiêu đề H1 (ảnh hero) | cách bán gà chọi online video điện thoại facebook zalo |
-| 2 | Gà chọi trưởng thành đẹp — sản phẩm bán giá cao | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Combatant_cock.jpg/800px-Combatant_cock.jpg | Mục "Yếu tố 2 — Tuổi và giai đoạn" | gà chọi trưởng thành đẹp bán giá cao thị trường |
-| 3 | Tay bắt tay — thương lượng mua bán thành công | https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Handshake.jpg/800px-Handshake.jpg | Mục "Kỹ thuật thương lượng" | thương lượng định giá bán gà chọi thành công |
-| 4 | Màn hình điện thoại Facebook Group gà chọi — kênh bán online | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Social_media_phone.jpg/800px-Social_media_phone.jpg | Mục "Kênh 1 — Facebook Zalo" | bán gà chọi online facebook zalo nhóm chuyên biệt |
-| 5 | Bảng giá tham khảo gà chọi — niêm yết minh bạch | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Checklist_notebook.jpg/800px-Checklist_notebook.jpg | Mục "Bảng tham khảo giá thị trường" | bảng giá tham khảo gà chọi thị trường việt nam 2024 |
+| 1 | Người đang quay video gà chọi bằng điện thoại — bán online | https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=1200&q=80 | Ngay sau tiêu đề H1 (ảnh hero) | cách bán gà chọi online video điện thoại facebook zalo |
+| 2 | Gà chọi trưởng thành đẹp — sản phẩm bán giá cao | https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=1200&q=80 | Mục "Yếu tố 2 — Tuổi và giai đoạn" | gà chọi trưởng thành đẹp bán giá cao thị trường |
+| 3 | Tay bắt tay — thương lượng mua bán thành công | https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=1200&q=80 | Mục "Kỹ thuật thương lượng" | thương lượng định giá bán gà chọi thành công |
+| 4 | Màn hình điện thoại Facebook Group gà chọi — kênh bán online | https://commons.wikimedia.org/wiki/Special:FilePath/Asil_chicken.jpg?width=1200 | Mục "Kênh 1 — Facebook Zalo" | bán gà chọi online facebook zalo nhóm chuyên biệt |
+| 5 | Bảng giá tham khảo gà chọi — niêm yết minh bạch | https://commons.wikimedia.org/wiki/Special:FilePath/Shamo_chicken.jpg?width=1200 | Mục "Bảng tham khảo giá thị trường" | bảng giá tham khảo gà chọi thị trường việt nam 2024 |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://unsplash.com` hoặc `https://commons.wikimedia.org` với từ khoá: "smartphone filming video product", "fighting rooster premium quality", "business handshake deal agreement", "facebook social media phone screen", "price list notebook farm". Ưu tiên license **CC0**, **CC BY-SA** hoặc **Unsplash License**.
 

@@ -232,11 +232,11 @@ Tại **[Gà Chọi Việt Ninh Bình — gachoivietnb.com](https://gachoivietnb
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Gà chọi mệt mỏi sau tập luyện quá sức — lông xù, cúi đầu | https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Cold_chicken_puffed.jpg/800px-Chicken_coop.jpg | Ngay sau tiêu đề H1 (ảnh hero) | sai lầm luyện gà chọi người mới hay mắc over-training |
-| 2 | Gà chọi con 6 tháng — chưa đủ tuổi luyện tập cường độ cao | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Combatant_cock.jpg/800px-Combatant_cock.jpg | Mục "Sai lầm 1 — Luyện quá sớm" | gà chọi 6 tháng tuổi chưa đủ tuổi luyện tập cường độ cao |
-| 3 | Sổ ghi chép tiến độ luyện tập — theo dõi có hệ thống | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Checklist_notebook.jpg/800px-Checklist_notebook.jpg | Mục "Sai lầm 9 — Không ghi chép" | sổ ghi chép tiến độ luyện tập gà chọi theo dõi hệ thống |
-| 4 | Hai gà chọi đấu tập có kiểm soát — đúng cách | https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Cockfighting_roosters.jpg/800px-Cockfighting_roosters.jpg | Mục "Sai lầm 3 — Đấu tập với gà quá mạnh" | đấu tập gà chọi đúng cách kiểm soát tương đương thể lực |
-| 5 | Gà chọi đang nghỉ ngơi yên tĩnh — phục hồi sau trận | https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Aseel_rooster.jpg/800px-Aseel_rooster.jpg | Mục "Sai lầm 11 — Không nghỉ đủ sau trận" | gà chọi nghỉ ngơi phục hồi đủ thời gian sau trận đấu |
+| 1 | Gà chọi mệt mỏi sau tập luyện quá sức — lông xù, cúi đầu | https://commons.wikimedia.org/wiki/Special:FilePath/Shamo_chicken.jpg?width=1200 | Ngay sau tiêu đề H1 (ảnh hero) | sai lầm luyện gà chọi người mới hay mắc over-training |
+| 2 | Gà chọi con 6 tháng — chưa đủ tuổi luyện tập cường độ cao | https://commons.wikimedia.org/wiki/Special:FilePath/Chicken_coop.jpg?width=1200 | Mục "Sai lầm 1 — Luyện quá sớm" | gà chọi 6 tháng tuổi chưa đủ tuổi luyện tập cường độ cao |
+| 3 | Sổ ghi chép tiến độ luyện tập — theo dõi có hệ thống | https://images.pexels.com/photos/2255355/pexels-photo-2255355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Sai lầm 9 — Không ghi chép" | sổ ghi chép tiến độ luyện tập gà chọi theo dõi hệ thống |
+| 4 | Hai gà chọi đấu tập có kiểm soát — đúng cách | https://images.pexels.com/photos/195226/pexels-photo-195226.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Sai lầm 3 — Đấu tập với gà quá mạnh" | đấu tập gà chọi đúng cách kiểm soát tương đương thể lực |
+| 5 | Gà chọi đang nghỉ ngơi yên tĩnh — phục hồi sau trận | https://images.pexels.com/photos/2255801/pexels-photo-2255801.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Sai lầm 11 — Không nghỉ đủ sau trận" | gà chọi nghỉ ngơi phục hồi đủ thời gian sau trận đấu |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://unsplash.com` hoặc `https://commons.wikimedia.org` với từ khoá: "tired chicken exhausted", "young rooster 6 months", "training notebook tracking progress", "roosters controlled sparring", "rooster resting recovery". Ưu tiên license **CC0**, **CC BY-SA** hoặc **Unsplash License**.
 

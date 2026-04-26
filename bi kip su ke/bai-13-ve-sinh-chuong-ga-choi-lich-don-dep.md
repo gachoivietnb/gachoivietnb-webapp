@@ -240,11 +240,11 @@ Khi mua gà tại trại, bạn sẽ được hướng dẫn cụ thể **quy tr
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Người đang dọn vệ sinh chuồng gà — xẻng và chổi trên tay | https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Cleaning_chicken_coop.jpg/800px-Cleaning_chicken_coop.jpg | Ngay sau tiêu đề H1 (ảnh hero) | vệ sinh chuồng gà chọi đúng cách dọn dẹp hàng ngày |
-| 2 | Vôi bột trắng rắc trên nền chuồng — khử khuẩn tự nhiên | https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Lime_powder_floor.jpg/800px-Lime_powder_floor.jpg | Mục "Vệ sinh hàng tuần — rắc vôi bột" | rắc vôi bột nền chuồng gà chọi khử khuẩn phòng bệnh |
-| 3 | Bình phun hoá chất khử trùng chuồng trại | https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Disinfectant_sprayer_farm.jpg/800px-Disinfectant_sprayer_farm.jpg | Mục "Quy trình khử trùng — bước 3" | phun hoá chất khử trùng chuồng gà chọi định kỳ |
-| 4 | Cận cảnh ve mạt gà trên lông — ký sinh trùng hút máu | https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Poultry_red_mite.jpg/800px-Poultry_red_mite.jpg | Mục "Xử lý ve mạt gà" | ve mạt gà chọi ký sinh trùng cần xử lý định kỳ |
-| 5 | Phân gà ủ compost trong góc vườn — tái sử dụng phân bón | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Compost_chicken_manure.jpg/800px-Compost_chicken_manure.jpg | Mục "Xử lý phân gà — tái sử dụng" | ủ phân gà chọi làm phân bón hữu cơ tái sử dụng |
+| 1 | Người đang dọn vệ sinh chuồng gà — xẻng và chổi trên tay | https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=1200&q=80 | Ngay sau tiêu đề H1 (ảnh hero) | vệ sinh chuồng gà chọi đúng cách dọn dẹp hàng ngày |
+| 2 | Vôi bột trắng rắc trên nền chuồng — khử khuẩn tự nhiên | https://images.unsplash.com/photo-1612170153139-6f881ff067e0?w=1200&q=80 | Mục "Vệ sinh hàng tuần — rắc vôi bột" | rắc vôi bột nền chuồng gà chọi khử khuẩn phòng bệnh |
+| 3 | Bình phun hoá chất khử trùng chuồng trại | https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=1200&q=80 | Mục "Quy trình khử trùng — bước 3" | phun hoá chất khử trùng chuồng gà chọi định kỳ |
+| 4 | Cận cảnh ve mạt gà trên lông — ký sinh trùng hút máu | https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=1200&q=80 | Mục "Xử lý ve mạt gà" | ve mạt gà chọi ký sinh trùng cần xử lý định kỳ |
+| 5 | Phân gà ủ compost trong góc vườn — tái sử dụng phân bón | https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=1200&q=80 | Mục "Xử lý phân gà — tái sử dụng" | ủ phân gà chọi làm phân bón hữu cơ tái sử dụng |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://unsplash.com` hoặc `https://commons.wikimedia.org` với từ khoá: "cleaning chicken coop", "lime powder floor poultry", "disinfectant sprayer farm", "poultry red mite", "chicken manure compost". Ưu tiên license **CC0**, **CC BY-SA** hoặc **Unsplash License**.
 

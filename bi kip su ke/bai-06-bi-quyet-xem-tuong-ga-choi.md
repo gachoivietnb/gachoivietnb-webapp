@@ -215,11 +215,11 @@ Tại trại **[Gà Chọi Việt Ninh Bình — gachoivietnb.com](https://gacho
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Gà chọi Nòi dáng đứng uy dũng — thần thái tổng thể | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Combatant_cock.jpg/800px-Combatant_cock.jpg | Ngay sau tiêu đề H1 (ảnh hero) | xem tướng gà chọi tốt thần thái uy dũng |
-| 2 | Cận cảnh đầu gà chọi — mắt sắc, mỏ khoẻ, tích nhỏ | https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Rooster_head_closeup.jpg/800px-Rooster_head_closeup.jpg | Mục "Tướng 1 — Đầu Xà, Cổ Phụng" | tướng đầu gà chọi tốt đầu xà mắt sắc |
-| 3 | Gà chọi nhìn nghiêng — thấy rõ ngực nở, lưng thuyền | https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Aseel_rooster.jpg/800px-Aseel_rooster.jpg | Mục "Tướng 2 — Ngực Nở Lưng Thuyền" | tướng gà chọi ngực nở lưng thuyền asil |
-| 4 | Cận cảnh bắp đùi gà chọi — cơ cuồn cuộn chắc nịch | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Shamo_rooster.jpg/800px-Shamo_rooster.jpg | Mục "Tướng 10 — Bắp Đùi Như Quả Cam" | bắp đùi gà chọi tướng tốt cơ bắp chắc nịch |
-| 5 | Hai con gà chọi đối mặt — thể hiện thần thái chiến đấu | https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Cockfighting_roosters.jpg/800px-Cockfighting_roosters.jpg | Mục "Tướng 12 — Thần Thái Uy Dũng" | thần thái gà chọi tốt tướng uy dũng chiến đấu |
+| 1 | Gà chọi Nòi dáng đứng uy dũng — thần thái tổng thể | https://commons.wikimedia.org/wiki/Special:FilePath/Chicken_coop.jpg?width=1200 | Ngay sau tiêu đề H1 (ảnh hero) | xem tướng gà chọi tốt thần thái uy dũng |
+| 2 | Cận cảnh đầu gà chọi — mắt sắc, mỏ khoẻ, tích nhỏ | https://images.pexels.com/photos/2255355/pexels-photo-2255355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Tướng 1 — Đầu Xà, Cổ Phụng" | tướng đầu gà chọi tốt đầu xà mắt sắc |
+| 3 | Gà chọi nhìn nghiêng — thấy rõ ngực nở, lưng thuyền | https://images.pexels.com/photos/195226/pexels-photo-195226.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Tướng 2 — Ngực Nở Lưng Thuyền" | tướng gà chọi ngực nở lưng thuyền asil |
+| 4 | Cận cảnh bắp đùi gà chọi — cơ cuồn cuộn chắc nịch | https://images.pexels.com/photos/2255801/pexels-photo-2255801.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Tướng 10 — Bắp Đùi Như Quả Cam" | bắp đùi gà chọi tướng tốt cơ bắp chắc nịch |
+| 5 | Hai con gà chọi đối mặt — thể hiện thần thái chiến đấu | https://images.pexels.com/photos/302280/pexels-photo-302280.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Tướng 12 — Thần Thái Uy Dũng" | thần thái gà chọi tốt tướng uy dũng chiến đấu |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://commons.wikimedia.org` với từ khoá: "rooster head closeup", "Aseel rooster profile", "fighting cock stance", "rooster muscle". Ưu tiên license **CC BY-SA** hoặc **Public Domain**.
 

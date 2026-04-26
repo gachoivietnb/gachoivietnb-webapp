@@ -201,11 +201,11 @@ Dù bạn yêu thích phong cách Bình Định hay miền Nam — điều quan 
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Gà Nòi Bình Định thân to, xương chắc — ảnh toàn thân | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Combatant_cock.jpg/800px-Combatant_cock.jpg | Ngay sau tiêu đề H1 (ảnh hero) | gà chọi bình định nòi thuần đặc trưng |
-| 2 | Gà Mã Lai cao to — đặc trưng gà miền Nam | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Shamo_rooster.jpg/800px-Shamo_rooster.jpg | Mục "Phần 2 — Gà Chọi Miền Nam" | gà chọi miền nam mã lai lai nòi cao to |
-| 3 | Gà Asil cơ bắp — dòng phổ biến ở miền Nam | https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Aseel_rooster.jpg/800px-Aseel_rooster.jpg | Mục "Giống gà đặc trưng miền Nam" | gà asil lai nòi cơ bắp miền nam việt nam |
-| 4 | Phong cảnh làng quê Bình Định — vùng đất võ | https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Binh_Dinh_landscape.jpg/800px-Binh_Dinh_landscape.jpg | Mục "Lịch sử & văn hoá Bình Định" | bình định vùng đất võ truyền thống nuôi gà chọi |
-| 5 | Đồng bằng sông Cửu Long — vùng văn hoá gà miền Nam | https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Mekong_delta_Vietnam.jpg/800px-Mekong_delta_Vietnam.jpg | Mục "Lịch sử & văn hoá miền Nam" | đồng bằng sông cửu long văn hoá chọi gà miền nam |
+| 1 | Gà Nòi Bình Định thân to, xương chắc — ảnh toàn thân | https://images.pexels.com/photos/1314550/pexels-photo-1314550.jpeg?auto=compress&cs=tinysrgb&w=1280 | Ngay sau tiêu đề H1 (ảnh hero) | gà chọi bình định nòi thuần đặc trưng |
+| 2 | Gà Mã Lai cao to — đặc trưng gà miền Nam | https://images.pexels.com/photos/1300355/pexels-photo-1300355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Phần 2 — Gà Chọi Miền Nam" | gà chọi miền nam mã lai lai nòi cao to |
+| 3 | Gà Asil cơ bắp — dòng phổ biến ở miền Nam | https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=1200&q=80 | Mục "Giống gà đặc trưng miền Nam" | gà asil lai nòi cơ bắp miền nam việt nam |
+| 4 | Phong cảnh làng quê Bình Định — vùng đất võ | https://images.unsplash.com/photo-1612170153139-6f881ff067e0?w=1200&q=80 | Mục "Lịch sử & văn hoá Bình Định" | bình định vùng đất võ truyền thống nuôi gà chọi |
+| 5 | Đồng bằng sông Cửu Long — vùng văn hoá gà miền Nam | https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=1200&q=80 | Mục "Lịch sử & văn hoá miền Nam" | đồng bằng sông cửu long văn hoá chọi gà miền nam |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://commons.wikimedia.org` với từ khoá: "Binh Dinh Vietnam", "Mekong delta Vietnam", "Shamo rooster", "Aseel fighting cock". Ưu tiên license **CC BY-SA** hoặc **Public Domain**.
 

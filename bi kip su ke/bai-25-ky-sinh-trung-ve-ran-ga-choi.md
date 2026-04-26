@@ -281,11 +281,11 @@ Lịch phòng trừ ký sinh trùng của trại cũng được chia sẻ khi mu
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Mạt đỏ gà (Dermanyssus) cận cảnh trên lông gà | https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Poultry_red_mite.jpg/800px-Poultry_red_mite.jpg | Ngay sau tiêu đề H1 (ảnh hero) | mạt đỏ ký sinh trùng gà chọi dermanyssus nhận biết |
-| 2 | Chân gà bị ghẻ chân — vảy sần sùi, nhấc lên bất thường | https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Scaly_leg_mite_chicken.jpg/800px-Scaly_leg_mite_chicken.jpg | Mục "Ghẻ chân — nhận biết" | ghẻ chân gà chọi knemidocoptes vảy sần sùi nhận biết |
-| 3 | Giun đũa gà (Ascaridia) — giun trắng dài trong phân | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Ascaridia_galli_worm.jpg/800px-Ascaridia_galli_worm.jpg | Mục "Giun đũa — nhận biết" | giun đũa gà chọi ascaridia galli nhận biết trong phân |
-| 4 | Gà đang tắm bụi cát — phòng rận lông tự nhiên | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Chicken_dust_bath.jpg/800px-Chicken_dust_bath.jpg | Mục "Tắm bụi tự nhiên" | gà chọi tắm bụi phòng rận lông tự nhiên |
-| 5 | Lọ Fenbendazole thuốc tẩy giun gia cầm | https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Vaccine_vial_syringe.jpg/800px-Vaccine_vial_syringe.jpg | Mục "Tẩy giun — Fenbendazole" | thuốc fenbendazole tẩy giun gà chọi định kỳ |
+| 1 | Mạt đỏ gà (Dermanyssus) cận cảnh trên lông gà | https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=1200&q=80 | Ngay sau tiêu đề H1 (ảnh hero) | mạt đỏ ký sinh trùng gà chọi dermanyssus nhận biết |
+| 2 | Chân gà bị ghẻ chân — vảy sần sùi, nhấc lên bất thường | https://commons.wikimedia.org/wiki/Special:FilePath/Asil_chicken.jpg?width=1200 | Mục "Ghẻ chân — nhận biết" | ghẻ chân gà chọi knemidocoptes vảy sần sùi nhận biết |
+| 3 | Giun đũa gà (Ascaridia) — giun trắng dài trong phân | https://commons.wikimedia.org/wiki/Special:FilePath/Shamo_chicken.jpg?width=1200 | Mục "Giun đũa — nhận biết" | giun đũa gà chọi ascaridia galli nhận biết trong phân |
+| 4 | Gà đang tắm bụi cát — phòng rận lông tự nhiên | https://commons.wikimedia.org/wiki/Special:FilePath/Chicken_coop.jpg?width=1200 | Mục "Tắm bụi tự nhiên" | gà chọi tắm bụi phòng rận lông tự nhiên |
+| 5 | Lọ Fenbendazole thuốc tẩy giun gia cầm | https://images.pexels.com/photos/2255355/pexels-photo-2255355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Tẩy giun — Fenbendazole" | thuốc fenbendazole tẩy giun gà chọi định kỳ |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://commons.wikimedia.org` với từ khoá: "Dermanyssus gallinae red mite", "scaly leg mite chicken", "Ascaridia galli roundworm", "chicken dust bathing", "fenbendazole poultry dewormer". Ưu tiên license **CC BY-SA** hoặc **Public Domain**.
 

@@ -298,11 +298,11 @@ Ngoài ra, khi mua gà tại trại, bạn luôn có thể liên hệ lại đ�
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Gà chọi bị ốm — lông xù, thu mình, mào nhợt | https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Cold_chicken_puffed.jpg/800px-Cold_chicken_puffed.jpg | Ngay sau tiêu đề H1 (ảnh hero) | bệnh gà chọi thường gặp triệu chứng nhận biết |
-| 2 | Phân gà bất thường — màu sắc khác nhau | https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Chicken_droppings_abnormal.jpg/800px-Chicken_droppings_abnormal.jpg | Mục "Bệnh cầu trùng — phân có máu" | phân gà chọi bất thường dấu hiệu bệnh cầu trùng |
-| 3 | Gà bị vặn cổ — triệu chứng Newcastle điển hình | https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Newcastle_disease_torticollis.jpg/800px-Newcastle_disease_torticollis.jpg | Mục "Bệnh Newcastle — vặn cổ" | gà chọi bị vặn cổ triệu chứng bệnh newcastle |
-| 4 | Tủ thuốc thú y cơ bản — dụng cụ và thuốc cần có | https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Veterinary_supplies.jpg/800px-Veterinary_supplies.jpg | Mục "Tủ thuốc cơ bản" | tủ thuốc thú y cơ bản trại gà chọi |
-| 5 | Mạt đỏ gà (Dermanyssus) — cận cảnh ký sinh trùng | https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Poultry_red_mite.jpg/800px-Poultry_red_mite.jpg | Mục "Bệnh ve mạt rận" | mạt đỏ ký sinh trùng gà chọi dermanyssus gallinae |
+| 1 | Gà chọi bị ốm — lông xù, thu mình, mào nhợt | https://images.pexels.com/photos/1314550/pexels-photo-1314550.jpeg?auto=compress&cs=tinysrgb&w=1280 | Ngay sau tiêu đề H1 (ảnh hero) | bệnh gà chọi thường gặp triệu chứng nhận biết |
+| 2 | Phân gà bất thường — màu sắc khác nhau | https://images.pexels.com/photos/1300355/pexels-photo-1300355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Bệnh cầu trùng — phân có máu" | phân gà chọi bất thường dấu hiệu bệnh cầu trùng |
+| 3 | Gà bị vặn cổ — triệu chứng Newcastle điển hình | https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=1200&q=80 | Mục "Bệnh Newcastle — vặn cổ" | gà chọi bị vặn cổ triệu chứng bệnh newcastle |
+| 4 | Tủ thuốc thú y cơ bản — dụng cụ và thuốc cần có | https://images.unsplash.com/photo-1612170153139-6f881ff067e0?w=1200&q=80 | Mục "Tủ thuốc cơ bản" | tủ thuốc thú y cơ bản trại gà chọi |
+| 5 | Mạt đỏ gà (Dermanyssus) — cận cảnh ký sinh trùng | https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=1200&q=80 | Mục "Bệnh ve mạt rận" | mạt đỏ ký sinh trùng gà chọi dermanyssus gallinae |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://commons.wikimedia.org` với từ khoá: "sick chicken puffed feathers", "chicken droppings color chart", "Newcastle disease torticollis poultry", "veterinary supplies poultry", "Dermanyssus gallinae red mite". Ưu tiên license **CC BY-SA** hoặc **Public Domain**.
 

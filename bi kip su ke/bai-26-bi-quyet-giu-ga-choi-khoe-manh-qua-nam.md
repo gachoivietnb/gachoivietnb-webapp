@@ -237,11 +237,11 @@ Tại **[Gà Chọi Việt Ninh Bình — gachoivietnb.com](https://gachoivietnb
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Sư kê đứng quan sát đàn gà chọi mỗi sáng — thói quen hàng ngày | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Combatant_cock.jpg/800px-Combatant_cock.jpg | Ngay sau tiêu đề H1 (ảnh hero) | bí quyết giữ gà chọi khoẻ mạnh quanh năm sư kê |
-| 2 | Sổ ghi chép theo dõi sức khoẻ gà chọi — ghi lịch vaccine và tẩy giun | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Checklist_notebook.jpg/800px-Checklist_notebook.jpg | Mục "Nguyên tắc 11 — Ghi chép" | sổ theo dõi chăm sóc gà chọi lịch vaccine tẩy giun |
-| 3 | Máng nước inox sạch đầy — thay nước 2 lần mỗi ngày | https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Poultry_feeder_waterer.jpg/800px-Poultry_feeder_waterer.jpg | Mục "Nguyên tắc 3 — Nước sạch" | nước sạch gà chọi thay 2 lần ngày nguyên tắc vàng |
-| 4 | Gà chọi đứng khoẻ mạnh — dáng đứng uy dũng, mào đỏ tươi | https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Aseel_rooster.jpg/800px-Aseel_rooster.jpg | Mục "Lịch chăm sóc quanh năm" | gà chọi khoẻ mạnh quanh năm dáng đứng mào đỏ tươi |
-| 5 | Lịch chăm sóc gà chọi treo trên tường chuồng — hệ thống hoá việc chăm | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Vaccination_record_book.jpg/800px-Vaccination_record_book.jpg | Mục "Lịch chăm sóc quanh năm" | lịch chăm sóc gà chọi quanh năm hệ thống hoá |
+| 1 | Sư kê đứng quan sát đàn gà chọi mỗi sáng — thói quen hàng ngày | https://images.pexels.com/photos/195226/pexels-photo-195226.jpeg?auto=compress&cs=tinysrgb&w=1280 | Ngay sau tiêu đề H1 (ảnh hero) | bí quyết giữ gà chọi khoẻ mạnh quanh năm sư kê |
+| 2 | Sổ ghi chép theo dõi sức khoẻ gà chọi — ghi lịch vaccine và tẩy giun | https://images.pexels.com/photos/2255801/pexels-photo-2255801.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Nguyên tắc 11 — Ghi chép" | sổ theo dõi chăm sóc gà chọi lịch vaccine tẩy giun |
+| 3 | Máng nước inox sạch đầy — thay nước 2 lần mỗi ngày | https://images.pexels.com/photos/302280/pexels-photo-302280.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Nguyên tắc 3 — Nước sạch" | nước sạch gà chọi thay 2 lần ngày nguyên tắc vàng |
+| 4 | Gà chọi đứng khoẻ mạnh — dáng đứng uy dũng, mào đỏ tươi | https://images.pexels.com/photos/1314550/pexels-photo-1314550.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Lịch chăm sóc quanh năm" | gà chọi khoẻ mạnh quanh năm dáng đứng mào đỏ tươi |
+| 5 | Lịch chăm sóc gà chọi treo trên tường chuồng — hệ thống hoá việc chăm | https://images.pexels.com/photos/1300355/pexels-photo-1300355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Lịch chăm sóc quanh năm" | lịch chăm sóc gà chọi quanh năm hệ thống hoá |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://unsplash.com` hoặc `https://commons.wikimedia.org` với từ khoá: "farmer observing chickens", "farm notebook checklist", "poultry clean water feeder", "healthy rooster standing proud", "farm schedule calendar wall". Ưu tiên license **CC0**, **CC BY-SA** hoặc **Unsplash License**.
 

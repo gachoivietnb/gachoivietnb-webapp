@@ -255,11 +255,11 @@ Khi mua gà tại trại, bạn nhận được **hồ sơ tiêm phòng chi ti�
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Bác sĩ thú y tiêm vaccine cho gà — kỹ thuật tiêm đúng | https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Chicken_examination.jpg/800px-Chicken_examination.jpg | Ngay sau tiêu đề H1 (ảnh hero) | lịch tiêm phòng gà chọi vaccine đúng kỹ thuật |
-| 2 | Lọ vaccine Newcastle La Sota và kim tiêm — dụng cụ tiêm phòng | https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Vaccine_vial_syringe.jpg/800px-Vaccine_vial_syringe.jpg | Mục "Vaccine Newcastle" | vaccine newcastle la sota tiêm phòng gà chọi |
-| 3 | Nhỏ mắt vaccine cho gà con — kỹ thuật nhỏ mắt đúng cách | https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Eye_drop_chicken_vaccine.jpg/800px-Eye_drop_chicken_vaccine.jpg | Mục "Kỹ thuật nhỏ mắt" | nhỏ mắt vaccine newcastle gà chọi con kỹ thuật đúng |
-| 4 | Tủ lạnh bảo quản vaccine thú y — ngăn mát 2–8 độ C | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Vaccine_refrigerator.jpg/800px-Vaccine_refrigerator.jpg | Mục "Bảo quản vaccine" | bảo quản vaccine gà chọi tủ lạnh ngăn mát 2–8 độ |
-| 5 | Sổ theo dõi tiêm phòng gia cầm — ghi chép lịch tiêm | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Vaccination_record_book.jpg/800px-Vaccination_record_book.jpg | Mục "Ghi chép lịch tiêm" | sổ theo dõi tiêm phòng gà chọi hồ sơ vaccine |
+| 1 | Bác sĩ thú y tiêm vaccine cho gà — kỹ thuật tiêm đúng | https://commons.wikimedia.org/wiki/Special:FilePath/Chicken_coop.jpg?width=1200 | Ngay sau tiêu đề H1 (ảnh hero) | lịch tiêm phòng gà chọi vaccine đúng kỹ thuật |
+| 2 | Lọ vaccine Newcastle La Sota và kim tiêm — dụng cụ tiêm phòng | https://images.pexels.com/photos/2255355/pexels-photo-2255355.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Vaccine Newcastle" | vaccine newcastle la sota tiêm phòng gà chọi |
+| 3 | Nhỏ mắt vaccine cho gà con — kỹ thuật nhỏ mắt đúng cách | https://images.pexels.com/photos/195226/pexels-photo-195226.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Kỹ thuật nhỏ mắt" | nhỏ mắt vaccine newcastle gà chọi con kỹ thuật đúng |
+| 4 | Tủ lạnh bảo quản vaccine thú y — ngăn mát 2–8 độ C | https://images.pexels.com/photos/2255801/pexels-photo-2255801.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Bảo quản vaccine" | bảo quản vaccine gà chọi tủ lạnh ngăn mát 2–8 độ |
+| 5 | Sổ theo dõi tiêm phòng gia cầm — ghi chép lịch tiêm | https://images.pexels.com/photos/302280/pexels-photo-302280.jpeg?auto=compress&cs=tinysrgb&w=1280 | Mục "Ghi chép lịch tiêm" | sổ theo dõi tiêm phòng gà chọi hồ sơ vaccine |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://unsplash.com` hoặc `https://commons.wikimedia.org` với từ khoá: "veterinarian vaccinating chicken", "vaccine vial syringe poultry", "eye drop vaccination poultry", "vaccine refrigerator storage", "vaccination record book livestock". Ưu tiên license **CC0**, **CC BY-SA** hoặc **Unsplash License**.
 

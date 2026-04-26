@@ -291,11 +291,11 @@ Tại **[Gà Chọi Việt Ninh Bình — gachoivietnb.com](https://gachoivietnb
 
 | # | Mô tả ảnh | Link nguồn | Vị trí đặt trong bài | Alt Text (SEO) |
 |---|---|---|---|---|
-| 1 | Hai gà chọi đang giao đấu — thể hiện thế đá tự nhiên | https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Cockfighting_roosters.jpg/800px-Cockfighting_roosters.jpg | Ngay sau tiêu đề H1 (ảnh hero) | thế đá gà chọi đòn hiểm thế công thế thủ phân tích |
-| 2 | Gà chọi nhảy cao ra đòn cựa — đòn hậu đặc trưng | https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Combatant_cock.jpg/800px-Combatant_cock.jpg | Mục "Đòn cựa thẳng — đòn hậu" | đòn cựa thẳng hậu gà chọi nhảy cao tấn công |
-| 3 | Gà chọi Asil ở tư thế ghì đối thủ — đòn ghì đặc trưng | https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Aseel_rooster.jpg/800px-Aseel_rooster.jpg | Mục "Đòn ghì — Clinch" | gà asil đòn ghì kiểm soát đối thủ trong trận đấu |
-| 4 | Gà chọi quan sát đối thủ — thế thủ chờ cơ hội | https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Shamo_rooster.jpg/800px-Shamo_rooster.jpg | Mục "Nhận biết gà thủ" | gà chọi thế thủ quan sát chờ phản công đối thủ |
-| 5 | Sư kê quan sát trận đấu tập — đọc thế đá gà | https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Cockfighting_Vietnam.jpg/800px-Cockfighting_Vietnam.jpg | Mục "Đọc trận đấu như sư kê" | sư kê quan sát đọc thế đá gà chọi trong trận đấu tập |
+| 1 | Hai gà chọi đang giao đấu — thể hiện thế đá tự nhiên | https://images.unsplash.com/photo-1612170153139-6f881ff067e0?w=1200&q=80 | Ngay sau tiêu đề H1 (ảnh hero) | thế đá gà chọi đòn hiểm thế công thế thủ phân tích |
+| 2 | Gà chọi nhảy cao ra đòn cựa — đòn hậu đặc trưng | https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=1200&q=80 | Mục "Đòn cựa thẳng — đòn hậu" | đòn cựa thẳng hậu gà chọi nhảy cao tấn công |
+| 3 | Gà chọi Asil ở tư thế ghì đối thủ — đòn ghì đặc trưng | https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=1200&q=80 | Mục "Đòn ghì — Clinch" | gà asil đòn ghì kiểm soát đối thủ trong trận đấu |
+| 4 | Gà chọi quan sát đối thủ — thế thủ chờ cơ hội | https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=1200&q=80 | Mục "Nhận biết gà thủ" | gà chọi thế thủ quan sát chờ phản công đối thủ |
+| 5 | Sư kê quan sát trận đấu tập — đọc thế đá gà | https://commons.wikimedia.org/wiki/Special:FilePath/Asil_chicken.jpg?width=1200 | Mục "Đọc trận đấu như sư kê" | sư kê quan sát đọc thế đá gà chọi trong trận đấu tập |
 
 > ⚠️ **Lưu ý cho Claude Code:** Kiểm tra link trước khi tải. Tìm ảnh thay thế trên `https://commons.wikimedia.org` với từ khoá: "cockfighting action roosters", "fighting cock jumping spur attack", "Aseel rooster clinch fighting stance", "Shamo rooster defensive posture", "cockfighting observer Vietnam". Ưu tiên license **CC BY-SA** hoặc **Public Domain**.
 

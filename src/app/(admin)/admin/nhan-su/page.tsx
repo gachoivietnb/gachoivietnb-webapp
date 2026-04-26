@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { StaffPanel } from '@/components/admin/staff/StaffPanel'
+import { StaffCrudClient, type StaffRow } from '@/components/admin/staff/StaffCrudClient'
 
 export const revalidate = 0
 
@@ -16,7 +17,7 @@ export default async function NhanSuPage() {
   const [profilesRes, todayRes, monthRes] = await Promise.all([
     supabase
       .from('profiles')
-      .select('id, full_name, role, phone, is_active, created_at, base_salary_monthly, standard_work_days')
+      .select('id, full_name, role, phone, avatar_url, is_active, created_at, base_salary_monthly, standard_work_days')
       .order('created_at', { ascending: false }),
     supabase
       .from('staff_attendance')
@@ -64,6 +65,15 @@ export default async function NhanSuPage() {
           </div>
         )}
       </div>
+      {isAdmin && (
+        <div className="mb-4">
+          <StaffCrudClient
+            currentUserId={user?.id ?? ''}
+            staff={((profilesRes.data ?? []) as StaffRow[])}
+          />
+        </div>
+      )}
+
       <StaffPanel
         isAdmin={isAdmin}
         currentUserId={user?.id ?? ''}

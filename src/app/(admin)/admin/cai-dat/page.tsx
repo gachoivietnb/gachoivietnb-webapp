@@ -4,7 +4,10 @@ import { IntegrationsForm } from '@/components/admin/settings/IntegrationsForm'
 import { FarmInfoForm } from '@/components/admin/settings/FarmInfoForm'
 import { PushNotificationToggle } from '@/components/admin/settings/PushNotificationToggle'
 import { BackupSection } from '@/components/admin/settings/BackupSection'
+import { FarmDataModeSection } from '@/components/admin/settings/FarmDataModeSection'
 import { CaiDatHub, type SectionMeta } from '@/components/admin/settings/CaiDatHub'
+import { getFarmContext } from '@/lib/multitenancy/farm-context'
+import { createAdminClient } from '@/lib/multitenancy/super-admin'
 
 export const revalidate = 0
 
@@ -51,6 +54,22 @@ export default async function SettingsPage() {
   const farmConfigured = Boolean(farmInfo.name && farmInfo.phone)
   const driveConfigured = Boolean(farmInfo.drive_folder_id)
   const aiConfigured = Boolean(geminiKeyRaw)
+
+  // Data mode (demo / real) — chỉ chu_trai mới thấy section này
+  const ctx = await getFarmContext()
+  const isOwner = ctx?.profile.role === 'chu_trai'
+  const adminClient = createAdminClient()
+  const { data: farmDataModeRow } = ctx
+    ? await adminClient
+        .from('farms')
+        .select('data_mode, data_mode_switched_at')
+        .eq('id', ctx.farm.id)
+        .maybeSingle()
+    : { data: null }
+  const dataMode =
+    ((farmDataModeRow as { data_mode?: 'demo' | 'real' } | null)?.data_mode) ?? 'demo'
+  const dataModeSwitchedAt =
+    ((farmDataModeRow as { data_mode_switched_at?: string | null } | null)?.data_mode_switched_at) ?? null
 
   const metas: SectionMeta[] = [
     {
@@ -102,6 +121,21 @@ export default async function SettingsPage() {
       status: 'info',
       statusLabel: 'Đăng ký theo thiết bị',
     },
+    ...(isOwner
+      ? ([{
+          id: 'data-mode' as const,
+          title: 'Chế độ dữ liệu (Demo / Thật)',
+          icon: dataMode === 'demo' ? '🎓' : '✅',
+          group: 'Dữ liệu',
+          description:
+            'Trại đang dùng dữ liệu DEMO để bạn trải nghiệm tính năng. Khi sẵn sàng vận hành thật → chuyển sang dữ liệu trống để tự nhập của trại bạn (chỉ thực hiện được 1 lần).',
+          keywords: 'demo real data mode du lieu thuc that trong wipe reset chuyen doi',
+          bar: dataMode === 'demo' ? 'from-blue-400 to-indigo-500' : 'from-emerald-400 to-teal-500',
+          status: dataMode === 'demo' ? ('partial' as const) : ('on' as const),
+          statusLabel: dataMode === 'demo' ? '🎓 Đang dùng DEMO' : '✅ Đang dùng THẬT',
+          lastUpdated: dataModeSwitchedAt,
+        }])
+      : []),
     {
       id: 'backup',
       title: 'Sao lưu dữ liệu',
@@ -139,6 +173,7 @@ export default async function SettingsPage() {
       />
     ),
     push: <PushNotificationToggle />,
+    'data-mode': <FarmDataModeSection initialMode={dataMode} switchedAt={dataModeSwitchedAt} />,
     backup: <BackupSection />,
     'qr-guide': (
       <div className="space-y-3">

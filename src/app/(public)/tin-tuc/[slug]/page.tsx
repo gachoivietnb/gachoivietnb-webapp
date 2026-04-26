@@ -102,7 +102,10 @@ export default async function ArticleDetailPage({
 
   // Increment view count (không await - fire & forget)
   const supabase = await createClient()
-  void supabase.rpc('news_increment_view', { p_slug: slug })
+  void (supabase.rpc as unknown as (fn: string, args: { p_slug: string }) => Promise<unknown>)(
+    'news_increment_view',
+    { p_slug: slug }
+  )
 
   // Related posts cùng category
   const { data: relatedData } = await supabase

@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { z } from 'zod'
-import { getGeminiConfig } from '@/lib/gemini/client'
+import { getGeminiConfig, toFriendlyAiError } from '@/lib/gemini/client'
 import { slugifyVi } from '@/lib/utils/slugify'
 
 const Schema = z.object({
@@ -77,8 +77,8 @@ Viết bài đầy đủ theo format JSON được yêu cầu.`
     // Gemini đôi khi vẫn wrap code fence dù đã dặn — strip nó
     jsonRaw = jsonRaw.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/\s*```$/i, '')
   } catch (e) {
-    console.error('Gemini generation failed:', e)
-    return NextResponse.json({ error: 'Lỗi gọi Gemini, thử lại sau' }, { status: 502 })
+    const err = toFriendlyAiError(e)
+    return NextResponse.json({ error: err.message }, { status: 502 })
   }
 
   let parsedArticle: {

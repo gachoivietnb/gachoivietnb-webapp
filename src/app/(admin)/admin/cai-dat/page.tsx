@@ -46,7 +46,7 @@ export default async function SettingsPage() {
       : ''
   const geminiModel =
     ((settings.get('gemini_model')?.value as { value?: string } | null)?.value) ??
-    'gemini-2.0-flash-exp'
+    'gemini-2.0-flash'
   const aiEnabled = Boolean(
     (settings.get('ai_enabled')?.value as { value?: boolean } | null)?.value
   )

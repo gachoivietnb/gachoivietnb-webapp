@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { getFarmContext } from '@/lib/multitenancy/farm-context'
 import { aggregateForPeriod, getPeriodPair } from '@/lib/reports/aggregate'
 import { generateAnalysis } from '@/lib/reports/ai-analysis'
+import { toFriendlyAiError } from '@/lib/gemini/client'
 
 type Preset = 'this_month' | 'last_month' | 'this_quarter' | 'this_year'
 const VALID_PRESETS: Preset[] = ['this_month', 'last_month', 'this_quarter', 'this_year']
@@ -42,8 +43,7 @@ export async function POST(request: Request) {
   } catch (e) {
     return NextResponse.json(
       {
-        error: e instanceof Error ? e.message : 'Lỗi gọi AI',
-        // Trả về data để client vẫn hiển thị được phần KPI mặc dù AI fail
+        error: toFriendlyAiError(e).message,
         data: {
           preset,
           current_period: range.current,

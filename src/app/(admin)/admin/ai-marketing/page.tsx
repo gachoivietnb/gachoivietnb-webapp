@@ -49,7 +49,7 @@ export default async function AiMarketingPage() {
   )
   const model =
     (geminiModelRes.data as { value: { value?: string } } | null)?.value?.value ??
-    'gemini-2.0-flash-exp'
+    'gemini-2.0-flash'
   const recent = (recentRes.data ?? []) as Array<{
     id: string
     generation_type: string

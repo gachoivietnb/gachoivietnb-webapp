@@ -1,4 +1,4 @@
-import { getGeminiConfig } from '@/lib/gemini/client'
+import { getGeminiConfig, toFriendlyAiError } from '@/lib/gemini/client'
 import { SYSTEM_PROMPT_CHATBOT } from '@/lib/gemini/prompts'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { NextResponse } from 'next/server'
@@ -63,9 +63,7 @@ export async function POST(request: Request) {
       },
     })
   } catch (e) {
-    return NextResponse.json(
-      { error: e instanceof Error ? e.message : 'Gemini error' },
-      { status: 500 }
-    )
+    const err = toFriendlyAiError(e)
+    return NextResponse.json({ error: err.message }, { status: 500 })
   }
 }

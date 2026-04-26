@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { getGeminiModel, getGeminiConfig } from '@/lib/gemini/client'
+import { getGeminiModel, getGeminiConfig, toFriendlyAiError } from '@/lib/gemini/client'
 import { SYSTEM_PROMPT_BIO } from '@/lib/gemini/prompts'
 import { NextResponse } from 'next/server'
 
@@ -117,9 +117,7 @@ ${c.listed_price ? `- Giá bán: ${new Intl.NumberFormat('vi-VN').format(c.liste
 
     return NextResponse.json({ data: { bio: text } })
   } catch (e) {
-    return NextResponse.json(
-      { error: e instanceof Error ? e.message : 'Lỗi Gemini' },
-      { status: 500 }
-    )
+    const err = toFriendlyAiError(e)
+    return NextResponse.json({ error: err.message }, { status: 500 })
   }
 }

@@ -289,7 +289,7 @@ function AiAnalysisSection({
           {error && (
             isAiNotConfiguredError(error) ? (
               <div className="mt-4 text-left text-gray-900">
-                <AiNotConfiguredCard feature="phân tích báo cáo bằng AI" />
+                <AiNotConfiguredCard feature="phân tích báo cáo bằng AI" rawError={error} />
               </div>
             ) : (
               <div className="mt-3 inline-block px-3 py-2 rounded-lg text-sm bg-rose-100 text-rose-700 border border-rose-300">

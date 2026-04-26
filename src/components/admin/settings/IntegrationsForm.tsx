@@ -97,8 +97,9 @@ export function IntegrationsForm({
           onChange={(e) => setModel(e.target.value)}
           className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2"
         >
-          <option value="gemini-2.0-flash-exp">Tiêu chuẩn (nhanh, miễn phí)</option>
-          <option value="gemini-1.5-flash">Tăng tốc</option>
+          <option value="gemini-2.0-flash">Tiêu chuẩn (nhanh, miễn phí — khuyến nghị)</option>
+          <option value="gemini-2.5-flash">Mới nhất (Gemini 2.5 Flash)</option>
+          <option value="gemini-1.5-flash">Bản 1.5 (ổn định, dự phòng)</option>
           <option value="gemini-1.5-pro">Cao cấp (chất lượng tốt hơn, chậm hơn)</option>
         </select>
       </label>

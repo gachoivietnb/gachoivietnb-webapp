@@ -549,7 +549,7 @@ export function AiNewsStudio() {
 
               {err && (
                 isAiNotConfiguredError(err) ? (
-                  <AiNotConfiguredCard feature="AI Studio viết bài" />
+                  <AiNotConfiguredCard feature="AI Studio viết bài" rawError={err} />
                 ) : (
                   <div className="bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900 text-rose-800 dark:text-rose-300 rounded-lg p-2.5 text-xs">
                     ✗ {err}

@@ -339,7 +339,7 @@ export function AiMarketingPanel({ enabled }: { enabled: boolean }) {
 
         {err && (
           isAiNotConfiguredError(err) ? (
-            <AiNotConfiguredCard feature="AI Marketing" />
+            <AiNotConfiguredCard feature="AI Marketing" rawError={err} />
           ) : (
             <div className="bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900 text-rose-800 dark:text-rose-300 rounded-lg p-3 text-sm">
               ✗ {err}

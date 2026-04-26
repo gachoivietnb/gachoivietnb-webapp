@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { getFarmContext } from '@/lib/multitenancy/farm-context'
 import { listDiaryEntries } from '@/lib/diary/queries'
-import { getGeminiModel } from '@/lib/gemini/client'
+import { getGeminiModel, toFriendlyAiError } from '@/lib/gemini/client'
 import { CATEGORY_META, MOOD_META } from '@/lib/diary/types'
 
 const Schema = z.object({
@@ -212,7 +212,7 @@ export async function POST(request: Request) {
     const ai = JSON.parse(text) as DiarySummary['ai']
     summary.ai = ai
   } catch (e) {
-    summary.ai_error = e instanceof Error ? e.message : 'unknown'
+    summary.ai_error = toFriendlyAiError(e).message
   }
 
   return NextResponse.json({ data: summary })

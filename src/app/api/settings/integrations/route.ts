@@ -69,7 +69,7 @@ export async function PATCH(request: Request) {
 
   // Nếu test trước khi save + có key mới → gọi API test
   if (updates.test_before_save && updates.gemini_api_key) {
-    const model = updates.gemini_model ?? 'gemini-2.0-flash-exp'
+    const model = updates.gemini_model ?? 'gemini-2.0-flash'
     const test = await testGeminiKey(updates.gemini_api_key, model)
     if (!test.ok) {
       return NextResponse.json({ error: `Key không hợp lệ: ${test.message}` }, { status: 400 })
@@ -115,6 +115,6 @@ export async function POST(request: Request) {
   const auth = await requireChuTrai(supabase)
   if ('error' in auth) return NextResponse.json({ error: auth.error }, { status: auth.status })
 
-  const result = await testGeminiKey(apiKey, model || 'gemini-2.0-flash-exp')
+  const result = await testGeminiKey(apiKey, model || 'gemini-2.0-flash')
   return NextResponse.json(result)
 }

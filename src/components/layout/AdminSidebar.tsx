@@ -13,6 +13,7 @@ const NAV_GROUPS: { title: string; items: NavItem[] }[] = [
     title: 'Tổng quan',
     items: [
       { href: '/admin', label: 'Dashboard', emoji: '📊' },
+      { href: '/admin/ke-hoach', label: 'Kế hoạch', emoji: '📅' },
       { href: '/admin/nhat-ky-cong-viec', label: 'Nhật ký công việc', emoji: '📔', moduleKey: 'nhat_ky_cong_viec' },
     ],
   },

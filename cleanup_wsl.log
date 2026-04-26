@@ -1,0 +1,17 @@
+﻿=== WSL cleanup 2026-04-22 22:59:19 ===
+[1/5] Disabling Microsoft-Windows-Subsystem-Linux...
+      RestartNeeded: True
+[2/5] Disabling VirtualMachinePlatform...
+      RestartNeeded: True
+[3/5] Removing C:\Program Files\WSL ...
+      Removed successfully
+[4/5] Checking optional features status...
+      Microsoft-Windows-Subsystem-Linux : Disabled
+      VirtualMachinePlatform            : Disabled
+      HypervisorPlatform                : Disabled
+[5/5] C: drive free space...
+      1.67 GB free / 79.46 GB total
+
+=== DONE. Please RESTART your machine to finalize. ===
+Log saved to: E:\GaChoiVietNB\WebApp\cleanup_wsl.log
+

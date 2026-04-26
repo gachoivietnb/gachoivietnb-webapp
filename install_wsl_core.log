@@ -1,0 +1,5 @@
+﻿=== Install WSL core 2026-04-23 06:12:27 ===
+[1/6] Installing WSL core MSI (may take 1-2 min)...
+      Exit code: 1603
+      MSI install FAILED. See E:\WSL\wsl-msi-install.log for details.
+      Stopping here. Check log and try again.

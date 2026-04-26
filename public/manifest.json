@@ -1,0 +1,23 @@
+{
+  "name": "Gà Chọi Việt Ninh Bình",
+  "short_name": "Gà Chọi Việt NB",
+  "description": "Quản lý trang trại gà chọi + website bán hàng",
+  "start_url": "/admin",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1e40af",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

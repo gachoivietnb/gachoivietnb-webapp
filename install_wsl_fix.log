@@ -1,0 +1,63 @@
+﻿=== Install WSL (fix mode) 2026-04-23 06:15:21 ===
+[1/7] Uninstalling residual WSL registration...
+      Uninstall exit: 0
+[2/7] Installing WSL 2.6.3 fresh...
+      Install exit: 0
+[3/7] Verifying wsl.exe works...
+>>> wsl --version
+    Windows Subsystem for Linux has no installed distributions.
+
+You can resolve this by installing a distribution with the instructions below:
+
+
+
+Use 'wsl.exe --list --online' to list available distributions
+
+and 'wsl.exe --install <Distro>' to install.
+[4/7] Updating WSL kernel...
+>>> wsl --update
+    Windows Subsystem for Linux has no installed distributions.
+
+You can resolve this by installing a distribution with the instructions below:
+
+
+
+Use 'wsl.exe --list --online' to list available distributions
+
+and 'wsl.exe --install <Distro>' to install.
+[5/7] Set default version 2...
+>>> wsl --set-default-version 2
+    Windows Subsystem for Linux has no installed distributions.
+
+You can resolve this by installing a distribution with the instructions below:
+
+
+
+Use 'wsl.exe --list --online' to list available distributions
+
+and 'wsl.exe --install <Distro>' to install.
+[6/7] Importing Ubuntu from E:\WSL\ubuntu-24.04.tar.gz ...
+>>> wsl --import
+    Windows Subsystem for Linux has no installed distributions.
+
+You can resolve this by installing a distribution with the instructions below:
+
+
+
+Use 'wsl.exe --list --online' to list available distributions
+
+and 'wsl.exe --install <Distro>' to install.
+[7/7] Listing distros...
+>>> wsl -l -v
+    Windows Subsystem for Linux has no installed distributions.
+
+You can resolve this by installing a distribution with the instructions below:
+
+
+
+Use 'wsl.exe --list --online' to list available distributions
+
+and 'wsl.exe --install <Distro>' to install.
+
+=== DONE ===
+C: free = 6.40 GB  |  E: free = 19.87 GB

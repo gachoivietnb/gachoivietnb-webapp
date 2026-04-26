@@ -1,0 +1,176 @@
+﻿=== App cache cleanup 2026-04-22 23:23:02 ===
+Baseline C: free = 1.97 GB
+
+[CURSOR IDE] Clearing cache/storage (keeps settings, extensions, keybindings)...
+  [Cursor/Cache                    ]     13.0 MB ->      0.0 MB  freed     13.0 MB
+  [Cursor/Code Cache               ]      0.0 MB ->      0.0 MB  freed      0.0 MB
+  [Cursor/GPUCache                 ]      5.6 MB ->      0.0 MB  freed      5.6 MB
+  [Cursor/blob_storage             ] empty already
+  [Cursor/Service Worker           ]      0.0 MB ->      0.0 MB  freed      0.0 MB
+  [Cursor/WebStorage               ]      2.4 MB ->      0.0 MB  freed      2.4 MB
+  [Cursor/logs                     ]     34.1 MB ->      0.0 MB  freed     34.1 MB
+  [Cursor/CachedExtensionVSIXs     ] empty already
+  [Cursor/CachedData               ]      1.5 MB ->      0.0 MB  freed      1.5 MB
+  [Cursor/CachedProfilesData       ]      1.0 MB ->      0.0 MB  freed      1.0 MB
+  [Cursor/Crashpad                 ]      0.0 MB ->      0.0 MB  freed      0.0 MB
+  [Cursor/IndexedDB                ]      0.0 MB ->      0.0 MB  freed      0.0 MB
+  -> Cursor subtotal: 57.6 MB
+
+[CHROME] Clearing cache in all profiles (keeps history, bookmarks, passwords, cookies)...
+  -- profile: Default --
+  [Chrome/Default/Cache            ] skip (not exists)
+  [Chrome/Default/Code Cache       ] skip (not exists)
+  [Chrome/Default/GPUCache         ] skip (not exists)
+  [Chrome/Default/SW-Cache         ] skip (not exists)
+  [Chrome/Default/SW-Script        ] skip (not exists)
+  [Chrome/Default/Media Cache      ] skip (not exists)
+  -- profile: Guest Profile --
+  [Chrome/Guest Profile/Cache      ]      4.8 MB ->      0.0 MB  freed      4.8 MB
+  [Chrome/Guest Profile/Code Cache ]      0.0 MB ->      0.0 MB  freed      0.0 MB
+  [Chrome/Guest Profile/GPUCache   ]      0.5 MB ->      0.0 MB  freed      0.5 MB
+  [Chrome/Guest Profile/SW-Cache   ] skip (not exists)
+  [Chrome/Guest Profile/SW-Script  ]      0.0 MB ->      0.0 MB  freed      0.0 MB
+  [Chrome/Guest Profile/Media Cache] skip (not exists)
+  -- profile: Profile 1 --
+  [Chrome/Profile 1/Cache          ]    240.4 MB ->      0.0 MB  freed    240.4 MB
+  [Chrome/Profile 1/Code Cache     ]    307.4 MB ->      0.0 MB  freed    307.4 MB
+  [Chrome/Profile 1/GPUCache       ]     10.9 MB ->      0.0 MB  freed     10.9 MB
+  [Chrome/Profile 1/SW-Cache       ]    265.8 MB ->      0.0 MB  freed    265.8 MB
+  [Chrome/Profile 1/SW-Script      ]     13.8 MB ->      0.0 MB  freed     13.8 MB
+  [Chrome/Profile 1/Media Cache    ] skip (not exists)
+  -- profile: Profile 11 --
+  [Chrome/Profile 11/Cache         ]     93.4 MB ->      0.0 MB  freed     93.4 MB
+  [Chrome/Profile 11/Code Cache    ]     92.8 MB ->      0.0 MB  freed     92.8 MB
+  [Chrome/Profile 11/GPUCache      ]      1.6 MB ->      0.0 MB  freed      1.6 MB
+  [Chrome/Profile 11/SW-Cache      ]    220.4 MB ->      0.0 MB  freed    220.4 MB
+  [Chrome/Profile 11/SW-Script     ]     13.8 MB ->      0.0 MB  freed     13.8 MB
+  [Chrome/Profile 11/Media Cache   ] skip (not exists)
+  -- profile: Profile 12 --
+  [Chrome/Profile 12/Cache         ]     35.7 MB ->      0.0 MB  freed     35.7 MB
+  [Chrome/Profile 12/Code Cache    ]     15.3 MB ->      0.0 MB  freed     15.3 MB
+  [Chrome/Profile 12/GPUCache      ]      0.5 MB ->      0.0 MB  freed      0.5 MB
+  [Chrome/Profile 12/SW-Cache      ]     14.4 MB ->      0.0 MB  freed     14.4 MB
+  [Chrome/Profile 12/SW-Script     ]      0.9 MB ->      0.0 MB  freed      0.9 MB
+  [Chrome/Profile 12/Media Cache   ] skip (not exists)
+  -- profile: Profile 14 --
+  [Chrome/Profile 14/Cache         ]    244.2 MB ->      0.0 MB  freed    244.2 MB
+  [Chrome/Profile 14/Code Cache    ]    128.4 MB ->      0.0 MB  freed    128.4 MB
+  [Chrome/Profile 14/GPUCache      ]      5.6 MB ->      0.0 MB  freed      5.6 MB
+  [Chrome/Profile 14/SW-Cache      ]    279.2 MB ->      0.0 MB  freed    279.2 MB
+  [Chrome/Profile 14/SW-Script     ]      9.9 MB ->      0.0 MB  freed      9.9 MB
+  [Chrome/Profile 14/Media Cache   ] skip (not exists)
+  -- profile: Profile 16 --
+  [Chrome/Profile 16/Cache         ]      5.6 MB ->      0.0 MB  freed      5.6 MB
+  [Chrome/Profile 16/Code Cache    ] skip (not exists)
+  [Chrome/Profile 16/GPUCache      ]      0.5 MB ->      0.0 MB  freed      0.5 MB
+  [Chrome/Profile 16/SW-Cache      ] skip (not exists)
+  [Chrome/Profile 16/SW-Script     ] skip (not exists)
+  [Chrome/Profile 16/Media Cache   ] skip (not exists)
+  -- profile: Profile 17 --
+  [Chrome/Profile 17/Cache         ]      5.6 MB ->      0.0 MB  freed      5.6 MB
+  [Chrome/Profile 17/Code Cache    ]      0.0 MB ->      0.0 MB  freed      0.0 MB
+  [Chrome/Profile 17/GPUCache      ]      0.5 MB ->      0.0 MB  freed      0.5 MB
+  [Chrome/Profile 17/SW-Cache      ] skip (not exists)
+  [Chrome/Profile 17/SW-Script     ]      0.4 MB ->      0.0 MB  freed      0.4 MB
+  [Chrome/Profile 17/Media Cache   ] skip (not exists)
+  -- profile: Profile 19 --
+  [Chrome/Profile 19/Cache         ]    160.0 MB ->      0.0 MB  freed    160.0 MB
+  [Chrome/Profile 19/Code Cache    ]     73.5 MB ->      0.0 MB  freed     73.5 MB
+  [Chrome/Profile 19/GPUCache      ]      5.6 MB ->      0.0 MB  freed      5.6 MB
+  [Chrome/Profile 19/SW-Cache      ]    293.5 MB ->      0.0 MB  freed    293.5 MB
+  [Chrome/Profile 19/SW-Script     ]     15.3 MB ->      0.0 MB  freed     15.3 MB
+  [Chrome/Profile 19/Media Cache   ] skip (not exists)
+  -- profile: Profile 22 --
+  [Chrome/Profile 22/Cache         ]     84.4 MB ->      0.0 MB  freed     84.4 MB
+  [Chrome/Profile 22/Code Cache    ]     18.7 MB ->      0.0 MB  freed     18.7 MB
+  [Chrome/Profile 22/GPUCache      ]      4.6 MB ->      0.0 MB  freed      4.6 MB
+  [Chrome/Profile 22/SW-Cache      ] skip (not exists)
+  [Chrome/Profile 22/SW-Script     ]      0.6 MB ->      0.0 MB  freed      0.6 MB
+  [Chrome/Profile 22/Media Cache   ] skip (not exists)
+  -- profile: Profile 23 --
+  [Chrome/Profile 23/Cache         ] skip (not exists)
+  [Chrome/Profile 23/Code Cache    ] skip (not exists)
+  [Chrome/Profile 23/GPUCache      ] skip (not exists)
+  [Chrome/Profile 23/SW-Cache      ] skip (not exists)
+  [Chrome/Profile 23/SW-Script     ] skip (not exists)
+  [Chrome/Profile 23/Media Cache   ] skip (not exists)
+  -- profile: Profile 24 --
+  [Chrome/Profile 24/Cache         ]    242.5 MB ->      0.0 MB  freed    242.5 MB
+  [Chrome/Profile 24/Code Cache    ]    217.4 MB ->      0.0 MB  freed    217.4 MB
+  [Chrome/Profile 24/GPUCache      ]      5.6 MB ->      0.0 MB  freed      5.6 MB
+  [Chrome/Profile 24/SW-Cache      ] empty already
+  [Chrome/Profile 24/SW-Script     ]      0.4 MB ->      0.0 MB  freed      0.4 MB
+  [Chrome/Profile 24/Media Cache   ] skip (not exists)
+  -- profile: Profile 27 --
+  [Chrome/Profile 27/Cache         ]    233.3 MB ->      0.0 MB  freed    233.3 MB
+  [Chrome/Profile 27/Code Cache    ]    238.6 MB ->      0.0 MB  freed    238.6 MB
+  [Chrome/Profile 27/GPUCache      ]      5.6 MB ->      0.0 MB  freed      5.6 MB
+  [Chrome/Profile 27/SW-Cache      ]    326.0 MB ->      0.0 MB  freed    326.0 MB
+  [Chrome/Profile 27/SW-Script     ]     13.5 MB ->      0.0 MB  freed     13.5 MB
+  [Chrome/Profile 27/Media Cache   ] skip (not exists)
+  -- profile: Profile 31 --
+  [Chrome/Profile 31/Cache         ]    230.7 MB ->      0.0 MB  freed    230.7 MB
+  [Chrome/Profile 31/Code Cache    ]    188.4 MB ->      0.0 MB  freed    188.4 MB
+  [Chrome/Profile 31/GPUCache      ]      5.6 MB ->      0.0 MB  freed      5.6 MB
+  [Chrome/Profile 31/SW-Cache      ]     71.3 MB ->      0.0 MB  freed     71.3 MB
+  [Chrome/Profile 31/SW-Script     ]      4.2 MB ->      0.0 MB  freed      4.2 MB
+  [Chrome/Profile 31/Media Cache   ] skip (not exists)
+  -- profile: Profile 33 --
+  [Chrome/Profile 33/Cache         ]    223.6 MB ->      0.0 MB  freed    223.6 MB
+  [Chrome/Profile 33/Code Cache    ]     83.5 MB ->      0.0 MB  freed     83.5 MB
+  [Chrome/Profile 33/GPUCache      ]      0.5 MB ->      0.0 MB  freed      0.5 MB
+  [Chrome/Profile 33/SW-Cache      ]    453.8 MB ->      0.0 MB  freed    453.8 MB
+  [Chrome/Profile 33/SW-Script     ]      9.6 MB ->      0.0 MB  freed      9.6 MB
+  [Chrome/Profile 33/Media Cache   ] skip (not exists)
+  -- profile: Profile 6 --
+  [Chrome/Profile 6/Cache          ] skip (not exists)
+  [Chrome/Profile 6/Code Cache     ] skip (not exists)
+  [Chrome/Profile 6/GPUCache       ] skip (not exists)
+  [Chrome/Profile 6/SW-Cache       ] skip (not exists)
+  [Chrome/Profile 6/SW-Script      ] skip (not exists)
+  [Chrome/Profile 6/Media Cache    ] skip (not exists)
+  -- profile: Profile 8 --
+  [Chrome/Profile 8/Cache          ]      4.6 MB ->      0.0 MB  freed      4.6 MB
+  [Chrome/Profile 8/Code Cache     ] skip (not exists)
+  [Chrome/Profile 8/GPUCache       ]      0.5 MB ->      0.0 MB  freed      0.5 MB
+  [Chrome/Profile 8/SW-Cache       ] skip (not exists)
+  [Chrome/Profile 8/SW-Script      ]      0.4 MB ->      0.0 MB  freed      0.4 MB
+  [Chrome/Profile 8/Media Cache    ] skip (not exists)
+  -- profile: System Profile --
+  [Chrome/System Profile/Cache     ] skip (not exists)
+  [Chrome/System Profile/Code Cache]      0.0 MB ->      0.0 MB  freed      0.0 MB
+  [Chrome/System Profile/GPUCache  ] skip (not exists)
+  [Chrome/System Profile/SW-Cache  ] skip (not exists)
+  [Chrome/System Profile/SW-Script ] skip (not exists)
+  [Chrome/System Profile/Media Cache] skip (not exists)
+  [Chrome/GrShaderCache            ]     11.6 MB ->      0.0 MB  freed     11.6 MB
+  [Chrome/ShaderCache              ]      5.6 MB ->      0.0 MB  freed      5.6 MB
+  [Chrome/GraphiteDawnCache        ]      0.5 MB ->      0.0 MB  freed      0.5 MB
+  -> Chrome subtotal: 5,245.7 MB
+
+[EDGE] Clearing cache (small, keeps bookmarks/history)...
+  [Edge/Default/Cache              ]     19.9 MB ->      5.6 MB  freed     14.4 MB
+  [Edge/Default/Code Cache         ]    168.6 MB ->      0.0 MB  freed    168.6 MB
+  [Edge/Default/GPUCache           ]     11.2 MB ->      0.0 MB  freed     11.2 MB
+  -> Edge subtotal: 194.1 MB
+
+[NPM] Clearing npm cache...
+  [npm-cache                       ]    497.2 MB ->      0.0 MB  freed    497.2 MB
+  -> npm subtotal: 497.2 MB
+
+[PIP] Clearing pip cache...
+  [pip cache                       ]     19.9 MB ->      0.0 MB  freed     19.9 MB
+  -> pip subtotal: 19.9 MB
+
+=== SUMMARY ===
+Before   :    1.97 GB
+After    :    7.78 GB
+Recovered:    5.82 GB
+
+Cursor   :    57.6 MB
+Chrome   : 5,245.7 MB
+Edge     :   194.1 MB
+npm      :   497.2 MB
+pip      :    19.9 MB
+
+Log: E:\GaChoiVietNB\WebApp\cleanup_apps.log

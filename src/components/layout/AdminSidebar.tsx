@@ -234,6 +234,20 @@ export default function AdminSidebar({ profile, isSuperAdmin }: Props) {
                   <span className="truncate">Dữ liệu trại</span>
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/admin/super-admin/logs"
+                  className={cn(
+                    'flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-[13.5px] transition-colors',
+                    pathname.startsWith('/admin/super-admin/logs')
+                      ? 'bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white font-semibold shadow'
+                      : 'text-violet-700 dark:text-violet-300 hover:bg-violet-50 dark:hover:bg-violet-950/30'
+                  )}
+                >
+                  <span className="text-base leading-none">🩺</span>
+                  <span className="truncate">Nhật ký lỗi</span>
+                </Link>
+              </li>
             </ul>
           </div>
         )}

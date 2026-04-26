@@ -7,6 +7,7 @@ import {
   recordSignupAttempt,
   validateSignupInput,
 } from '@/lib/security/signup-rate-limit'
+import { logSystem } from '@/lib/logging/system-logger'
 
 /**
  * POST /api/auth/farm-signup
@@ -87,6 +88,12 @@ export async function POST(request: Request) {
       honeypotTriggered: true,
       blockedReason: 'honeypot',
     })
+    await logSystem({
+      level: 'warn', category: 'security',
+      message: 'Honeypot triggered on signup — likely bot',
+      ip_address: ip, user_agent: userAgent, path: '/api/auth/farm-signup',
+      context: { email, website_url: website_url.slice(0, 100) },
+    })
     // Trả 200 OK với message giả thành công để bot tin → không retry.
     // Nhưng KHÔNG tạo gì trong DB.
     return NextResponse.json({
@@ -120,6 +127,13 @@ export async function POST(request: Request) {
       success: false,
       blockedReason: 'rate_limit: ' + decision.reason.slice(0, 80),
     })
+    await logSystem({
+      level: 'warn', category: 'security',
+      message: 'Signup rate limit exceeded — possible abuse/DDoS',
+      ip_address: ip, user_agent: userAgent, path: '/api/auth/farm-signup',
+      http_status: 429,
+      context: { email, reason: decision.reason, retryAfterSec: decision.retryAfterSec },
+    })
     return NextResponse.json(
       { error: decision.reason, retryAfter: decision.retryAfterSec },
       {
@@ -144,6 +158,13 @@ export async function POST(request: Request) {
     await recordSignupAttempt({
       ip, email, userAgent, success: false,
       blockedReason: 'auth_create: ' + (authErr?.message ?? 'unknown').slice(0, 80),
+    })
+    await logSystem({
+      level: 'error', category: 'auth',
+      message: 'Auth user creation failed',
+      ip_address: ip, user_agent: userAgent, path: '/api/auth/farm-signup',
+      http_status: 400,
+      context: { email, supabase_error: authErr?.message ?? 'unknown' },
     })
     return NextResponse.json(
       { error: 'Lỗi tạo tài khoản: ' + (authErr?.message ?? 'không rõ') },
@@ -191,6 +212,13 @@ export async function POST(request: Request) {
   if (farmErr || !farm) {
     // Rollback auth user
     await admin.auth.admin.deleteUser(userId).catch(() => {})
+    await logSystem({
+      level: 'critical', category: 'signup',
+      message: 'Farm creation failed after auth user created — rolled back',
+      ip_address: ip, user_agent: userAgent, path: '/api/auth/farm-signup',
+      http_status: 500, user_id: userId, user_email: email,
+      context: { error: farmErr?.message ?? 'unknown', slug },
+    })
     return NextResponse.json(
       { error: 'Lỗi tạo trại: ' + (farmErr?.message ?? 'không rõ') },
       { status: 500 }

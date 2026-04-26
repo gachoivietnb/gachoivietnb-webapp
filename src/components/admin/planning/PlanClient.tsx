@@ -1,8 +1,12 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import type { PlanItem, Priority, PlanCategory } from '@/lib/planning/aggregator'
+
+const FILTER_KEY = 'gcvnb.plan.filters.v1'
+
+type SortKey = 'priority' | 'due_asc' | 'due_desc' | 'category'
 
 const PRI_META: Record<Priority, { label: string; cls: string; bar: string }> = {
   critical: { label: 'Khẩn cấp', cls: 'bg-rose-100 text-rose-800 border-rose-300 dark:bg-rose-950/40 dark:text-rose-200 dark:border-rose-800', bar: 'from-rose-500 to-red-500' },
@@ -45,38 +49,97 @@ export function PlanClient({ items }: { items: PlanItem[] }) {
   const [horizon, setHorizon] = useState<Horizon>('week')
   const [filterCat, setFilterCat] = useState<PlanCategory | ''>('')
   const [filterPri, setFilterPri] = useState<Priority | ''>('')
+  const [search, setSearch] = useState('')
+  const [overdueOnly, setOverdueOnly] = useState(false)
+  const [urgentOnly, setUrgentOnly] = useState(false) // critical + high
+  const [sortKey, setSortKey] = useState<SortKey>('priority')
 
-  const now = useMemo(() => {
-    const today = new Date().toISOString().slice(0, 10)
-    return today
+  // Restore preferences
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(FILTER_KEY)
+      if (!raw) return
+      const v = JSON.parse(raw) as {
+        horizon?: Horizon; sortKey?: SortKey
+      }
+      if (v.horizon) setHorizon(v.horizon)
+      if (v.sortKey) setSortKey(v.sortKey)
+    } catch {
+      /* ignore */
+    }
   }, [])
+  useEffect(() => {
+    try {
+      localStorage.setItem(FILTER_KEY, JSON.stringify({ horizon, sortKey }))
+    } catch {
+      /* ignore */
+    }
+  }, [horizon, sortKey])
+
+  function clearAll() {
+    setSearch('')
+    setFilterCat('')
+    setFilterPri('')
+    setOverdueOnly(false)
+    setUrgentOnly(false)
+  }
 
   const horizonItems = useMemo(() => {
-    return items.filter((it) => {
+    const s = search.trim().toLowerCase()
+    const filtered = items.filter((it) => {
       const days = daysFromNow(it.due_date)
       if (horizon === 'today' && days > 1) return false
       if (horizon === 'week' && days > 7) return false
       if (horizon === 'month' && days > 30) return false
       if (filterCat && it.category !== filterCat) return false
       if (filterPri && it.priority !== filterPri) return false
+      if (overdueOnly && days >= 0) return false
+      if (urgentOnly && it.priority !== 'critical' && it.priority !== 'high') return false
+      if (s) {
+        const hay = (it.title + ' ' + it.description + ' ' + it.category).toLowerCase()
+        // Match all space-separated tokens (AND search)
+        const tokens = s.split(/\s+/).filter(Boolean)
+        if (!tokens.every((tk) => hay.includes(tk))) return false
+      }
       return true
     })
-  }, [items, horizon, filterCat, filterPri])
+
+    // Sort
+    const priOrder: Record<Priority, number> = { critical: 0, high: 1, medium: 2, low: 3 }
+    return filtered.slice().sort((a, b) => {
+      switch (sortKey) {
+        case 'due_asc':
+          return a.due_date.localeCompare(b.due_date)
+        case 'due_desc':
+          return b.due_date.localeCompare(a.due_date)
+        case 'category':
+          if (a.category !== b.category) return a.category.localeCompare(b.category)
+          return priOrder[a.priority] - priOrder[b.priority]
+        case 'priority':
+        default:
+          if (priOrder[a.priority] !== priOrder[b.priority]) return priOrder[a.priority] - priOrder[b.priority]
+          return a.due_date.localeCompare(b.due_date)
+      }
+    })
+  }, [items, horizon, filterCat, filterPri, search, overdueOnly, urgentOnly, sortKey])
 
   // Counts per horizon for tab badges
   const counts = useMemo(() => {
-    let today = 0, week = 0, month = 0
+    let today = 0, week = 0, month = 0, overdue = 0
     for (const it of items) {
       const d = daysFromNow(it.due_date)
+      if (d < 0) overdue++
       if (d <= 1) today++
       if (d <= 7) week++
       if (d <= 30) month++
     }
-    return { today, week, month, all: items.length }
+    return { today, week, month, all: items.length, overdue }
   }, [items])
 
   // Critical/high counts
   const urgentCount = items.filter((i) => i.priority === 'critical' || i.priority === 'high').length
+
+  const hasFilter = !!search || !!filterCat || !!filterPri || overdueOnly || urgentOnly
 
   // Group by category for current horizon
   const grouped = useMemo(() => {
@@ -132,33 +195,112 @@ export function PlanClient({ items }: { items: PlanItem[] }) {
         <TabButton active={horizon === 'all'} onClick={() => setHorizon('all')} label={`🔭 Tất cả`} count={counts.all} />
       </div>
 
-      {/* Filters */}
-      <div className="flex items-center gap-2 flex-wrap mt-3">
-        <span className="text-xs text-gray-500 dark:text-gray-400">Lọc:</span>
-        <select
-          value={filterCat}
-          onChange={(e) => setFilterCat(e.target.value as PlanCategory | '')}
-          className="text-xs border border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg px-2 py-1"
-        >
-          <option value="">Tất cả mảng</option>
-          {Object.entries(CAT_META).map(([k, m]) => (
-            <option key={k} value={k}>{m.emoji} {m.label}</option>
-          ))}
-        </select>
-        <select
-          value={filterPri}
-          onChange={(e) => setFilterPri(e.target.value as Priority | '')}
-          className="text-xs border border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg px-2 py-1"
-        >
-          <option value="">Mọi mức ưu tiên</option>
-          {Object.entries(PRI_META).map(([k, m]) => (
-            <option key={k} value={k}>{m.label}</option>
-          ))}
-        </select>
-        <span className="text-xs text-gray-500 dark:text-gray-400 ml-auto">
-          Hiện <strong className="text-gray-900 dark:text-gray-100">{horizonItems.length}</strong> việc
-        </span>
-      </div>
+      {/* Smart filter bar */}
+      <section className="bg-white dark:bg-gray-800 ring-1 ring-gray-200 dark:ring-gray-700 rounded-2xl p-3 md:p-4 mt-3 space-y-3">
+        {/* Top row — search + sort */}
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-2">
+          <div className="relative">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">🔍</span>
+            <input
+              type="search"
+              placeholder="Tìm theo nội dung việc, gà, thuốc, đơn... (gõ nhiều từ cùng lúc cũng được)"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-9 pr-9 py-2 text-sm border border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
+            />
+            {search && (
+              <button
+                onClick={() => setSearch('')}
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 flex items-center justify-center text-gray-600 dark:text-gray-300 text-xs"
+              >
+                ×
+              </button>
+            )}
+          </div>
+          <div className="flex gap-1.5">
+            <select
+              value={filterCat}
+              onChange={(e) => setFilterCat(e.target.value as PlanCategory | '')}
+              className="text-xs border border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg px-2 py-1.5"
+            >
+              <option value="">Tất cả mảng</option>
+              {Object.entries(CAT_META).map(([k, m]) => (
+                <option key={k} value={k}>{m.emoji} {m.label}</option>
+              ))}
+            </select>
+            <select
+              value={filterPri}
+              onChange={(e) => setFilterPri(e.target.value as Priority | '')}
+              className="text-xs border border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg px-2 py-1.5"
+            >
+              <option value="">Mọi ưu tiên</option>
+              {Object.entries(PRI_META).map(([k, m]) => (
+                <option key={k} value={k}>{m.label}</option>
+              ))}
+            </select>
+            <select
+              value={sortKey}
+              onChange={(e) => setSortKey(e.target.value as SortKey)}
+              className="text-xs border border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg px-2 py-1.5"
+              title="Sắp xếp"
+            >
+              <option value="priority">⚠ Ưu tiên</option>
+              <option value="due_asc">📅 Hạn gần nhất</option>
+              <option value="due_desc">📅 Hạn xa nhất</option>
+              <option value="category">🏷 Theo mảng</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Quick toggle chips */}
+        <div className="flex flex-wrap gap-1.5">
+          <ChipToggle
+            active={urgentOnly}
+            onClick={() => setUrgentOnly((v) => !v)}
+            tone="rose"
+            label={`🚨 Khẩn cấp / Cao`}
+            count={urgentCount}
+          />
+          <ChipToggle
+            active={overdueOnly}
+            onClick={() => setOverdueOnly((v) => !v)}
+            tone="amber"
+            label={`⏰ Đã quá hạn`}
+            count={counts.overdue}
+          />
+          {Object.entries(CAT_META).map(([k, m]) => {
+            const c = items.filter((it) => it.category === k).length
+            if (c === 0) return null
+            return (
+              <ChipToggle
+                key={k}
+                active={filterCat === k}
+                onClick={() => setFilterCat(filterCat === k ? '' : (k as PlanCategory))}
+                tone="violet"
+                label={`${m.emoji} ${m.label}`}
+                count={c}
+              />
+            )
+          })}
+        </div>
+
+        {/* Status row */}
+        <div className="flex items-center justify-between flex-wrap gap-2 pt-1 border-t border-gray-100 dark:border-gray-700">
+          <div className="text-xs text-gray-500 dark:text-gray-400">
+            Hiện <strong className="text-gray-900 dark:text-gray-100 tabular-nums">{horizonItems.length}</strong> /
+            <span className="tabular-nums ml-1">{items.length}</span> việc
+            {hasFilter && <span className="ml-2 text-violet-600 dark:text-violet-400">· có lọc đang áp dụng</span>}
+          </div>
+          {hasFilter && (
+            <button
+              onClick={clearAll}
+              className="text-xs bg-rose-50 dark:bg-rose-950/30 hover:bg-rose-100 dark:hover:bg-rose-950/50 text-rose-700 dark:text-rose-300 rounded-lg px-2.5 py-1 font-semibold border border-rose-200 dark:border-rose-900"
+            >
+              ✕ Xoá tất cả lọc
+            </button>
+          )}
+        </div>
+      </section>
 
       {/* Items grouped by category */}
       <div className="mt-3 space-y-3">
@@ -232,6 +374,37 @@ export function PlanClient({ items }: { items: PlanItem[] }) {
         "Tháng tới" để dự trù chi phí mua thuốc / cám / vật tư.
       </p>
     </>
+  )
+}
+
+function ChipToggle({
+  active, onClick, tone, label, count,
+}: {
+  active: boolean
+  onClick: () => void
+  tone: 'rose' | 'amber' | 'violet'
+  label: string
+  count: number
+}) {
+  if (count === 0 && !active) return null
+  const activeCls = {
+    rose: 'bg-rose-600 text-white border-rose-700 shadow-sm',
+    amber: 'bg-amber-600 text-white border-amber-700 shadow-sm',
+    violet: 'bg-violet-600 text-white border-violet-700 shadow-sm',
+  }[tone]
+  return (
+    <button
+      onClick={onClick}
+      className={
+        'inline-flex items-center gap-1 text-[11px] font-semibold rounded-full px-2.5 py-1 border transition ' +
+        (active
+          ? activeCls
+          : 'bg-gray-50 dark:bg-gray-900/40 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700')
+      }
+    >
+      {label}
+      <span className={'tabular-nums ' + (active ? 'opacity-80' : 'opacity-60')}>{count}</span>
+    </button>
   )
 }
 

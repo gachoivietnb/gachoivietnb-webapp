@@ -110,17 +110,24 @@ export default async function PublicFooter() {
                   <span className="font-semibold text-white">{phone}</span>
                 </a>
               </li>
-              <li>
-                <a
-                  href={`https://zalo.me/${zalo}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-orange-400 transition flex items-center gap-2"
-                >
-                  <span>💬</span>
-                  <span>Zalo: {phone}</span>
-                </a>
-              </li>
+              {(() => {
+                const zaloDigits = (farm.zalo ?? '').replace(/[^0-9]/g, '')
+                const phoneDigits = phone.replace(/[^0-9]/g, '')
+                const sameAsPhone = !zaloDigits || zaloDigits === phoneDigits
+                return (
+                  <li>
+                    <a
+                      href={`https://zalo.me/${zalo}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-orange-400 transition flex items-center gap-2"
+                    >
+                      <span>💬</span>
+                      <span>{sameAsPhone ? 'Chat Zalo' : `Zalo: ${farm.zalo}`}</span>
+                    </a>
+                  </li>
+                )
+              })()}
               {email && (
                 <li className="flex items-start gap-2">
                   <span>✉️</span>

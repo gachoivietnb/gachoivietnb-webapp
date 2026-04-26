@@ -157,19 +157,19 @@ export function ChickenSaleCard({ c, highlight }: { c: SaleChicken; highlight?: 
         {/* Price + CTA */}
         <div className="flex items-center justify-between gap-2">
           {c.listed_price ? (
-            <div className="flex flex-col">
+            <div className="flex flex-col min-w-0 flex-1">
               <span className="text-[10px] text-gray-400 dark:text-gray-500 font-medium tracking-wider uppercase">Giá niêm yết</span>
-              <span className="text-red-600 dark:text-red-400 font-extrabold text-[16px] tabular-nums leading-tight">
+              <span className="text-red-600 dark:text-red-400 font-extrabold text-sm sm:text-[15px] md:text-[16px] tabular-nums leading-tight whitespace-nowrap truncate">
                 {formatVnd(c.listed_price)}
               </span>
             </div>
           ) : (
-            <div className="flex flex-col">
+            <div className="flex flex-col min-w-0 flex-1">
               <span className="text-[10px] text-gray-400 dark:text-gray-500 tracking-wider uppercase">Giá</span>
               <span className="text-gray-500 dark:text-gray-400 text-xs font-semibold">Liên hệ</span>
             </div>
           )}
-          <span className="bg-gradient-to-r from-blue-600 to-indigo-600 group-hover:from-blue-700 group-hover:to-indigo-700 text-white rounded-xl px-3.5 py-2 text-xs font-bold shadow-sm group-hover:shadow-md transition">
+          <span className="shrink-0 bg-gradient-to-r from-blue-600 to-indigo-600 group-hover:from-blue-700 group-hover:to-indigo-700 text-white rounded-xl px-3 py-2 text-xs font-bold shadow-sm group-hover:shadow-md transition">
             Xem →
           </span>
         </div>

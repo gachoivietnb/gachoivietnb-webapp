@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { BanSearchClient } from '@/components/public/BanSearchClient'
-import { formatVnd } from '@/lib/utils/format'
+import { formatVnd, formatVndCompact } from '@/lib/utils/format'
 
 export const metadata = {
   title: 'Gà chọi đang bán | Gà Chọi Việt NB',
@@ -65,9 +65,10 @@ export default async function BanPage({
                 <div className="text-2xl md:text-3xl font-extrabold text-white tabular-nums">{breedCount}</div>
                 <div className="text-[11px] md:text-xs text-white/80 font-medium mt-0.5">Giống nổi bật</div>
               </div>
-              <div className="bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl p-3 md:p-4 text-center hover:bg-white/20 transition">
-                <div className="text-lg md:text-2xl font-extrabold text-white tabular-nums">
-                  {minPrice ? formatVnd(minPrice) : '—'}
+              <div className="bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl p-3 md:p-4 text-center hover:bg-white/20 transition min-w-0">
+                <div className="text-2xl md:text-3xl font-extrabold text-white tabular-nums leading-tight truncate">
+                  <span className="md:hidden">{minPrice ? formatVndCompact(minPrice) : '—'}</span>
+                  <span className="hidden md:inline">{minPrice ? formatVnd(minPrice) : '—'}</span>
                 </div>
                 <div className="text-[11px] md:text-xs text-white/80 font-medium mt-0.5">Giá chỉ từ</div>
               </div>

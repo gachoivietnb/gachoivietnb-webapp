@@ -3,6 +3,29 @@ export function formatVnd(amount: number | null | undefined): string {
   return new Intl.NumberFormat('vi-VN').format(amount) + ' đ'
 }
 
+/**
+ * Compact VND format for tight spaces (mobile hero stats, etc.):
+ *   1_500_000 → "1,5tr"
+ *   12_000_000 → "12tr"
+ *   1_500_000_000 → "1,5tỷ"
+ */
+export function formatVndCompact(amount: number | null | undefined): string {
+  if (amount === null || amount === undefined) return '—'
+  if (amount >= 1_000_000_000) {
+    const v = amount / 1_000_000_000
+    return v.toFixed(v >= 10 ? 0 : 1).replace('.', ',') + 'tỷ'
+  }
+  if (amount >= 1_000_000) {
+    const v = amount / 1_000_000
+    return v.toFixed(v >= 10 ? 0 : 1).replace('.', ',') + 'tr'
+  }
+  if (amount >= 1_000) {
+    const v = amount / 1_000
+    return v.toFixed(0) + 'k'
+  }
+  return String(amount)
+}
+
 export function formatDate(date: string | Date | null | undefined): string {
   if (!date) return '—'
   const d = typeof date === 'string' ? new Date(date) : date

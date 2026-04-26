@@ -47,7 +47,7 @@ export async function listDiaryEntries(filter?: {
   let q = supabase
     .from('diary_entries')
     .select(
-      'id, farm_id, author_id, title, content, category, mood, tags, related_chicken_id, related_area_id, diary_date, weather, attachments, is_pinned, created_at, updated_at, author:profiles!author_id(full_name), chicken:chickens(tag_number), area:areas(name_vi), comments:diary_comments(count)'
+      'id, farm_id, author_id, title, content, category, mood, tags, related_chicken_id, related_area_id, diary_date, weather, attachments, is_pinned, created_at, updated_at, author:profiles!author_id(full_name), chicken:chickens(chicken_code), area:areas(name_vi), comments:diary_comments(count)'
     )
     .limit(filter?.limit ?? 200)
   if (filter?.pinnedFirst !== false) {
@@ -69,7 +69,7 @@ export async function listDiaryEntries(filter?: {
   const { data } = await q
   type Row = DiaryEntry & {
     author: { full_name: string } | null
-    chicken: { tag_number: string } | null
+    chicken: { chicken_code: string } | null
     area: { name_vi: string } | null
     comments: Array<{ count: number }> | null
   }
@@ -91,7 +91,7 @@ export async function listDiaryEntries(filter?: {
     created_at: r.created_at,
     updated_at: r.updated_at,
     author_name: r.author?.full_name ?? null,
-    chicken_tag: r.chicken?.tag_number ?? null,
+    chicken_tag: r.chicken?.chicken_code ?? null,
     area_name: r.area?.name_vi ?? null,
     comment_count: r.comments?.[0]?.count ?? 0,
   }))

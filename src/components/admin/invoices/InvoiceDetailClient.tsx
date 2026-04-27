@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { ExportPanel } from './ExportPanel'
 
 type Invoice = {
   id: string
@@ -367,33 +368,17 @@ export function InvoiceDetailClient({
               </>
             )}
 
-            {isIssued && (
-              <>
-                <a
-                  href={`/api/invoices/${invoice.id}/pdf`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="block text-center w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg py-2.5 text-sm font-bold"
-                >
-                  📄 Xem / In PDF
-                </a>
-                <a
-                  href={`/api/invoices/${invoice.id}/pdf?download=1`}
-                  className="block text-center w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg py-2 text-sm font-semibold"
-                >
-                  ⬇️ Tải PDF
-                </a>
-                {invoice.buyer_email && (
-                  <button
-                    onClick={handleSendEmail}
-                    disabled={busy}
-                    className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-lg py-2 text-sm font-semibold disabled:opacity-50"
-                  >
-                    📧 Gửi mail cho khách
-                  </button>
-                )}
-              </>
+            {isIssued && invoice.buyer_email && (
+              <button
+                onClick={handleSendEmail}
+                disabled={busy}
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-lg py-2 text-sm font-semibold disabled:opacity-50"
+              >
+                📧 Gửi mail cho khách
+              </button>
             )}
+
+            <ExportPanel invoiceId={invoice.id} status={invoice.status} />
 
             {(isDraft || isIssued) && canDelete && !showCancel && (
               <button

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { moneyToVietnameseWords } from '@/lib/invoice-providers/money-words'
+import { ExportPanel } from './ExportPanel'
 
 type Provider = {
   id: string
@@ -151,6 +152,51 @@ export function InvoiceFormClient({
   function removeItem(idx: number) {
     if (items.length === 1) return
     setItems(items.filter((_, i) => i !== idx))
+  }
+
+  /** Lưu nháp âm thầm (không redirect) — dùng khi xuất PDF/Excel/XML từ form chưa lưu. */
+  async function saveDraftSilent(): Promise<string | null> {
+    if (!buyerId) {
+      setError('Vui lòng chọn người mua trước khi xuất')
+      return null
+    }
+    if (items.length === 0 || items.some((it) => !it.description.trim() || it.quantity <= 0)) {
+      setError('Mỗi dòng phải có tên hàng + SL > 0')
+      return null
+    }
+    if (!providerId) {
+      setError('Chọn NCC HĐĐT trước khi xuất')
+      return null
+    }
+    setError(null)
+    const res = await fetch('/api/invoices', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: invoiceId,
+        provider_id: providerId,
+        buyer_id: buyerId,
+        issue_date: issueDate,
+        payment_method: paymentMethod,
+        notes,
+        items: items.map((it, idx) => ({
+          sort_order: idx,
+          description: it.description,
+          unit: it.unit,
+          quantity: Number(it.quantity),
+          unit_price: Number(it.unit_price),
+          discount_pct: Number(it.discount_pct),
+          tax_rate: Number(it.tax_rate),
+          tax_rate_label: TAX_LABEL[it.tax_rate] ?? `${it.tax_rate}%`,
+        })),
+      }),
+    })
+    const json = await res.json()
+    if (!res.ok) {
+      setError(typeof json.error === 'string' ? json.error : 'Lỗi lưu nháp')
+      return null
+    }
+    return json.id || invoiceId || null
   }
 
   async function handleSave(action: 'draft' | 'publish') {
@@ -524,6 +570,12 @@ export function InvoiceFormClient({
               Phát hành sẽ gửi đến NCC HĐĐT, ký số và xin mã CQT.
             </p>
           </div>
+
+          <ExportPanel
+            invoiceId={invoiceId}
+            status="nhap"
+            onSaveDraft={saveDraftSilent}
+          />
         </div>
       </div>
     </div>

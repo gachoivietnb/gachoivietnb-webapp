@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
+import { requirePermission } from '@/lib/rbac/guard'
 
 const ItemSchema = z.object({
   unit_price: z.number().positive(),
@@ -38,10 +39,10 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const ctx = await requirePermission('mua_vao', 'write')
+  if ('error' in ctx) return NextResponse.json({ error: ctx.error }, { status: ctx.status })
 
+  const supabase = await createClient()
   const parsed = PurchaseSchema.safeParse(await request.json())
   if (!parsed.success) return NextResponse.json({ error: parsed.error.issues }, { status: 400 })
 
@@ -67,7 +68,7 @@ export async function POST(request: Request) {
       total_quantity: items.length,
       total_amount: totalAmount,
       notes: notes ?? null,
-      performed_by: user.id,
+      performed_by: ctx.userId,
     } as never)
     .select()
     .single()
@@ -89,7 +90,7 @@ export async function POST(request: Request) {
     source: 'mua' as const,
     cost_purchase: item.unit_price,
     status: 'dang_cach_ly' as const,
-    created_by: user.id,
+    created_by: ctx.userId,
   }))
 
   const { data: createdChickens, error: chickensError } = await supabase

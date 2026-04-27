@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
+import { requirePermission } from '@/lib/rbac/guard'
 
 const ChickenCreateSchema = z.object({
   name: z.string().optional(),
@@ -50,10 +51,10 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const ctx = await requirePermission('ho_so_ga', 'write')
+  if ('error' in ctx) return NextResponse.json({ error: ctx.error }, { status: ctx.status })
 
+  const supabase = await createClient()
   const body = await request.json()
   const parsed = ChickenCreateSchema.safeParse(body)
   if (!parsed.success) {
@@ -73,14 +74,14 @@ export async function POST(request: Request) {
   const { auto_assign_cage, ...insertData } = data
   const { data: chicken, error } = await supabase
     .from('chickens')
-    .insert({ ...insertData, created_by: user.id } as never)
+    .insert({ ...insertData, created_by: ctx.userId } as never)
     .select()
     .single()
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
   await supabase.from('activity_logs').insert({
-    user_id: user.id,
+    user_id: ctx.userId,
     action: 'create',
     entity_type: 'chickens',
     entity_id: (chicken as { id: string }).id,

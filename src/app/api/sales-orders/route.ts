@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
+import { requirePermission } from '@/lib/rbac/guard'
 
 const ItemSchema = z.object({
   chicken_id: z.string().uuid(),
@@ -41,10 +42,10 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const ctx = await requirePermission('ban_ra', 'write')
+  if ('error' in ctx) return NextResponse.json({ error: ctx.error }, { status: ctx.status })
 
+  const supabase = await createClient()
   const parsed = OrderSchema.safeParse(await request.json())
   if (!parsed.success) return NextResponse.json({ error: parsed.error.issues }, { status: 400 })
 
@@ -87,7 +88,7 @@ export async function POST(request: Request) {
     .insert({
       customer_id: finalCustomerId ?? null,
       total_amount: totalAmount,
-      performed_by: user.id,
+      performed_by: ctx.userId,
       ...rest,
     } as never)
     .select()

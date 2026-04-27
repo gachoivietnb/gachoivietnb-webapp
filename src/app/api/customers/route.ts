@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { escapeOrFilter } from '@/lib/security/sql'
+import { requirePermission } from '@/lib/rbac/guard'
 
 const Schema = z.object({
   name: z.string().min(1).max(100),
@@ -34,10 +35,10 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const ctx = await requirePermission('khach_hang', 'write')
+  if ('error' in ctx) return NextResponse.json({ error: ctx.error }, { status: ctx.status })
 
+  const supabase = await createClient()
   const parsed = Schema.safeParse(await request.json())
   if (!parsed.success) return NextResponse.json({ error: parsed.error.issues }, { status: 400 })
 

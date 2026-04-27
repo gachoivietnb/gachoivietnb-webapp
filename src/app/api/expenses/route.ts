@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
+import { requirePermission } from '@/lib/rbac/guard'
 
 const Schema = z.object({
   category_id: z.string().uuid(),
@@ -31,16 +32,16 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const ctx = await requirePermission('quy', 'write')
+  if ('error' in ctx) return NextResponse.json({ error: ctx.error }, { status: ctx.status })
 
+  const supabase = await createClient()
   const parsed = Schema.safeParse(await request.json())
   if (!parsed.success) return NextResponse.json({ error: parsed.error.issues }, { status: 400 })
 
   const { data, error } = await supabase
     .from('expenses')
-    .insert({ ...parsed.data, performed_by: user.id } as never)
+    .insert({ ...parsed.data, performed_by: ctx.userId } as never)
     .select()
     .single()
 

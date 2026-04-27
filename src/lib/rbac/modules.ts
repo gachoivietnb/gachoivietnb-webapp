@@ -27,6 +27,10 @@ export const MODULES: ModuleDef[] = [
   { key: 'kho_thuc_an',  label: 'Kho thức ăn',   group: 'Sức khỏe', supports: { read: true, write: true, delete: true } },
   { key: 'van_ga',       label: 'Vần gà',        group: 'Sức khỏe', supports: { read: true, write: true, delete: true } },
 
+  { key: 'thi_dau',      label: 'Trận đấu',      group: 'Thi đấu & Thành tích', supports: { read: true, write: true, delete: true } },
+  { key: 'giai_dau',     label: 'Giải đấu',      group: 'Thi đấu & Thành tích', supports: { read: true, write: true, delete: true } },
+  { key: 'bxh_thi_dau',  label: 'BXH Thi đấu',   group: 'Thi đấu & Thành tích', supports: { read: true, write: false, delete: false } },
+
   { key: 'mua_vao',    label: 'Mua vào',     group: 'Kinh doanh', supports: { read: true, write: true, delete: true } },
   { key: 'ban_ra',     label: 'Bán ra',      group: 'Kinh doanh', supports: { read: true, write: true, delete: true } },
   { key: 'khach_hang', label: 'Khách hàng',  group: 'Kinh doanh', supports: { read: true, write: true, delete: true } },
@@ -70,6 +74,9 @@ export const DEFAULT_NHAN_VIEN_PERMISSIONS: PermissionsMap = {
   kho_thuoc: { read: true, write: true, delete: false },
   kho_thuc_an: { read: true, write: true, delete: false },
   van_ga: { read: true, write: true, delete: false },
+  thi_dau: { read: true, write: true, delete: false },
+  giai_dau: { read: true, write: false, delete: false },
+  bxh_thi_dau: { read: true },
   mua_vao: { read: true, write: false, delete: false },
   ban_ra: { read: true, write: true, delete: false },
   khach_hang: { read: true, write: true, delete: false },

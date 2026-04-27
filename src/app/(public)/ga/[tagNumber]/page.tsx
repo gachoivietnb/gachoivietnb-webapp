@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Metadata } from 'next'
 import { formatDate, formatVnd, formatAge } from '@/lib/utils/format'
 import { PedigreeMiniTree } from '@/components/public/PedigreeMiniTree'
+import { ChickenAchievementPublic } from '@/components/public/ChickenAchievementPublic'
 import { ShareButtons } from '@/components/public/ShareButtons'
 import { ProtectedMedia } from '@/components/public/ProtectedMedia'
 import { SITE_URL } from '@/lib/utils/constants'
@@ -402,6 +403,12 @@ export default async function GaBioPage({
               {c.weight_kg && <Info icon="⚖️" tone="amber" label="Cân nặng" value={`${c.weight_kg} kg`} />}
             </div>
           </Section>
+
+          {/* ACHIEVEMENT — gold gradient, KHÔNG có prize_money */}
+          <div className="px-5 md:px-7 py-5 md:py-6 border-t" style={{ borderColor: 'transparent' }}>
+            {/* @ts-expect-error Async Server Component */}
+            <ChickenAchievementPublic chickenId={c.id} />
+          </div>
 
           {/* PEDIGREE */}
           <Section title="Gia phả" icon="🌳" borderClass={color.border} accent="from-emerald-500 to-teal-500">

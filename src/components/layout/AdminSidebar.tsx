@@ -37,6 +37,15 @@ const NAV_GROUPS: { title: string; items: NavItem[] }[] = [
     ],
   },
   {
+    title: 'Thi đấu & Thành tích',
+    items: [
+      { href: '/admin/thi-dau', label: 'Trận đấu', emoji: '⚔️', moduleKey: 'thi_dau' },
+      { href: '/admin/thi-dau/giai-dau', label: 'Giải đấu', emoji: '🏟', moduleKey: 'giai_dau' },
+      { href: '/admin/thi-dau/bang-xep-hang', label: 'BXH gà', emoji: '🥇', moduleKey: 'bxh_thi_dau' },
+      { href: '/admin/thi-dau/thong-ke', label: 'Thống kê', emoji: '📊', moduleKey: 'thi_dau' },
+    ],
+  },
+  {
     title: 'Kinh doanh',
     items: [
       { href: '/admin/mua-vao', label: 'Mua vào', emoji: '📥', moduleKey: 'mua_vao' },

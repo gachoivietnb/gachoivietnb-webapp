@@ -5,6 +5,7 @@ import { ChickenStatusBadge } from '@/components/admin/chickens/ChickenStatusBad
 import { PedigreeTree } from '@/components/admin/pedigree/PedigreeTree'
 import { MediaUploader } from '@/components/admin/media/MediaUploader'
 import { MediaGallery } from '@/components/admin/media/MediaGallery'
+import { ChickenAchievementSection } from '@/components/admin/thi-dau/ChickenAchievementSection'
 import { formatDate, formatVnd, formatAge } from '@/lib/utils/format'
 import { ArrowLeft } from 'lucide-react'
 
@@ -129,6 +130,10 @@ export default async function ChickenDetailPage({
           </div>
         </div>
       </div>
+
+      <Section title="🏆 Thành tích thi đấu">
+        <ChickenAchievementSection chickenId={c.id} />
+      </Section>
 
       <Section title="Gia phả">
         <PedigreeTree chickenId={c.id} initialDepth={3} />

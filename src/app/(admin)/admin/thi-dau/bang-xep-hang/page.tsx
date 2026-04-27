@@ -16,11 +16,23 @@ export default async function BangXepHangPage() {
   }
 
   const supabase = await createClient()
-  const { data } = await supabase
+  const { data: rankData } = await supabase
     .from('farm_top_chickens')
-    .select('*, chicken:chickens(image_url)')
+    .select('*')
     .order('rank_overall')
     .limit(100)
+
+  // Fetch images separately (view không có FK constraint)
+  type RankRow = { chicken_id: string; [key: string]: unknown }
+  const rankRows = (rankData ?? []) as unknown as RankRow[]
+  const ids = rankRows.map((r) => r.chicken_id).filter(Boolean)
+  const { data: imgData } = ids.length > 0
+    ? await supabase.from('chickens').select('id, image_url').in('id', ids)
+    : { data: [] }
+  const imgMap = new Map<string, string | null>(
+    ((imgData ?? []) as Array<{ id: string; image_url: string | null }>).map((i) => [i.id, i.image_url])
+  )
+  const data = rankRows.map((r) => ({ ...r, chicken: { image_url: imgMap.get(r.chicken_id) ?? null } }))
 
   type Row = {
     chicken_id: string

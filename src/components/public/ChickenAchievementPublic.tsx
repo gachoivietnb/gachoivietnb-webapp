@@ -13,12 +13,21 @@ export async function ChickenAchievementPublic({ chickenId }: { chickenId: strin
     supabase.from('chicken_combat_stats').select('*').eq('chicken_id', chickenId).single(),
     supabase
       .from('matches')
-      .select('id, match_code, match_date, opponent_name, opponent_breed, opponent_origin, result, result_round, rounds_actual, total_duration_minutes, rules, video_url, photo_urls, public_notes, is_pinned, tournament:tournaments(id, name, type)')
+      .select('id, match_code, match_date, opponent_name, opponent_breed, opponent_origin, result, result_round, rounds_actual, total_duration_minutes, rules, video_url, photo_urls, public_notes, is_pinned, tournament_id')
       .eq('chicken_id', chickenId)
       .eq('is_public', true)
       .order('match_date', { ascending: false })
       .limit(20),
   ])
+
+  const matchRowsRaw = (matchesRes.data ?? []) as Array<{ tournament_id: string | null; [k: string]: unknown }>
+  const tIds = Array.from(new Set(matchRowsRaw.map((m) => m.tournament_id).filter(Boolean) as string[]))
+  const { data: tData } = tIds.length > 0
+    ? await supabase.from('tournaments').select('id, name, type').in('id', tIds)
+    : { data: [] }
+  const tMap = new Map<string, { id: string; name: string; type: string }>(
+    ((tData ?? []) as Array<{ id: string; name: string; type: string }>).map((t) => [t.id, t])
+  )
 
   type Stats = {
     combat_tier: ChickenCombatTier
@@ -31,7 +40,10 @@ export async function ChickenAchievementPublic({ chickenId }: { chickenId: strin
     current_win_streak: number
   }
   const stats = (statsRes.data as Stats | null) || ({} as Stats)
-  const matches = (matchesRes.data ?? []) as Array<{
+  const matches = matchRowsRaw.map((m) => ({
+    ...m,
+    tournament: m.tournament_id ? tMap.get(m.tournament_id) ?? null : null,
+  })) as unknown as Array<{
     id: string
     match_code: string | null
     match_date: string
@@ -47,7 +59,7 @@ export async function ChickenAchievementPublic({ chickenId }: { chickenId: strin
     photo_urls: string[]
     public_notes: string | null
     is_pinned: boolean
-    tournament: { id: string; name: string; type: string } | { id: string; name: string; type: string }[] | null
+    tournament: { id: string; name: string; type: string } | null
   }>
 
   if (!stats.total_matches) return null

@@ -48,6 +48,7 @@ export type Direction = 'in' | 'out'
 
 export type TransactionCategory =
   | 'sale'
+  | 'deposit'
   | 'purchase'
   | 'expense'
   | 'payroll'
@@ -60,6 +61,9 @@ export type TransactionCategory =
   | 'capital_out'
   | 'loan_in'
   | 'loan_out'
+  | 'match_prize'
+  | 'match_betting'
+  | 'invoice_settlement'
   | 'other'
 
 export type RefType =
@@ -68,6 +72,9 @@ export type RefType =
   | 'expense'
   | 'payroll_payment'
   | 'cash_transfer'
+  | 'match'
+  | 'invoice'
+  | 'vaccination'
   | 'manual'
 
 export type CashTransaction = {
@@ -161,6 +168,7 @@ export const CATEGORY_META: Record<
   { label: string; emoji: string; direction: Direction | 'both'; group: string }
 > = {
   sale: { label: 'Bán hàng', emoji: '🐓', direction: 'in', group: 'Hoạt động kinh doanh' },
+  deposit: { label: 'Đặt cọc bán', emoji: '💵', direction: 'in', group: 'Hoạt động kinh doanh' },
   purchase: { label: 'Mua hàng', emoji: '📥', direction: 'out', group: 'Hoạt động kinh doanh' },
   expense: { label: 'Chi phí', emoji: '🧾', direction: 'out', group: 'Hoạt động kinh doanh' },
   payroll: { label: 'Lương / Thưởng', emoji: '👔', direction: 'out', group: 'Hoạt động kinh doanh' },
@@ -173,6 +181,9 @@ export const CATEGORY_META: Record<
   capital_out: { label: 'Rút vốn', emoji: '🏃', direction: 'out', group: 'Vốn' },
   loan_in: { label: 'Nhận vay', emoji: '🤝', direction: 'in', group: 'Vốn' },
   loan_out: { label: 'Trả nợ vay', emoji: '🏷', direction: 'out', group: 'Vốn' },
+  match_prize: { label: 'Tiền giải thi đấu', emoji: '🏆', direction: 'in', group: 'Thi đấu' },
+  match_betting: { label: 'Thắng/thua cược', emoji: '🎲', direction: 'both', group: 'Thi đấu' },
+  invoice_settlement: { label: 'Quyết toán HĐ điện tử', emoji: '🧾', direction: 'both', group: 'Hoạt động kinh doanh' },
   other: { label: 'Khác', emoji: '✏️', direction: 'both', group: 'Khác' },
 }
 

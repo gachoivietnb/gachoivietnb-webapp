@@ -348,7 +348,7 @@ function KpiMini({ emoji, label, value, tone }: { emoji: string; label: string; 
 }
 
 function TxRowDetail({ tx, onDelete }: { tx: TxRow; onDelete: () => void }) {
-  const meta = CATEGORY_META[tx.category]
+  const meta = CATEGORY_META[tx.category] ?? { label: tx.category, emoji: '❔', direction: tx.direction, group: 'Khác' }
   const isIn = tx.direction === 'in'
   const dMeta = DIRECTION_META[tx.direction]
   const isTransfer = tx.ref_type === 'cash_transfer'

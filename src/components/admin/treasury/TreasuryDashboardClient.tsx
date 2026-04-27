@@ -379,7 +379,7 @@ function CategoryBreakdown({
   return (
     <div className="space-y-2.5">
       {items.slice(0, 8).map((it) => {
-        const meta = CATEGORY_META[it.category]
+        const meta = CATEGORY_META[it.category] ?? { label: it.category, emoji: '❔', direction: it.direction, group: 'Khác' }
         const pct = (it.amount / max) * 100
         return (
           <div key={`${it.direction}-${it.category}`}>
@@ -417,7 +417,7 @@ function CategoryBreakdown({
 }
 
 function TxRow({ tx }: { tx: RecentTx }) {
-  const meta = CATEGORY_META[tx.category]
+  const meta = CATEGORY_META[tx.category] ?? { label: tx.category, emoji: '❔', direction: tx.direction, group: 'Khác' }
   const isIn = tx.direction === 'in'
   return (
     <div className="flex items-center gap-3 py-2.5">

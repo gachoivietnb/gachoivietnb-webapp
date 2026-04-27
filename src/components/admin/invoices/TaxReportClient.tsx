@@ -44,27 +44,48 @@ export function TaxReportClient({
     router.push(url.pathname + '?' + url.searchParams.toString())
   }
 
-  function quickPick(period: 'thismonth' | 'lastmonth' | 'thisquarter' | 'thisyear') {
+  function quickPick(period: 'thismonth' | 'lastmonth' | 'thisquarter' | 'lastquarter' | 'thisyear' | 'lastyear') {
     const now = new Date()
+    const y = now.getFullYear()
+    const m = now.getMonth()
     let f: Date
     let t: Date
     if (period === 'thismonth') {
-      f = new Date(now.getFullYear(), now.getMonth(), 1)
-      t = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+      // ngày 1 → ngày cuối cùng của tháng hiện tại
+      f = new Date(y, m, 1)
+      t = new Date(y, m + 1, 0)
     } else if (period === 'lastmonth') {
-      f = new Date(now.getFullYear(), now.getMonth() - 1, 1)
-      t = new Date(now.getFullYear(), now.getMonth(), 0)
+      f = new Date(y, m - 1, 1)
+      t = new Date(y, m, 0)
     } else if (period === 'thisquarter') {
-      const q = Math.floor(now.getMonth() / 3)
-      f = new Date(now.getFullYear(), q * 3, 1)
-      t = new Date(now.getFullYear(), q * 3 + 3, 0)
+      const q = Math.floor(m / 3)
+      f = new Date(y, q * 3, 1)
+      t = new Date(y, q * 3 + 3, 0)
+    } else if (period === 'lastquarter') {
+      const q = Math.floor(m / 3) - 1
+      const qy = q < 0 ? y - 1 : y
+      const qm = q < 0 ? 9 : q * 3
+      f = new Date(qy, qm, 1)
+      t = new Date(qy, qm + 3, 0)
+    } else if (period === 'thisyear') {
+      f = new Date(y, 0, 1)
+      t = new Date(y, 11, 31)
     } else {
-      f = new Date(now.getFullYear(), 0, 1)
-      t = new Date(now.getFullYear(), 11, 31)
+      // lastyear
+      f = new Date(y - 1, 0, 1)
+      t = new Date(y - 1, 11, 31)
     }
-    setDateFrom(f.toISOString().slice(0, 10))
-    setDateTo(t.toISOString().slice(0, 10))
+    setDateFrom(toLocalISO(f))
+    setDateTo(toLocalISO(t))
     setTimeout(applyDate, 0)
+  }
+
+  // Format thành YYYY-MM-DD theo timezone local (tránh bug toISOString lệch UTC)
+  function toLocalISO(d: Date): string {
+    const yy = d.getFullYear()
+    const mm = String(d.getMonth() + 1).padStart(2, '0')
+    const dd = String(d.getDate()).padStart(2, '0')
+    return `${yy}-${mm}-${dd}`
   }
 
   const totals = useMemo(() => {
@@ -114,10 +135,14 @@ export function TaxReportClient({
       <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 space-y-3">
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-xs text-gray-500">Kỳ báo cáo:</span>
-          <button onClick={() => quickPick('thismonth')} className="text-xs border border-gray-300 dark:border-gray-600 rounded px-2.5 py-1 hover:bg-gray-50 dark:hover:bg-gray-700">Tháng này</button>
-          <button onClick={() => quickPick('lastmonth')} className="text-xs border border-gray-300 dark:border-gray-600 rounded px-2.5 py-1 hover:bg-gray-50 dark:hover:bg-gray-700">Tháng trước</button>
-          <button onClick={() => quickPick('thisquarter')} className="text-xs border border-gray-300 dark:border-gray-600 rounded px-2.5 py-1 hover:bg-gray-50 dark:hover:bg-gray-700">Quý này</button>
-          <button onClick={() => quickPick('thisyear')} className="text-xs border border-gray-300 dark:border-gray-600 rounded px-2.5 py-1 hover:bg-gray-50 dark:hover:bg-gray-700">Năm nay</button>
+          <button onClick={() => quickPick('thismonth')}    className="text-xs border border-gray-300 dark:border-gray-600 rounded px-2.5 py-1 hover:bg-amber-50 hover:border-amber-400 dark:hover:bg-gray-700">Tháng này</button>
+          <button onClick={() => quickPick('lastmonth')}    className="text-xs border border-gray-300 dark:border-gray-600 rounded px-2.5 py-1 hover:bg-amber-50 hover:border-amber-400 dark:hover:bg-gray-700">Tháng trước</button>
+          <span className="text-gray-300">·</span>
+          <button onClick={() => quickPick('thisquarter')}  className="text-xs border border-gray-300 dark:border-gray-600 rounded px-2.5 py-1 hover:bg-amber-50 hover:border-amber-400 dark:hover:bg-gray-700">Quý này</button>
+          <button onClick={() => quickPick('lastquarter')}  className="text-xs border border-gray-300 dark:border-gray-600 rounded px-2.5 py-1 hover:bg-amber-50 hover:border-amber-400 dark:hover:bg-gray-700">Quý trước</button>
+          <span className="text-gray-300">·</span>
+          <button onClick={() => quickPick('thisyear')}     className="text-xs border border-gray-300 dark:border-gray-600 rounded px-2.5 py-1 hover:bg-amber-50 hover:border-amber-400 dark:hover:bg-gray-700">Năm nay</button>
+          <button onClick={() => quickPick('lastyear')}     className="text-xs border border-gray-300 dark:border-gray-600 rounded px-2.5 py-1 hover:bg-amber-50 hover:border-amber-400 dark:hover:bg-gray-700">Năm trước</button>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           <input

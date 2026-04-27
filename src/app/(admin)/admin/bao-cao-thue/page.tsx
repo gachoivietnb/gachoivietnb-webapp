@@ -20,8 +20,9 @@ export default async function TaxReportPage({
   const now = new Date()
   const yyyy = now.getFullYear()
   const mm = (now.getMonth() + 1).toString().padStart(2, '0')
+  const lastDay = new Date(yyyy, now.getMonth() + 1, 0).getDate()
   const defaultFrom = `${yyyy}-${mm}-01`
-  const defaultTo = new Date(yyyy, now.getMonth() + 1, 0).toISOString().slice(0, 10)
+  const defaultTo = `${yyyy}-${mm}-${String(lastDay).padStart(2, '0')}`
   const from = params.from || defaultFrom
   const to = params.to || defaultTo
 

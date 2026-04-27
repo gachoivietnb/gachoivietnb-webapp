@@ -633,7 +633,11 @@ function bulkAction(action: string, selected: Set<string>, router: ReturnType<ty
 }
 
 function dateStr(d: Date): string {
-  return d.toISOString().slice(0, 10)
+  // Format YYYY-MM-DD theo timezone local (tránh bug toISOString lệch UTC)
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${y}-${m}-${day}`
 }
 
 function KPI({ emoji, label, value, tone }: { emoji: string; label: string; value: string; tone: string }) {

@@ -103,7 +103,6 @@ export default async function DashboardPage() {
   return (
     <>
       <BackupReminderBanner />
-      {/* @ts-expect-error Async Server Component */}
       <StockAlertsBanner />
       <DashboardPro data={data} />
     </>

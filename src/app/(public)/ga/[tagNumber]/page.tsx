@@ -407,13 +407,11 @@ export default async function GaBioPage({
 
           {/* ACHIEVEMENT — gold gradient, KHÔNG có prize_money */}
           <div className="px-5 md:px-7 py-5 md:py-6 border-t" style={{ borderColor: 'transparent' }}>
-            {/* @ts-expect-error Async Server Component */}
             <ChickenAchievementPublic chickenId={c.id} />
           </div>
 
           {/* VACCINATION PROTECTION — emerald gradient */}
           <div className="px-5 md:px-7 pb-5 md:pb-6">
-            {/* @ts-expect-error Async Server Component */}
             <VaccinationProtectionPublic chickenId={c.id} />
           </div>
 

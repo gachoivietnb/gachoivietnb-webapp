@@ -173,37 +173,7 @@ export function VaccinationsClient({
 
   return (
     <div className="space-y-4">
-      {/* KPI cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <Kpi
-          label="Tổng cần xử lý"
-          value={total.toLocaleString('vi-VN')}
-          sub={`${filtered.length} hiển thị`}
-          tint="blue"
-          icon="💉"
-        />
-        <Kpi
-          label="Quá hạn"
-          value={overdueCount.toLocaleString('vi-VN')}
-          sub={overdueCount > 0 ? '⚠ Cần tiêm gấp' : 'Tốt'}
-          tint="red"
-          icon="🚨"
-        />
-        <Kpi
-          label="Hôm nay"
-          value={todayCount.toLocaleString('vi-VN')}
-          sub={`${weekCount} trong tuần`}
-          tint="amber"
-          icon="📅"
-        />
-        <Kpi
-          label="Bắt buộc còn hạn"
-          value={requiredCount.toLocaleString('vi-VN')}
-          sub="Vaccine bắt buộc"
-          tint="purple"
-          icon="⭐"
-        />
-      </div>
+      {/* KPI hiển thị ở VaccinationHero (page level) — không lặp ở đây */}
 
       {/* Alert overdue */}
       {overdueCount > 0 && range !== 'overdue' && (

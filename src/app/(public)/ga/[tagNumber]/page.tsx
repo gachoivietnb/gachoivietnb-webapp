@@ -4,6 +4,7 @@ import { Metadata } from 'next'
 import { formatDate, formatVnd, formatAge } from '@/lib/utils/format'
 import { PedigreeMiniTree } from '@/components/public/PedigreeMiniTree'
 import { ChickenAchievementPublic } from '@/components/public/ChickenAchievementPublic'
+import { VaccinationProtectionPublic } from '@/components/public/VaccinationProtectionPublic'
 import { ShareButtons } from '@/components/public/ShareButtons'
 import { ProtectedMedia } from '@/components/public/ProtectedMedia'
 import { SITE_URL } from '@/lib/utils/constants'
@@ -408,6 +409,12 @@ export default async function GaBioPage({
           <div className="px-5 md:px-7 py-5 md:py-6 border-t" style={{ borderColor: 'transparent' }}>
             {/* @ts-expect-error Async Server Component */}
             <ChickenAchievementPublic chickenId={c.id} />
+          </div>
+
+          {/* VACCINATION PROTECTION — emerald gradient */}
+          <div className="px-5 md:px-7 pb-5 md:pb-6">
+            {/* @ts-expect-error Async Server Component */}
+            <VaccinationProtectionPublic chickenId={c.id} />
           </div>
 
           {/* PEDIGREE */}

@@ -6,6 +6,7 @@ import { PedigreeTree } from '@/components/admin/pedigree/PedigreeTree'
 import { MediaUploader } from '@/components/admin/media/MediaUploader'
 import { MediaGallery } from '@/components/admin/media/MediaGallery'
 import { ChickenAchievementSection } from '@/components/admin/thi-dau/ChickenAchievementSection'
+import { PublicLinkActions } from '@/components/admin/chickens/PublicLinkActions'
 import { formatDate, formatVnd, formatAge } from '@/lib/utils/format'
 import { ArrowLeft } from 'lucide-react'
 
@@ -127,7 +128,20 @@ export default async function ChickenDetailPage({
             >
               ✏️ Sửa hồ sơ
             </Link>
+            <Link
+              href={`/admin/thi-dau/them-tran?chicken=${c.id}`}
+              className="text-sm bg-gradient-to-r from-red-500 to-rose-600 text-white rounded px-3 py-1 font-semibold shadow hover:opacity-95"
+            >
+              ⚔️ Ghi nhận trận đấu
+            </Link>
           </div>
+
+          <PublicLinkActions
+            chickenId={c.id}
+            tagNumber={c.tag_number ?? null}
+            chickenCode={c.chicken_code}
+            isForSale={Boolean(c.is_for_sale)}
+          />
         </div>
       </div>
 

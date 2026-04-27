@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
+import { getGenInfo, getPositionLabel, maxTreeSize, GENERATION_INFO } from '@/lib/pedigree/labels'
 
 type PedigreeNode = {
   generation: number
@@ -17,16 +18,6 @@ type PedigreeNode = {
   qr_tag_number: string | null
   father: PedigreeNode | null
   mother: PedigreeNode | null
-}
-
-const POSITION_LABELS: Record<string, string> = {
-  self: 'Bản thân',
-  father: 'Bố',
-  mother: 'Mẹ',
-  ff: 'Ông nội',
-  fm: 'Bà nội',
-  mf: 'Ông ngoại',
-  mm: 'Bà ngoại',
 }
 
 function ageMonths(birth: string | null): number | null {
@@ -47,6 +38,24 @@ export function PedigreeTree({ chickenId, initialDepth = 3 }: { chickenId: strin
   const [tree, setTree] = useState<PedigreeNode | null>(null)
   const [loading, setLoading] = useState(true)
   const [view, setView] = useState<'tree' | 'list'>('tree')
+
+  // Stats coverage
+  const stats = useMemo(() => {
+    if (!tree) return { total: 0, max: 0, byGen: [] as number[] }
+    const counts = new Array(depth + 1).fill(0) as number[]
+    function walk(n: PedigreeNode | null, gen: number) {
+      if (!n || gen >= counts.length) return
+      counts[gen]++
+      walk(n.father, gen + 1)
+      walk(n.mother, gen + 1)
+    }
+    walk(tree, 0)
+    return {
+      total: counts.reduce((a, b) => a + b, 0),
+      max: maxTreeSize(depth + 1),
+      byGen: counts,
+    }
+  }, [tree, depth])
 
   useEffect(() => {
     setLoading(true)
@@ -83,24 +92,32 @@ export function PedigreeTree({ chickenId, initialDepth = 3 }: { chickenId: strin
       {/* Controls bar */}
       <div className="flex items-center gap-2 flex-wrap bg-white dark:bg-gray-800 ring-1 ring-gray-200 dark:ring-gray-700 rounded-xl p-2.5">
         <span className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
-          🌳 Số đời
+          🌳 Truy đời
         </span>
-        <div className="flex bg-gray-100 dark:bg-gray-900 rounded-lg p-0.5">
-          {[2, 3, 4, 5].map((d) => (
+        <div className="flex bg-gray-100 dark:bg-gray-900 rounded-lg p-0.5 flex-wrap">
+          {[3, 5, 7, 10].map((d) => (
             <button
               key={d}
-              onClick={() => setDepth(d)}
+              onClick={() => setDepth(d - 1)}
               className={
-                'px-3 py-1.5 text-xs font-bold rounded-md transition ' +
-                (depth === d
+                'px-2.5 py-1.5 text-xs font-bold rounded-md transition ' +
+                (depth === d - 1
                   ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200')
               }
+              title={`Hiện ${d} đời (đến ${GENERATION_INFO[d - 1]?.name})`}
             >
               {d} đời
             </button>
           ))}
         </div>
+        {stats.total > 0 && (
+          <span className="text-[11px] text-gray-500 dark:text-gray-400 ml-1">
+            <b className="text-emerald-700 dark:text-emerald-400">{stats.total}</b> / {stats.max} cá thể đã ghi
+            {' · '}
+            <b>{Math.round((stats.total / stats.max) * 100)}%</b> phủ
+          </span>
+        )}
         <div className="ml-auto flex bg-gray-100 dark:bg-gray-900 rounded-lg p-0.5">
           <button
             onClick={() => setView('tree')}
@@ -126,6 +143,42 @@ export function PedigreeTree({ chickenId, initialDepth = 3 }: { chickenId: strin
           </button>
         </div>
       </div>
+
+      {/* Coverage by generation */}
+      {stats.total > 1 && (
+        <div className="bg-white dark:bg-gray-800 ring-1 ring-gray-200 dark:ring-gray-700 rounded-xl p-2.5">
+          <div className="text-[10px] uppercase tracking-widest text-gray-500 dark:text-gray-400 font-bold mb-1.5">
+            📊 Phủ gia phả theo đời
+          </div>
+          <div className="flex gap-1 flex-wrap">
+            {stats.byGen.map((cnt, gen) => {
+              const info = getGenInfo(gen)
+              const max = Math.pow(2, gen)
+              const pct = max > 0 ? Math.round((cnt / max) * 100) : 0
+              const isFull = cnt === max && cnt > 0
+              return (
+                <div
+                  key={gen}
+                  className={`text-[10px] px-2 py-1 rounded-lg border ${
+                    cnt === 0
+                      ? 'border-gray-200 bg-gray-50 dark:bg-gray-900 text-gray-400'
+                      : isFull
+                      ? `bg-gradient-to-r ${info.gradient} text-white border-transparent shadow-sm`
+                      : `${info.badgeCls} border-current/20`
+                  }`}
+                  title={`${info.name}: ${cnt}/${max}`}
+                >
+                  <div className="font-bold flex items-center gap-1">
+                    <span>{info.emoji}</span>
+                    <span>Đời {gen + 1}</span>
+                  </div>
+                  <div className="opacity-90">{info.shortName} — {cnt}/{max} ({pct}%)</div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
 
       {!hasParents ? (
         <div className="rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50/60 dark:from-amber-950/30 dark:to-orange-950/30 border border-amber-200 dark:border-amber-900/60 p-6 text-center">
@@ -291,7 +344,7 @@ function FolderCard({ node, side }: { node: PedigreeNode; side: 'self' | 'father
       ? 'text-pink-700 dark:text-pink-300'
       : 'text-gray-700 dark:text-gray-300'
   const icon = node.gender === 'trong' ? '♂' : node.gender === 'mai' ? '♀' : '?'
-  const label = POSITION_LABELS[node.position] ?? side
+  const label = getPositionLabel(node.position) || side
   const age = ageMonths(node.birth_date)
   return (
     <Link
@@ -352,7 +405,7 @@ function PedigreeCardCompact({ node, isRoot }: { node: PedigreeNode; isRoot?: bo
           bagde: 'bg-gray-500/10 text-gray-700 dark:text-gray-300',
         }
 
-  const label = POSITION_LABELS[node.position] ?? node.position
+  const label = getPositionLabel(node.position)
   const age = ageMonths(node.birth_date)
   const status = STATUS_META[node.status]
   const W = isRoot ? 'w-44 md:w-52' : 'w-36 md:w-40'

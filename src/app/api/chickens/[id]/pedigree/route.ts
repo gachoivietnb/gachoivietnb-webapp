@@ -47,7 +47,7 @@ export async function GET(
 ) {
   const { id } = await params
   const { searchParams } = new URL(request.url)
-  const depth = Math.min(Math.max(parseInt(searchParams.get('depth') ?? '3'), 1), 5)
+  const depth = Math.min(Math.max(parseInt(searchParams.get('depth') ?? '3'), 1), 10)
 
   const supabase = await createClient()
   const { data, error } = await supabase.rpc('get_pedigree' as never, {

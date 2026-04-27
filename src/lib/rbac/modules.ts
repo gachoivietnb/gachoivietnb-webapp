@@ -31,9 +31,10 @@ export const MODULES: ModuleDef[] = [
   { key: 'giai_dau',     label: 'Giải đấu',      group: 'Thi đấu & Thành tích', supports: { read: true, write: true, delete: true } },
   { key: 'bxh_thi_dau',  label: 'BXH Thi đấu',   group: 'Thi đấu & Thành tích', supports: { read: true, write: false, delete: false } },
 
-  { key: 'mua_vao',    label: 'Mua vào',     group: 'Kinh doanh', supports: { read: true, write: true, delete: true } },
-  { key: 'ban_ra',     label: 'Bán ra',      group: 'Kinh doanh', supports: { read: true, write: true, delete: true } },
-  { key: 'khach_hang', label: 'Khách hàng',  group: 'Kinh doanh', supports: { read: true, write: true, delete: true } },
+  { key: 'mua_vao',      label: 'Mua vào',         group: 'Kinh doanh', supports: { read: true, write: true, delete: true } },
+  { key: 'ban_ra',       label: 'Bán ra',          group: 'Kinh doanh', supports: { read: true, write: true, delete: true } },
+  { key: 'khach_hang',   label: 'Khách hàng',      group: 'Kinh doanh', supports: { read: true, write: true, delete: true } },
+  { key: 'nha_cung_cap', label: 'Nhà cung cấp',    group: 'Kinh doanh', supports: { read: true, write: true, delete: true } },
 
   { key: 'quy',          label: 'Quản lý quỹ',     group: 'Tài chính & Kế toán', supports: { read: true, write: true, delete: true } },
   { key: 'tai_san',      label: 'Tài sản/CCDC',    group: 'Tài chính & Kế toán', supports: { read: true, write: true, delete: true } },
@@ -80,6 +81,7 @@ export const DEFAULT_NHAN_VIEN_PERMISSIONS: PermissionsMap = {
   mua_vao: { read: true, write: false, delete: false },
   ban_ra: { read: true, write: true, delete: false },
   khach_hang: { read: true, write: true, delete: false },
+  nha_cung_cap: { read: true, write: true, delete: false },
   quy: { read: false },
   tai_chinh: { read: false },
   tai_san: { read: true, write: true, delete: false },

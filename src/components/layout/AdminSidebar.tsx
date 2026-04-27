@@ -51,6 +51,7 @@ const NAV_GROUPS: { title: string; items: NavItem[] }[] = [
       { href: '/admin/mua-vao', label: 'Mua vào', emoji: '📥', moduleKey: 'mua_vao' },
       { href: '/admin/ban-ra', label: 'Bán ra', emoji: '💵', moduleKey: 'ban_ra' },
       { href: '/admin/khach-hang', label: 'Khách hàng', emoji: '👥', moduleKey: 'khach_hang' },
+      { href: '/admin/nha-cung-cap', label: 'Nhà cung cấp', emoji: '🏭', moduleKey: 'nha_cung_cap' },
     ],
   },
   {

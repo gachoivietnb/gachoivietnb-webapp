@@ -51,16 +51,18 @@ const QUICK_ADDS = [1, 5, 10, 30, 50]
 export function NewPurchaseForm({
   breeds,
   suppliers,
+  defaultSupplierId,
 }: {
   breeds: Breed[]
   suppliers: Supplier[]
+  defaultSupplierId?: string
 }) {
   const router = useRouter()
   const today = new Date().toISOString().split('T')[0]
   const [supplierMode, setSupplierMode] = useState<'existing' | 'new'>(
     suppliers.length > 0 ? 'existing' : 'new'
   )
-  const [supplierId, setSupplierId] = useState('')
+  const [supplierId, setSupplierId] = useState(defaultSupplierId ?? '')
   const [newSupplierName, setNewSupplierName] = useState('')
   const [purchaseDate, setPurchaseDate] = useState(today)
   const [defaultBreed, setDefaultBreed] = useState(breeds[0]?.id ?? '')

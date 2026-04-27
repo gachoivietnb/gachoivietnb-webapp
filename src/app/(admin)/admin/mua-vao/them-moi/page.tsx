@@ -5,13 +5,14 @@ import { ArrowLeft } from 'lucide-react'
 
 export const revalidate = 0
 
-export default async function NewPurchasePage() {
+export default async function NewPurchasePage({ searchParams }: { searchParams: Promise<{ supplier?: string }> }) {
+  const params = await searchParams
   const supabase = await createClient()
   const [breedsRes, suppliersRes] = await Promise.all([
     supabase.from('breeds').select('id, code, name_vi, tier').eq('is_active', true).order('display_order'),
     supabase
       .from('suppliers')
-      .select('id, name, phone')
+      .select('id, name, phone, supplier_category, code')
       .eq('is_active', true)
       .order('name'),
   ])
@@ -38,6 +39,7 @@ export default async function NewPurchasePage() {
       <NewPurchaseForm
         breeds={(breedsRes.data ?? []) as never}
         suppliers={(suppliersRes.data ?? []) as never}
+        defaultSupplierId={params.supplier}
       />
     </div>
   )

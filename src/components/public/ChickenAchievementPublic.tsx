@@ -62,6 +62,13 @@ export async function ChickenAchievementPublic({ chickenId }: { chickenId: strin
     tournament: { id: string; name: string; type: string } | null
   }>
 
+  // Format YYYY-MM-DD → dd/mm/yy (gọn cho mobile)
+  const fmtShort = (s: string): string => {
+    if (!s || s.length < 10) return s
+    const [y, m, d] = s.split('-')
+    return `${d}/${m}/${y.slice(2)}`
+  }
+
   if (!stats.total_matches) return null
 
   const tier = stats.combat_tier
@@ -140,7 +147,7 @@ export async function ChickenAchievementPublic({ chickenId }: { chickenId: strin
                         {tour && <span className="text-xs text-gray-500 font-normal"> — {tour.name}</span>}
                       </div>
                       <div className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
-                        📅 {m.match_date.split('-').reverse().join('/')}
+                        📅 {fmtShort(m.match_date)}
                         {m.opponent_origin && ` · 📍 ${m.opponent_origin}`}
                         {m.result_round && ` · KT hồ ${m.result_round}`}
                         {m.total_duration_minutes && ` · ${m.total_duration_minutes}p`}
@@ -171,11 +178,11 @@ export async function ChickenAchievementPublic({ chickenId }: { chickenId: strin
               const resultMeta = m.result ? RESULT_META[m.result as keyof typeof RESULT_META] : null
               return (
                 <li key={m.id} className="flex items-center gap-2 text-xs border-b border-amber-200/50 dark:border-amber-900/50 pb-1.5">
-                  <span className="text-gray-500 w-20 shrink-0">{m.match_date.split('-').reverse().join('/')}</span>
-                  <span className="flex-1 truncate">
+                  <span className="text-gray-500 w-14 shrink-0 font-mono">{fmtShort(m.match_date)}</span>
+                  <span className="flex-1 truncate min-w-0">
                     vs <b>{m.opponent_name}</b>
-                    {tour && <span className="text-gray-500"> · {tour.name}</span>}
-                    <span className="text-gray-500"> · {RULES_META[m.rules].label}</span>
+                    {tour && <span className="text-gray-500 hidden sm:inline"> · {tour.name}</span>}
+                    <span className="text-gray-500 hidden sm:inline"> · {RULES_META[m.rules].label}</span>
                   </span>
                   {resultMeta && (
                     <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${resultMeta.cls}`}>

@@ -27,6 +27,7 @@ const CAT_META: Record<PlanCategory, { label: string; emoji: string }> = {
   sales: { label: 'Đơn hàng', emoji: '🛒' },
   finance: { label: 'Tài chính', emoji: '💰' },
   system: { label: 'Hệ thống', emoji: '💾' },
+  diary: { label: 'Note từ Nhật ký', emoji: '📔' },
 }
 
 type Horizon = 'today' | 'week' | 'month' | 'all'
@@ -349,14 +350,19 @@ export function PlanClient({ items }: { items: PlanItem[] }) {
                               </div>
                             </div>
                             <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 leading-relaxed">{it.description}</p>
-                            {it.action_url && (
-                              <Link
-                                href={it.action_url}
-                                className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline mt-2"
-                              >
-                                {it.action_label ?? 'Mở'} →
-                              </Link>
-                            )}
+                            <div className="flex items-center gap-3 mt-2 flex-wrap">
+                              {it.action_url && (
+                                <Link
+                                  href={it.action_url}
+                                  className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+                                >
+                                  {it.action_label ?? 'Mở'} →
+                                </Link>
+                              )}
+                              {it.source === 'diary' && it.plan_id && (
+                                <DiaryPlanActions planId={it.plan_id} />
+                              )}
+                            </div>
                           </div>
                         </div>
                       </li>
@@ -373,6 +379,68 @@ export function PlanClient({ items }: { items: PlanItem[] }) {
         💡 <b>Mẹo:</b> Mỗi sáng vào đây 5 phút — xem việc cần làm hôm nay + chuẩn bị cho ngày mai. Tuần đầu tháng xem
         "Tháng tới" để dự trù chi phí mua thuốc / cám / vật tư.
       </p>
+    </>
+  )
+}
+
+function DiaryPlanActions({ planId }: { planId: string }) {
+  const [busy, setBusy] = useState(false)
+  const [done, setDone] = useState(false)
+
+  async function markDone() {
+    if (!confirm('Đánh dấu việc này đã hoàn thành?')) return
+    setBusy(true)
+    const res = await fetch(`/api/diary/plans/${planId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: 'done' }),
+    })
+    setBusy(false)
+    if (res.ok) {
+      setDone(true)
+      // Refresh page sau 1 chút để aggregator load lại
+      setTimeout(() => window.location.reload(), 600)
+    }
+  }
+
+  async function snooze() {
+    setBusy(true)
+    const tomorrow = new Date()
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    const iso = tomorrow.toISOString().slice(0, 10)
+    const res = await fetch(`/api/diary/plans/${planId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: 'snoozed', snoozed_until: iso, due_date: iso }),
+    })
+    setBusy(false)
+    if (res.ok) setTimeout(() => window.location.reload(), 600)
+  }
+
+  if (done) {
+    return <span className="text-xs text-emerald-600 font-semibold">✓ Đã hoàn thành</span>
+  }
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={markDone}
+        disabled={busy}
+        className="inline-flex items-center gap-1 text-xs font-semibold bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-200 dark:hover:bg-emerald-900/60 rounded px-2 py-0.5 disabled:opacity-50"
+        title="Đánh dấu đã làm xong"
+      >
+        ✓ Hoàn thành
+      </button>
+      <button
+        type="button"
+        onClick={snooze}
+        disabled={busy}
+        className="inline-flex items-center gap-1 text-xs text-violet-700 dark:text-violet-300 hover:underline"
+        title="Tạm hoãn — dời sang ngày mai"
+      >
+        🔁 Hoãn 1 ngày
+      </button>
     </>
   )
 }

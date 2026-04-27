@@ -14,6 +14,26 @@ const CATEGORIES: DiaryCategory[] = [
 ]
 const MOODS: DiaryMood[] = ['rat_tot', 'tot', 'binh_thuong', 'lo_lang', 'rat_xau']
 
+const PLAN_PRIORITIES = ['critical', 'high', 'medium', 'low'] as const
+const PLAN_CATEGORIES = [
+  'cong_viec', 'cham_soc', 'cho_an', 've_sinh', 'huan_luyen',
+  'sinh_san', 'thu_y', 'kinh_doanh', 'su_co', 'bao_tri', 'khac',
+] as const
+
+export const DiaryPlanInputSchema = z.object({
+  id: z.string().uuid().optional(),
+  title: z.string().min(1).max(300),
+  description: z.string().max(2000).nullable().optional(),
+  due_date: z.string(),                     // YYYY-MM-DD
+  due_time: z.string().nullable().optional(),
+  priority: z.enum(PLAN_PRIORITIES).default('medium'),
+  category: z.enum(PLAN_CATEGORIES).default('cong_viec'),
+  assignee_id: z.string().uuid().nullable().optional(),
+  related_chicken_id: z.string().uuid().nullable().optional(),
+  related_area_id: z.string().uuid().nullable().optional(),
+})
+export type DiaryPlanInput = z.infer<typeof DiaryPlanInputSchema>
+
 export const DiaryCreateSchema = z.object({
   title: z.string().max(200).nullable().optional(),
   content: z.string().min(1).max(10000),
@@ -26,6 +46,7 @@ export const DiaryCreateSchema = z.object({
   weather: z.string().max(40).nullable().optional(),
   attachments: z.array(z.string()).max(10).default([]),
   is_pinned: z.boolean().default(false),
+  plans: z.array(DiaryPlanInputSchema).max(20).default([]),
 })
 
 export const DiaryUpdateSchema = DiaryCreateSchema.partial()
@@ -102,29 +123,72 @@ export async function createDiaryEntry(
   authorId: string
 ): Promise<DiaryEntry> {
   const supabase = await createClient()
+  const { plans, ...entryInput } = input
   const { data, error } = await supabase
     .from('diary_entries')
-    .insert({ ...input, author_id: authorId } as never)
+    .insert({ ...entryInput, author_id: authorId } as never)
     .select('*')
     .single()
   if (error || !data) {
     throw new Error('Lỗi tạo nhật ký: ' + (error?.message ?? 'unknown'))
   }
-  return data as DiaryEntry
+  const entry = data as DiaryEntry
+  if (plans && plans.length > 0) {
+    await insertDiaryPlans(plans, entry.id, authorId)
+  }
+  return entry
 }
 
 export async function updateDiaryEntry(id: string, patch: DiaryUpdateInput): Promise<DiaryEntry> {
   const supabase = await createClient()
+  const { plans, ...entryPatch } = patch
   const { data, error } = await supabase
     .from('diary_entries')
-    .update(patch as never)
+    .update(entryPatch as never)
     .eq('id', id)
     .select('*')
     .single()
   if (error || !data) {
     throw new Error('Lỗi cập nhật: ' + (error?.message ?? 'unknown'))
   }
+  if (plans !== undefined) {
+    // Replace strategy: delete pending plans gắn với entry này, rồi insert lại.
+    // Plans đã `done` được giữ lại để bảo toàn lịch sử.
+    await supabase
+      .from('diary_plans')
+      .delete()
+      .eq('diary_entry_id', id)
+      .in('status', ['pending', 'snoozed'])
+    if (plans.length > 0) {
+      await insertDiaryPlans(plans, id, null)
+    }
+  }
   return data as DiaryEntry
+}
+
+async function insertDiaryPlans(
+  plans: DiaryPlanInput[],
+  diaryEntryId: string,
+  createdBy: string | null
+): Promise<void> {
+  const supabase = await createClient()
+  const rows = plans.map((p) => ({
+    diary_entry_id: diaryEntryId,
+    title: p.title,
+    description: p.description ?? null,
+    due_date: p.due_date,
+    due_time: p.due_time ?? null,
+    priority: p.priority,
+    category: p.category,
+    assignee_id: p.assignee_id ?? null,
+    related_chicken_id: p.related_chicken_id ?? null,
+    related_area_id: p.related_area_id ?? null,
+    created_by: createdBy,
+  }))
+  const { error } = await supabase.from('diary_plans').insert(rows as never)
+  if (error) {
+    console.error('insertDiaryPlans error', error)
+  }
 }
 
 export async function deleteDiaryEntry(id: string): Promise<void> {

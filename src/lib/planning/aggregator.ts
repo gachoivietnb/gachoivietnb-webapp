@@ -11,6 +11,7 @@ export type PlanCategory =
   | 'stock' | 'expiry' | 'asset_maint'
   | 'sales' | 'finance'
   | 'system'
+  | 'diary'   // việc do user note từ Nhật ký
 
 export type Priority = 'critical' | 'high' | 'medium' | 'low'
 
@@ -24,6 +25,11 @@ export type PlanItem = {
   due_date: string // ISO yyyy-mm-dd
   action_label?: string
   action_url?: string
+  // Optional metadata cho plans manual từ Nhật ký
+  source?: 'auto' | 'diary'
+  plan_id?: string                  // diary_plans.id — để mark done
+  due_time?: string | null
+  assignee_name?: string | null
 }
 
 const today = () => new Date().toISOString().slice(0, 10)
@@ -335,6 +341,54 @@ export async function buildFarmPlan(
       due_date: t,
       action_label: 'Tới sao lưu',
       action_url: '/admin/sao-luu',
+    })
+  }
+
+  // ====== 10. DIARY PLANS — việc user note từ Nhật ký ======
+  const { data: diaryPlans } = await sb
+    .from('diary_plans')
+    .select(
+      'id, title, description, due_date, due_time, priority, category, assignee:profiles(full_name), diary_entry_id'
+    )
+    .eq('status', 'pending')
+    .order('due_date')
+  type DiaryPlanRow = {
+    id: string
+    title: string
+    description: string | null
+    due_date: string
+    due_time: string | null
+    priority: Priority
+    category: string
+    assignee: { full_name: string } | { full_name: string }[] | null
+    diary_entry_id: string | null
+  }
+  const DIARY_CAT_EMOJI: Record<string, string> = {
+    cong_viec: '🛠', cham_soc: '🐔', cho_an: '🌾', ve_sinh: '🧹',
+    huan_luyen: '🥊', sinh_san: '🥚', thu_y: '💉', kinh_doanh: '💵',
+    su_co: '⚠️', bao_tri: '🔧', khac: '📌',
+  }
+  for (const p of (diaryPlans ?? []) as unknown as DiaryPlanRow[]) {
+    const assigneeName = Array.isArray(p.assignee) ? p.assignee[0]?.full_name : p.assignee?.full_name
+    items.push({
+      id: `diary-plan-${p.id}`,
+      category: 'diary',
+      priority: p.priority,
+      emoji: DIARY_CAT_EMOJI[p.category] ?? '📔',
+      title: p.title,
+      description: [
+        p.description,
+        assigneeName ? `Phụ trách: ${assigneeName}` : null,
+        p.due_time ? `⏰ ${p.due_time.slice(0, 5)}` : null,
+        '📔 Note từ Nhật ký công việc',
+      ].filter(Boolean).join(' · '),
+      due_date: p.due_date,
+      action_label: 'Mở nhật ký',
+      action_url: p.diary_entry_id ? `/admin/nhat-ky-cong-viec?entry=${p.diary_entry_id}` : '/admin/nhat-ky-cong-viec',
+      source: 'diary',
+      plan_id: p.id,
+      due_time: p.due_time,
+      assignee_name: assigneeName ?? null,
     })
   }
 

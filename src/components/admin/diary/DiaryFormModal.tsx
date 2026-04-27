@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   type DiaryCategory,
   type DiaryMood,
@@ -10,6 +10,7 @@ import {
   WEATHER_PRESETS,
 } from '@/lib/diary/types'
 import { CameraCaptureModal } from './CameraCaptureModal'
+import { DiaryPlansSection, type PlanInput } from './DiaryPlansSection'
 
 type Profile = { id: string; full_name: string }
 type Area = { id: string; code: string; name: string }
@@ -27,7 +28,6 @@ export function DiaryFormModal({
   onClose: () => void
   onSaved: () => void
 }) {
-  void profiles
   const [title, setTitle] = useState(initial?.title ?? '')
   const [content, setContent] = useState(initial?.content ?? '')
   const [category, setCategory] = useState<DiaryCategory>(initial?.category ?? 'cong_viec')
@@ -44,6 +44,50 @@ export function DiaryFormModal({
   const [cameraOpen, setCameraOpen] = useState(false)
   const [saving, setSaving] = useState(false)
   const [err, setErr] = useState<string | null>(null)
+
+  // === Plans (việc cần làm tới đây — sync sang Kế hoạch) ===
+  const [plansEnabled, setPlansEnabled] = useState(false)
+  const [plans, setPlans] = useState<PlanInput[]>([])
+
+  // Khi edit: load plans hiện hữu
+  useEffect(() => {
+    if (!initial?.id) return
+    let cancelled = false
+    fetch(`/api/diary/${initial.id}`)
+      .then((r) => r.json())
+      .then((j) => {
+        if (cancelled) return
+        const list = (j.plans ?? []) as Array<{
+          id: string
+          title: string
+          description: string | null
+          due_date: string
+          due_time: string | null
+          priority: PlanInput['priority']
+          category: PlanInput['category']
+          assignee_id: string | null
+        }>
+        if (list.length > 0) {
+          setPlansEnabled(true)
+          setPlans(
+            list.map((p) => ({
+              key: p.id,
+              title: p.title,
+              description: p.description ?? '',
+              due_date: p.due_date,
+              due_time: p.due_time ?? '',
+              priority: p.priority,
+              category: p.category,
+              assignee_id: p.assignee_id ?? '',
+            }))
+          )
+        }
+      })
+      .catch(() => {})
+    return () => {
+      cancelled = true
+    }
+  }, [initial?.id])
 
   const isEdit = Boolean(initial?.id)
   const catMeta = CATEGORY_META[category]
@@ -63,6 +107,34 @@ export function DiaryFormModal({
       .filter((t) => t.length > 0)
       .slice(0, 20)
 
+    // Validate plans nếu bật
+    let plansPayload: Array<{
+      title: string
+      description: string | null
+      due_date: string
+      due_time: string | null
+      priority: PlanInput['priority']
+      category: PlanInput['category']
+      assignee_id: string | null
+    }> = []
+    if (plansEnabled && plans.length > 0) {
+      const invalid = plans.find((p) => !p.title.trim() || !p.due_date)
+      if (invalid) {
+        setErr('Mỗi việc nhắc cần có tiêu đề + ngày')
+        setSaving(false)
+        return
+      }
+      plansPayload = plans.map((p) => ({
+        title: p.title.trim(),
+        description: p.description.trim() || null,
+        due_date: p.due_date,
+        due_time: p.due_time || null,
+        priority: p.priority,
+        category: p.category,
+        assignee_id: p.assignee_id || null,
+      }))
+    }
+
     const body = {
       title: title.trim() || null,
       content: content.trim(),
@@ -74,6 +146,7 @@ export function DiaryFormModal({
       weather: weather || null,
       is_pinned: isPinned,
       attachments,
+      plans: plansPayload,
     }
 
     const url = isEdit ? `/api/diary/${initial?.id}` : '/api/diary'
@@ -384,6 +457,16 @@ export function DiaryFormModal({
             />
             <span>📌 Ghim lên đầu danh sách</span>
           </label>
+
+          {/* === SECTION: Đặt nhắc việc tới đây — sync sang Kế hoạch === */}
+          <DiaryPlansSection
+            enabled={plansEnabled}
+            onEnabledChange={setPlansEnabled}
+            plans={plans}
+            onChange={setPlans}
+            profiles={profiles}
+            defaultDate={diaryDate}
+          />
 
           {err && (
             <div className="px-3 py-2 rounded-lg text-sm bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 text-rose-700 dark:text-rose-300">

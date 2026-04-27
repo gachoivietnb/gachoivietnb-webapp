@@ -13,6 +13,14 @@ const Schema = z.object({
   website: z.string().optional(),
   drive_folder_id: z.string().optional(),
   map_url: z.string().optional(),
+  tax_code: z.string().optional(),
+  legal_name: z.string().optional(),
+  legal_address: z.string().optional(),
+  bank_account: z.string().optional(),
+  bank_name: z.string().optional(),
+  bank_branch: z.string().optional(),
+  representative_name: z.string().optional(),
+  representative_position: z.string().optional(),
 })
 
 export async function PATCH(request: Request) {

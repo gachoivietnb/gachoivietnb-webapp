@@ -30,9 +30,13 @@ export const MODULES: ModuleDef[] = [
   { key: 'mua_vao',    label: 'Mua vào',     group: 'Kinh doanh', supports: { read: true, write: true, delete: true } },
   { key: 'ban_ra',     label: 'Bán ra',      group: 'Kinh doanh', supports: { read: true, write: true, delete: true } },
   { key: 'khach_hang', label: 'Khách hàng',  group: 'Kinh doanh', supports: { read: true, write: true, delete: true } },
-  { key: 'quy',        label: 'Quản lý quỹ', group: 'Kinh doanh', supports: { read: true, write: true, delete: true } },
-  { key: 'tai_san',    label: 'Tài sản/CCDC', group: 'Kinh doanh', supports: { read: true, write: true, delete: true } },
-  { key: 'nhan_su',    label: 'Nhân sự',     group: 'Kinh doanh', supports: { read: true, write: true, delete: true } },
+
+  { key: 'quy',          label: 'Quản lý quỹ',     group: 'Tài chính & Kế toán', supports: { read: true, write: true, delete: true } },
+  { key: 'tai_san',      label: 'Tài sản/CCDC',    group: 'Tài chính & Kế toán', supports: { read: true, write: true, delete: true } },
+  { key: 'hoa_don',      label: 'Hóa đơn điện tử', group: 'Tài chính & Kế toán', supports: { read: true, write: true, delete: true } },
+  { key: 'bao_cao_thue', label: 'Báo cáo thuế',    group: 'Tài chính & Kế toán', supports: { read: true, write: false, delete: false } },
+
+  { key: 'nhan_su',    label: 'Nhân sự',     group: 'Quản lý Nhân sự', supports: { read: true, write: true, delete: true } },
 
   { key: 'tai_chinh',  label: 'Báo cáo',     group: 'Báo cáo',    supports: { read: true, write: true, delete: false } },
 
@@ -72,6 +76,8 @@ export const DEFAULT_NHAN_VIEN_PERMISSIONS: PermissionsMap = {
   quy: { read: false },
   tai_chinh: { read: false },
   tai_san: { read: true, write: true, delete: false },
+  hoa_don: { read: false },
+  bao_cao_thue: { read: false },
   ai_marketing: { read: true, write: false, delete: false },
   nhan_su: { read: false },
   nhat_ky: { read: false },

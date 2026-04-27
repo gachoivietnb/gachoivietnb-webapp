@@ -42,8 +42,15 @@ const NAV_GROUPS: { title: string; items: NavItem[] }[] = [
       { href: '/admin/mua-vao', label: 'Mua vào', emoji: '📥', moduleKey: 'mua_vao' },
       { href: '/admin/ban-ra', label: 'Bán ra', emoji: '💵', moduleKey: 'ban_ra' },
       { href: '/admin/khach-hang', label: 'Khách hàng', emoji: '👥', moduleKey: 'khach_hang' },
+    ],
+  },
+  {
+    title: 'Tài chính & Kế toán',
+    items: [
       { href: '/admin/quy', label: 'Quản lý quỹ', emoji: '💰', moduleKey: 'quy' },
       { href: '/admin/tai-san', label: 'Tài sản / CCDC', emoji: '🛠', moduleKey: 'tai_san' },
+      { href: '/admin/hoa-don', label: 'Hóa đơn điện tử', emoji: '🧾', moduleKey: 'hoa_don' },
+      { href: '/admin/bao-cao-thue', label: 'Báo cáo thuế', emoji: '📑', moduleKey: 'bao_cao_thue' },
     ],
   },
   {

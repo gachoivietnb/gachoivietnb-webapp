@@ -131,7 +131,16 @@ export default async function OrderDetail({ params }: { params: Promise<{ id: st
           >
             <ArrowLeft className="w-4 h-4" /> Quay lại danh sách
           </Link>
-          <SalesReceiptActions orderId={o.id} orderCode={o.order_code} />
+          <div className="flex items-center gap-2 flex-wrap">
+            <Link
+              href={`/admin/hoa-don/them-moi?from_sale=${o.id}`}
+              className="inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-500 to-orange-600 hover:opacity-95 text-white rounded-lg px-3 py-2 text-sm font-semibold shadow"
+              title="Tạo HĐ điện tử từ phiếu bán này — pre-fill khách + items"
+            >
+              🧾 Phát hành HĐ điện tử
+            </Link>
+            <SalesReceiptActions orderId={o.id} orderCode={o.order_code} />
+          </div>
         </div>
       </div>
 

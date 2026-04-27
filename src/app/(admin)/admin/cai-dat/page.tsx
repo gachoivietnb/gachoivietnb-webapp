@@ -36,6 +36,14 @@ export default async function SettingsPage() {
     website?: string
     drive_folder_id?: string
     map_url?: string
+    tax_code?: string
+    legal_name?: string
+    legal_address?: string
+    bank_account?: string
+    bank_name?: string
+    bank_branch?: string
+    representative_name?: string
+    representative_position?: string
   }
 
   const geminiKeyRaw =

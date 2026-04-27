@@ -28,55 +28,21 @@ export default async function ScanQrPage() {
 
   return (
     <div>
-      <div className="mb-5">
-        <h1 className="text-2xl font-medium text-gray-900 dark:text-gray-100 flex items-center gap-2">
+      {/* Compact header — không chiếm nhiều không gian trên mobile */}
+      <div className="mb-3 md:mb-5">
+        <h1 className="text-lg md:text-2xl font-medium text-gray-900 dark:text-gray-100 flex items-center gap-2">
           📷 Quét mã QR
         </h1>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+        <p className="hidden md:block text-sm text-gray-500 dark:text-gray-400 mt-1">
           Quét thẻ chân gà để mở hồ sơ · Nhập tay mã 4 số khi thẻ mờ · Lịch sử quét gần đây
         </p>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
-        <Kpi
-          label="🟢 Thẻ đang dùng"
-          value={String(used)}
-          icon="🐓"
-          tone="from-blue-500 to-indigo-500"
-          sub="Đã gắn vào hồ sơ gà"
-        />
-        <Kpi
-          label="🆕 Còn lại trong kho"
-          value={String(unused)}
-          icon="🔳"
-          tone="from-emerald-500 to-teal-500"
-          sub="Chưa kẹp vào con nào"
-          pulse={unused > 0 && unused < 30}
-        />
-        <Kpi
-          label="🔴 Hỏng / Mất"
-          value={String(broken)}
-          icon="⚠️"
-          tone="from-rose-500 to-red-500"
-          sub="Cần thay thế"
-        />
-      </div>
+      {/* SCANNER — đẩy lên TOP để mobile thấy ngay khi mở trang */}
+      <QrScanner />
 
-      <section className="relative overflow-hidden bg-gradient-to-br from-emerald-50 via-blue-50 to-violet-50 dark:from-emerald-950/30 dark:via-blue-950/30 dark:to-violet-950/30 border border-blue-200 dark:border-blue-900 rounded-xl p-4 mb-4">
-        <div className="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-blue-300/30 blur-3xl" />
-        <div className="absolute -left-10 -bottom-10 w-40 h-40 rounded-full bg-violet-300/30 blur-3xl" />
-        <div className="relative grid grid-cols-1 md:grid-cols-3 gap-3">
-          <Step n={1} title="Cho phép camera" desc="Lần đầu trình duyệt sẽ hỏi quyền — bấm Allow" />
-          <Step n={2} title="Trỏ thẻ vào khung" desc="Giữ thẻ cách camera ~10cm, đủ ánh sáng" />
-          <Step
-            n={3}
-            title="Tự mở hồ sơ"
-            desc="Quét xong app điều hướng tới /ga/{4 số} ngay lập tức"
-          />
-        </div>
-      </section>
-
-      <div className="flex flex-wrap gap-2 mb-5">
+      {/* Quick actions */}
+      <div className="flex flex-wrap gap-2 mt-4 mb-4">
         <Link
           href="/admin/quet-qr/upload"
           className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg px-4 py-2 text-sm font-semibold shadow hover:shadow-lg transition flex items-center gap-1.5"
@@ -97,7 +63,52 @@ export default async function ScanQrPage() {
         </Link>
       </div>
 
-      <QrScanner />
+      {/* KPI cards — context info, dưới scanner */}
+      <div className="grid grid-cols-3 gap-2 md:gap-3 mb-4">
+        <Kpi
+          label="🟢 Thẻ đang dùng"
+          value={String(used)}
+          icon="🐓"
+          tone="from-blue-500 to-indigo-500"
+          sub="Đã gắn vào hồ sơ gà"
+        />
+        <Kpi
+          label="🆕 Còn lại"
+          value={String(unused)}
+          icon="🔳"
+          tone="from-emerald-500 to-teal-500"
+          sub="Chưa kẹp vào con nào"
+          pulse={unused > 0 && unused < 30}
+        />
+        <Kpi
+          label="🔴 Hỏng / Mất"
+          value={String(broken)}
+          icon="⚠️"
+          tone="from-rose-500 to-red-500"
+          sub="Cần thay thế"
+        />
+      </div>
+
+      {/* Hướng dẫn 3 bước — collapse mặc định trên mobile, mở trên desktop */}
+      <details className="group" open={true}>
+        <summary className="md:hidden cursor-pointer text-xs text-gray-500 dark:text-gray-400 mb-2 select-none list-none flex items-center gap-1.5 [&::-webkit-details-marker]:hidden">
+          <span className="group-open:rotate-90 transition-transform">▶</span>
+          Xem hướng dẫn quét
+        </summary>
+        <section className="relative overflow-hidden bg-gradient-to-br from-emerald-50 via-blue-50 to-violet-50 dark:from-emerald-950/30 dark:via-blue-950/30 dark:to-violet-950/30 border border-blue-200 dark:border-blue-900 rounded-xl p-4">
+          <div className="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-blue-300/30 blur-3xl" />
+          <div className="absolute -left-10 -bottom-10 w-40 h-40 rounded-full bg-violet-300/30 blur-3xl" />
+          <div className="relative grid grid-cols-1 md:grid-cols-3 gap-3">
+            <Step n={1} title="Cho phép camera" desc="Lần đầu trình duyệt sẽ hỏi quyền — bấm Allow" />
+            <Step n={2} title="Trỏ thẻ vào khung" desc="Giữ thẻ cách camera ~10cm, đủ ánh sáng" />
+            <Step
+              n={3}
+              title="Tự mở hồ sơ"
+              desc="Quét xong app điều hướng tới /ga/{4 số} ngay lập tức"
+            />
+          </div>
+        </section>
+      </details>
     </div>
   )
 }

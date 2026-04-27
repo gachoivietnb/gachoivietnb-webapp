@@ -16,13 +16,26 @@ import {
   type MatchInjuryLevel,
 } from '@/lib/thi-dau/types'
 
+type ChickenStats = {
+  combat_tier: string
+  stars: number
+  total_matches: number
+  wins: number
+  current_win_streak: number
+}
 type Chicken = {
   id: string
   chicken_code: string
   name: string | null
   image_url: string | null
   status: string
+  gender?: string | null
+  birth_date?: string | null
+  weight_kg?: number | null
   breeds: { name_vi: string } | { name_vi: string }[] | null
+  area?: { code: string; name_vi: string } | { code: string; name_vi: string }[] | null
+  combat_tier_manual?: string | null
+  stats?: ChickenStats | null
 }
 type Tournament = {
   id: string
@@ -81,11 +94,13 @@ export function MatchFormClient({
   tournaments,
   editing,
   defaultChickenId,
+  recentChickenIds = [],
 }: {
   chickens: Chicken[]
   tournaments: Tournament[]
   editing: Editing | null
   defaultChickenId?: string
+  recentChickenIds?: string[]
 }) {
   const router = useRouter()
   const [step, setStep] = useState(1)
@@ -139,20 +154,92 @@ export function MatchFormClient({
   const [isPublic, setIsPublic] = useState(editing?.is_public ?? true)
   const [isPinned, setIsPinned] = useState(editing?.is_pinned ?? false)
 
+  // === Smart picker filters ===
+  const [genderFilter, setGenderFilter] = useState<'all' | 'trong' | 'mai'>('all')
+  const [statusFilter, setStatusFilter] = useState<'available' | 'all' | 'da_ban'>('available')
+  const [tierFilter, setTierFilter] = useState<'all' | 'has_record' | 'fighter' | 'on_fire'>('all')
+  const [breedFilter, setBreedFilter] = useState<string>('all')
+  const [sortBy, setSortBy] = useState<'recent' | 'code' | 'stars' | 'age'>('recent')
+
+  const breedList = useMemo(() => {
+    const set = new Map<string, string>()
+    for (const c of chickens) {
+      const b = Array.isArray(c.breeds) ? c.breeds[0] : c.breeds
+      if (b?.name_vi) set.set(b.name_vi, b.name_vi)
+    }
+    return Array.from(set.values()).sort()
+  }, [chickens])
+
   const filteredChickens = useMemo(() => {
     const q = chickenSearch.trim().toLowerCase()
-    return chickens
-      .filter((c) => {
-        if (!q) return true
-        return (
-          c.chicken_code.toLowerCase().includes(q) ||
-          (c.name ?? '').toLowerCase().includes(q)
-        )
-      })
-      .slice(0, 50)
-  }, [chickens, chickenSearch])
+    const today = Date.now()
+    let list = chickens.filter((c) => {
+      // Gender
+      if (genderFilter !== 'all' && c.gender !== genderFilter) return false
+      // Status
+      if (statusFilter === 'available' && !['dang_nuoi', 'dang_cach_ly'].includes(c.status)) return false
+      if (statusFilter === 'da_ban' && c.status !== 'da_ban') return false
+      // Combat tier
+      const stats = c.stats
+      if (tierFilter === 'has_record' && (!stats || stats.total_matches === 0)) return false
+      if (tierFilter === 'fighter' && (!stats || stats.wins < 2)) return false
+      if (tierFilter === 'on_fire' && (!stats || stats.current_win_streak < 3)) return false
+      // Breed
+      if (breedFilter !== 'all') {
+        const b = Array.isArray(c.breeds) ? c.breeds[0] : c.breeds
+        if (b?.name_vi !== breedFilter) return false
+      }
+      // Search
+      if (q) {
+        const hay = `${c.chicken_code} ${c.name ?? ''}`.toLowerCase()
+        if (!hay.includes(q)) return false
+      }
+      return true
+    })
+
+    // Sort
+    const recentIdx: Record<string, number> = {}
+    recentChickenIds.forEach((id, i) => { recentIdx[id] = i })
+    list = [...list].sort((a, b) => {
+      if (sortBy === 'recent') {
+        // Gà recently used trước, sau đó theo code
+        const ai = recentIdx[a.id] ?? 999
+        const bi = recentIdx[b.id] ?? 999
+        if (ai !== bi) return ai - bi
+        return a.chicken_code.localeCompare(b.chicken_code)
+      }
+      if (sortBy === 'code') return a.chicken_code.localeCompare(b.chicken_code)
+      if (sortBy === 'stars') return (b.stats?.stars ?? 0) - (a.stats?.stars ?? 0)
+      if (sortBy === 'age') {
+        const aD = a.birth_date ? new Date(a.birth_date).getTime() : today
+        const bD = b.birth_date ? new Date(b.birth_date).getTime() : today
+        return aD - bD  // sinh sớm = lớn hơn
+      }
+      return 0
+    })
+
+    return list.slice(0, 100)
+  }, [chickens, chickenSearch, genderFilter, statusFilter, tierFilter, breedFilter, sortBy, recentChickenIds])
 
   const selectedChicken = chickens.find((c) => c.id === chickenId)
+
+  function ageMonths(birth: string | null | undefined): number | null {
+    if (!birth) return null
+    return Math.floor((Date.now() - new Date(birth).getTime()) / (1000 * 60 * 60 * 24 * 30))
+  }
+
+  function clearAllFilters() {
+    setChickenSearch('')
+    setGenderFilter('all')
+    setStatusFilter('available')
+    setTierFilter('all')
+    setBreedFilter('all')
+    setSortBy('recent')
+  }
+
+  const totalAvailable = chickens.filter((c) =>
+    ['dang_nuoi', 'dang_cach_ly'].includes(c.status)
+  ).length
 
   function next() {
     if (step === 1 && !chickenId) {
@@ -309,40 +396,104 @@ export function MatchFormClient({
                 </button>
               </div>
             ) : (
-              <div>
-                <input
-                  value={chickenSearch}
-                  onChange={(e) => setChickenSearch(e.target.value)}
-                  placeholder="🔍 Tìm theo mã / tên gà..."
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 rounded-lg text-sm"
-                />
-                <div className="mt-2 max-h-72 overflow-y-auto border border-gray-200 dark:border-gray-700 rounded-lg divide-y divide-gray-100 dark:divide-gray-700">
+              <div className="space-y-3">
+                {/* Search bar */}
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
+                  <input
+                    value={chickenSearch}
+                    onChange={(e) => setChickenSearch(e.target.value)}
+                    placeholder="Tìm mã (VD: GA0018) hoặc tên (VD: Bá Vương)..."
+                    autoFocus
+                    className="w-full pl-9 pr-3 py-2.5 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 rounded-lg text-sm focus:border-emerald-400 focus:ring-2 focus:ring-emerald-200"
+                  />
+                </div>
+
+                {/* Filter chips row 1: Quick filters with stats */}
+                <div className="flex gap-1.5 flex-wrap text-xs">
+                  <span className="text-[10px] text-gray-500 mr-1 self-center font-bold uppercase tracking-wide">Lọc nhanh:</span>
+                  <PickerPill active={tierFilter === 'all'} onClick={() => setTierFilter('all')}>
+                    🌐 Tất cả
+                  </PickerPill>
+                  <PickerPill active={tierFilter === 'has_record'} onClick={() => setTierFilter('has_record')}>
+                    ⭐ Có thành tích
+                  </PickerPill>
+                  <PickerPill active={tierFilter === 'fighter'} onClick={() => setTierFilter('fighter')} color="amber">
+                    🏆 Gà chiến (≥2 sao)
+                  </PickerPill>
+                  <PickerPill active={tierFilter === 'on_fire'} onClick={() => setTierFilter('on_fire')} color="red">
+                    🔥 ON-FIRE (3+ streak)
+                  </PickerPill>
+                </div>
+
+                {/* Filter chips row 2: Gender + Status */}
+                <div className="flex gap-1.5 flex-wrap text-xs items-center">
+                  <span className="text-[10px] text-gray-500 mr-1 font-bold uppercase tracking-wide">Giới tính:</span>
+                  <PickerPill active={genderFilter === 'all'} onClick={() => setGenderFilter('all')}>Cả 2</PickerPill>
+                  <PickerPill active={genderFilter === 'trong'} onClick={() => setGenderFilter('trong')} color="blue">
+                    ♂ Trống
+                  </PickerPill>
+                  <PickerPill active={genderFilter === 'mai'} onClick={() => setGenderFilter('mai')} color="pink">
+                    ♀ Mái
+                  </PickerPill>
+                  <span className="text-gray-300 mx-1">|</span>
+                  <span className="text-[10px] text-gray-500 mr-1 font-bold uppercase tracking-wide">Trạng thái:</span>
+                  <PickerPill active={statusFilter === 'available'} onClick={() => setStatusFilter('available')}>
+                    🟢 Đang nuôi
+                  </PickerPill>
+                  <PickerPill active={statusFilter === 'all'} onClick={() => setStatusFilter('all')}>Tất cả</PickerPill>
+                  <PickerPill active={statusFilter === 'da_ban'} onClick={() => setStatusFilter('da_ban')}>📦 Đã bán (cũ)</PickerPill>
+                </div>
+
+                {/* Filter row 3: Breed dropdown + sort + clear */}
+                <div className="flex gap-2 flex-wrap text-xs items-center">
+                  <select
+                    value={breedFilter}
+                    onChange={(e) => setBreedFilter(e.target.value)}
+                    className="px-3 py-1.5 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 rounded-full text-xs"
+                  >
+                    <option value="all">🧬 Tất cả giống ({chickens.length})</option>
+                    {breedList.map((b) => (
+                      <option key={b} value={b}>🧬 {b}</option>
+                    ))}
+                  </select>
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
+                    className="px-3 py-1.5 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 rounded-full text-xs"
+                  >
+                    <option value="recent">🕐 Gần đây dùng (mặc định)</option>
+                    <option value="code">🔤 Theo mã (GA0001…)</option>
+                    <option value="stars">⭐ Sao chiến (cao→thấp)</option>
+                    <option value="age">📅 Tuổi (lớn→nhỏ)</option>
+                  </select>
+                  <button onClick={clearAllFilters} className="text-gray-500 hover:text-gray-700 underline">
+                    ↺ Xoá filter
+                  </button>
+                  <span className="ml-auto text-gray-500">
+                    Hiển thị <b>{filteredChickens.length}</b> / {totalAvailable} gà có thể đấu
+                  </span>
+                </div>
+
+                {/* Recent badge */}
+                {recentChickenIds.length > 0 && sortBy === 'recent' && !chickenSearch && tierFilter === 'all' && (
+                  <div className="text-[11px] text-amber-700 dark:text-amber-400 italic">
+                    💡 Đang ưu tiên hiện <b>{recentChickenIds.length} con</b> đã đấu gần đây
+                  </div>
+                )}
+
+                {/* Chicken grid */}
+                <div className="max-h-96 overflow-y-auto border border-gray-200 dark:border-gray-700 rounded-lg p-2">
                   {filteredChickens.length === 0 ? (
-                    <div className="p-3 text-xs text-gray-500 text-center">Không tìm thấy gà nào</div>
+                    <div className="p-6 text-xs text-gray-500 text-center">
+                      Không tìm thấy gà khớp filter — thử xoá bớt điều kiện
+                    </div>
                   ) : (
-                    filteredChickens.map((c) => (
-                      <button
-                        key={c.id}
-                        onClick={() => setChickenId(c.id)}
-                        className="w-full text-left flex items-center gap-3 px-3 py-2 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
-                      >
-                        <div className="w-10 h-10 rounded bg-gray-100 dark:bg-gray-700 overflow-hidden shrink-0">
-                          {c.image_url ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img src={c.image_url} alt="" className="w-full h-full object-cover" />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center text-lg">🐓</div>
-                          )}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="font-semibold text-sm truncate">{c.name || c.chicken_code}</div>
-                          <div className="text-xs text-gray-500 truncate">
-                            {c.chicken_code} ·{' '}
-                            {Array.isArray(c.breeds) ? c.breeds[0]?.name_vi : c.breeds?.name_vi}
-                          </div>
-                        </div>
-                      </button>
-                    ))
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                      {filteredChickens.map((c) => (
+                        <ChickenPickerCard key={c.id} chicken={c} onPick={() => setChickenId(c.id)} ageMonths={ageMonths} />
+                      ))}
+                    </div>
                   )}
                 </div>
               </div>
@@ -701,5 +852,124 @@ function Field({
       />
       {help && <span className="text-[11px] text-gray-500 mt-0.5 block">{help}</span>}
     </label>
+  )
+}
+
+function PickerPill({
+  active,
+  onClick,
+  color = 'emerald',
+  children,
+}: {
+  active: boolean
+  onClick: () => void
+  color?: 'emerald' | 'amber' | 'red' | 'blue' | 'pink'
+  children: React.ReactNode
+}) {
+  const c = {
+    emerald: 'bg-emerald-500 border-emerald-500',
+    amber:   'bg-amber-500 border-amber-500',
+    red:     'bg-red-500 border-red-500',
+    blue:    'bg-blue-500 border-blue-500',
+    pink:    'bg-pink-500 border-pink-500',
+  }[color]
+  return (
+    <button
+      onClick={onClick}
+      className={`px-2.5 py-1 rounded-full border whitespace-nowrap transition-all ${
+        active
+          ? `${c} text-white font-semibold shadow-sm`
+          : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-emerald-300'
+      }`}
+    >
+      {children}
+    </button>
+  )
+}
+
+function ChickenPickerCard({
+  chicken: c,
+  onPick,
+  ageMonths,
+}: {
+  chicken: Chicken
+  onPick: () => void
+  ageMonths: (b: string | null | undefined) => number | null
+}) {
+  const breed = Array.isArray(c.breeds) ? c.breeds[0]?.name_vi : c.breeds?.name_vi
+  const area = Array.isArray(c.area) ? c.area[0] : c.area
+  const age = ageMonths(c.birth_date)
+  const stats = c.stats
+  const genderIcon = c.gender === 'trong' ? '♂' : c.gender === 'mai' ? '♀' : '?'
+  const genderColor = c.gender === 'trong' ? 'text-blue-600' : c.gender === 'mai' ? 'text-pink-600' : 'text-gray-400'
+  const isOnFire = (stats?.current_win_streak ?? 0) >= 3
+  const tierMap: Record<string, { emoji: string; label: string; cls: string }> = {
+    huyen_thoai:  { emoji: '🏆', label: 'Huyền thoại', cls: 'bg-yellow-100 text-yellow-800' },
+    chien_tuong:  { emoji: '👑', label: 'Chiến tướng', cls: 'bg-purple-100 text-purple-700' },
+    ga_an_ky_3:   { emoji: '⭐⭐⭐', label: 'Kỳ 3', cls: 'bg-red-100 text-red-700' },
+    ga_an_ky_2:   { emoji: '⭐⭐', label: 'Kỳ 2', cls: 'bg-orange-100 text-orange-700' },
+    ga_an_ky_1:   { emoji: '⭐', label: 'Kỳ 1', cls: 'bg-amber-100 text-amber-700' },
+    ga_mo_mo:     { emoji: '🥚', label: 'Mở mỏ', cls: 'bg-violet-100 text-violet-700' },
+    ga_van_nuoc:  { emoji: '💧', label: 'Vần nước', cls: 'bg-blue-100 text-blue-700' },
+    ga_van_kho:   { emoji: '💪', label: 'Vần khô', cls: 'bg-cyan-100 text-cyan-700' },
+    ga_to:        { emoji: '🌱', label: 'Gà tơ', cls: 'bg-green-100 text-green-700' },
+    ga_con:       { emoji: '🐣', label: 'Gà con', cls: 'bg-yellow-100 text-yellow-700' },
+  }
+  const tierInfo = stats?.combat_tier ? tierMap[stats.combat_tier] : null
+
+  return (
+    <button
+      onClick={onPick}
+      className="text-left flex items-center gap-2 px-2.5 py-2 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/20 transition group"
+    >
+      <div className="w-12 h-12 rounded-lg bg-gray-100 dark:bg-gray-700 overflow-hidden shrink-0 ring-2 ring-transparent group-hover:ring-emerald-300">
+        {c.image_url ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={c.image_url} alt="" className="w-full h-full object-cover" />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-2xl">🐓</div>
+        )}
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-1.5">
+          <span className={`font-bold text-sm ${genderColor}`}>{genderIcon}</span>
+          <span className="font-bold text-sm text-gray-900 dark:text-gray-100 truncate">
+            {c.name || c.chicken_code}
+          </span>
+          {isOnFire && (
+            <span className="text-[9px] bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold rounded-full px-1.5 py-0.5 animate-pulse">
+              🔥{stats?.current_win_streak}
+            </span>
+          )}
+        </div>
+        <div className="flex items-center gap-1 text-[10px] text-gray-500 dark:text-gray-400 truncate">
+          <span className="font-mono">{c.chicken_code}</span>
+          {breed && <><span>·</span><span>{breed}</span></>}
+          {age !== null && <><span>·</span><span>{age}t</span></>}
+          {c.weight_kg && <><span>·</span><span>{c.weight_kg}kg</span></>}
+          {area && <><span>·</span><span>📍{area.code}</span></>}
+        </div>
+        {(tierInfo || stats?.total_matches) && (
+          <div className="flex items-center gap-1 mt-0.5">
+            {tierInfo && (
+              <span className={`text-[9px] px-1.5 py-0.5 rounded font-semibold ${tierInfo.cls}`}>
+                {tierInfo.emoji} {tierInfo.label}
+              </span>
+            )}
+            {stats && stats.total_matches > 0 && (
+              <span className="text-[9px] text-gray-500">
+                {stats.wins}/{stats.total_matches} thắng
+              </span>
+            )}
+          </div>
+        )}
+        {c.status === 'da_ban' && (
+          <span className="text-[9px] bg-blue-100 text-blue-700 rounded px-1 mt-0.5 inline-block">📦 Đã bán</span>
+        )}
+        {c.status === 'dang_cach_ly' && (
+          <span className="text-[9px] bg-amber-100 text-amber-700 rounded px-1 mt-0.5 inline-block">🏥 Cách ly</span>
+        )}
+      </div>
+    </button>
   )
 }

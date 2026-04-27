@@ -53,7 +53,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <AdminHeader profile={profileData} />
         <main className="flex-1 p-4 md:p-6">{children}</main>
       </div>
-      <AdminBottomNav />
+      <AdminBottomNav profile={profileData} isSuperAdmin={isSuper} />
       <ChatbotFloatingButton />
       <BackToTopButton />
       <OnlineStatusBar />

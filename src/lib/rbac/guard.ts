@@ -1,4 +1,6 @@
+import { cache } from 'react'
 import { createClient } from '@/lib/supabase/server'
+import { getCachedUser } from '@/lib/auth/session'
 import { hasPermission, type PermissionsMap } from './modules'
 
 export type CurrentUserPermissions = {
@@ -8,13 +10,11 @@ export type CurrentUserPermissions = {
   can: (moduleKey: string, action: 'read' | 'write' | 'delete') => boolean
 }
 
-export async function getCurrentUserPermissions(): Promise<CurrentUserPermissions | null> {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+export const getCurrentUserPermissions = cache(async (): Promise<CurrentUserPermissions | null> => {
+  const user = await getCachedUser()
   if (!user) return null
 
+  const supabase = await createClient()
   const { data: profile } = await supabase
     .from('profiles')
     .select('role, permissions')
@@ -34,7 +34,7 @@ export async function getCurrentUserPermissions(): Promise<CurrentUserPermission
     permissions,
     can: (moduleKey, action) => hasPermission(profile.role, permissions, moduleKey, action),
   }
-}
+})
 
 export async function requirePermission(
   moduleKey: string,

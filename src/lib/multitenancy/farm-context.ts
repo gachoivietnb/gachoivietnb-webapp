@@ -1,5 +1,7 @@
 import 'server-only'
+import { cache } from 'react'
 import { createClient } from '@/lib/supabase/server'
+import { getCachedUser } from '@/lib/auth/session'
 
 export type FarmContext = {
   user: { id: string; email?: string }
@@ -32,13 +34,11 @@ export type FarmContext = {
  *   - Gate features by tier
  *   - Inject farm_id explicitly when service_role bypasses RLS
  */
-export async function getFarmContext(): Promise<FarmContext | null> {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+export const getFarmContext = cache(async (): Promise<FarmContext | null> => {
+  const user = await getCachedUser()
   if (!user) return null
 
+  const supabase = await createClient()
   const { data: profile } = await supabase
     .from('profiles')
     .select('id, full_name, role, farm_id')
@@ -60,7 +60,7 @@ export async function getFarmContext(): Promise<FarmContext | null> {
     profile,
     farm,
   }
-}
+})
 
 /**
  * Convenience: just the farm_id, throws if not authenticated.

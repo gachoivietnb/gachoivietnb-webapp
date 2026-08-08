@@ -47,5 +47,8 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'],
+  // Chỉ chạy middleware ở khu vực cần auth: /admin (bảo vệ + refresh session)
+  // và /auth/login (redirect khi đã đăng nhập). Trang public/ISR KHÔNG chạy
+  // middleware → không tốn 1 round-trip auth.getUser() thừa mỗi lượt tải.
+  matcher: ['/admin/:path*', '/auth/login'],
 }

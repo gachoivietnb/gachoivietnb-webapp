@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { getCachedUser } from '@/lib/auth/session'
 import { redirect } from 'next/navigation'
 import AdminSidebar from '@/components/layout/AdminSidebar'
 import AdminBottomNav from '@/components/layout/AdminBottomNav'
@@ -18,15 +19,12 @@ function isSuperAdminEmail(email: string | undefined): boolean {
 }
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
+  const user = await getCachedUser()
   if (!user) redirect('/auth/login')
 
   const isSuper = isSuperAdminEmail(user.email)
 
+  const supabase = await createClient()
   const { data: profile } = await supabase
     .from('profiles')
     .select('id, full_name, role, avatar_url, is_active, onboarding_completed, permissions')
@@ -49,9 +47,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100">
       <AdminSidebar profile={profileData} isSuperAdmin={isSuper} />
-      <div className="md:ml-64 pb-20 md:pb-0 min-h-screen flex flex-col">
+      <div className="md:ml-64 pb-24 md:pb-0 min-h-screen flex flex-col">
         <AdminHeader profile={profileData} />
-        <main className="flex-1 p-4 md:p-6">{children}</main>
+        {/* pb-28: chừa khoảng đáy để nút thao tác dòng cuối không bị FAB "Trợ lý AI" che */}
+        <main className="flex-1 p-4 md:p-6 pb-28 md:pb-28">{children}</main>
       </div>
       <AdminBottomNav profile={profileData} isSuperAdmin={isSuper} />
       <ChatbotFloatingButton />

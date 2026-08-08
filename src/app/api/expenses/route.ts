@@ -12,6 +12,9 @@ const Schema = z.object({
 })
 
 export async function GET(request: Request) {
+  const perm = await requirePermission('quy', 'read')
+  if ('error' in perm) return NextResponse.json({ error: perm.error }, { status: perm.status })
+
   const { searchParams } = new URL(request.url)
   const from = searchParams.get('from')
   const to = searchParams.get('to')

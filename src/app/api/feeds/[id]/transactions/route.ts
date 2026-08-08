@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
+import { requirePermission } from '@/lib/rbac/guard'
 
 const Schema = z.object({
   transaction_type: z.enum(['nhap', 'xuat']),
@@ -31,6 +32,9 @@ export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const perm = await requirePermission('kho_thuc_an', 'write')
+  if ('error' in perm) return NextResponse.json({ error: perm.error }, { status: perm.status })
+
   const { id } = await params
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()

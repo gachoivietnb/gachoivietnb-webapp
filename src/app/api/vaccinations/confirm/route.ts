@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
+import { requirePermission } from '@/lib/rbac/guard'
 
 const Schema = z.object({
   vaccination_ids: z.array(z.string().uuid()).min(1).max(200),
@@ -10,6 +11,9 @@ const Schema = z.object({
 })
 
 export async function POST(request: Request) {
+  const perm = await requirePermission('tiem_phong', 'write')
+  if ('error' in perm) return NextResponse.json({ error: perm.error }, { status: perm.status })
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })

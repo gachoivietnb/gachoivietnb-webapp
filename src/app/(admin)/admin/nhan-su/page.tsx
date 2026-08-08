@@ -46,6 +46,7 @@ export default async function NhanSuPage() {
 
   const overviewRows: StaffOverviewRow[] = staff.map((s) => ({
     ...s,
+    created_at: (s as { created_at?: string }).created_at ?? '',
     month_days: monthMap.get(s.id)?.days ?? 0,
     month_hours: monthMap.get(s.id)?.hours ?? 0,
   }))

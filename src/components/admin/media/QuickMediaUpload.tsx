@@ -99,7 +99,7 @@ export function QuickMediaUpload({ initialChicken }: { initialChicken?: Candidat
       cancelled = true
       const s = scannerRef.current as { stop?: () => Promise<void> } | null
       s?.stop?.().catch(() => {})
-      stream?.getTracks().forEach((t) => t.stop())
+      ;(stream as MediaStream | null)?.getTracks().forEach((t) => t.stop())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode])

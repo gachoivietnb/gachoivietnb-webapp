@@ -3,9 +3,11 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   typescript: {
-    ignoreBuildErrors: true,
+    // tsc --noEmit sạch (0 lỗi) tính đến 2026-08 — bật kiểm type khi build để chặn regression.
+    ignoreBuildErrors: false,
   },
   eslint: {
+    // Lint chưa được dọn sạch — tạm bỏ qua khi build để không chặn deploy.
     ignoreDuringBuilds: true,
   },
   images: {

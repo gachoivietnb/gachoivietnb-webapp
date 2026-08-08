@@ -50,7 +50,7 @@ const daysFromToday = (iso: string) => {
 }
 
 export async function buildFarmPlan(
-  sb: SupabaseClient,
+  sb: SupabaseClient<any, any, any>,
   farmId: string
 ): Promise<PlanItem[]> {
   const items: PlanItem[] = []
@@ -67,7 +67,7 @@ export async function buildFarmPlan(
     .order('scheduled_date')
     .limit(100)
 
-  for (const v of (vacs ?? []) as Array<{
+  for (const v of (vacs ?? []) as unknown as Array<{
     id: string
     scheduled_date: string
     chicken: { id: string; chicken_code: string; name: string | null } | null
@@ -303,7 +303,7 @@ export async function buildFarmPlan(
     .eq('status', 'dat_coc')
     .order('deposit_date', { ascending: true })
     .limit(20)
-  for (const o of (depositOrders ?? []) as Array<{
+  for (const o of (depositOrders ?? []) as unknown as Array<{
     id: string; order_code: string; deposit_date: string | null;
     deposit_amount: number; total_amount: number;
     customers: { name: string } | null;

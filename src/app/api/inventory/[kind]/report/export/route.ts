@@ -344,7 +344,7 @@ export async function GET(
 
   if (format === 'pdf') {
     const buf = buildPdf(meta, sections, farm)
-    return new NextResponse(buf, {
+    return new NextResponse(buf as BodyInit, {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename="${filenameBase}.pdf"`,
@@ -352,7 +352,7 @@ export async function GET(
     })
   }
   const buf = await buildExcel(meta, sections, farm)
-  return new NextResponse(buf, {
+  return new NextResponse(buf as BodyInit, {
     headers: {
       'Content-Type':
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

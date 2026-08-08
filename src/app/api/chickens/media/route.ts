@@ -79,7 +79,7 @@ export async function POST(request: Request) {
         .maybeSingle()
       return (data as { value?: Record<string, string> } | null)?.value ?? null
     })
-    buffer = await applyWatermark(buffer, wmConfig)
+    buffer = Buffer.from(await applyWatermark(buffer, wmConfig))
     contentType = 'image/jpeg'
   }
 

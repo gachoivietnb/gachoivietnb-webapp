@@ -135,7 +135,7 @@ export async function GET(request: Request) {
   const buf = await buildExcel(meta, sections, farm)
   const filename = `bang-cong-thang-${month}-${year}.xlsx`
 
-  return new NextResponse(buf, {
+  return new NextResponse(buf as BodyInit, {
     headers: {
       'Content-Type':
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

@@ -150,8 +150,8 @@ export function FarmMediaManager({ items }: { items: Item[] }) {
           const j = await res.json()
           if (!res.ok) {
             setPending((prev) =>
-              prev.map((x, j) =>
-                j === i ? { ...x, status: 'error', error: j.error ?? 'Lỗi' } : x
+              prev.map((x, idx) =>
+                idx === i ? { ...x, status: 'error', error: j.error ?? 'Lỗi' } : x
               )
             )
           } else {
@@ -615,7 +615,7 @@ export function FarmMediaManager({ items }: { items: Item[] }) {
 
       {/* Results */}
       {filtered.length === 0 ? (
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-12 text-center">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 md:p-12 text-center">
           <div className="text-5xl mb-3">📭</div>
           <p className="text-gray-600 dark:text-gray-400 text-lg font-semibold">
             {items.length === 0 ? 'Chưa có media nào' : 'Không có mục nào khớp tiêu chí'}

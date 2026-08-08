@@ -93,13 +93,13 @@ export async function DELETE(request: Request) {
   const onlyResolved = url.searchParams.get('onlyResolved') !== '0'
 
   const admin = createAdminClient()
-  let q = admin.from('system_logs').delete()
+  let q = admin.from('system_logs').delete({ count: 'exact' })
   if (olderThanDays > 0) {
     const cutoff = new Date(Date.now() - olderThanDays * 86400000).toISOString()
     q = q.lt('created_at', cutoff)
   }
   if (onlyResolved) q = q.not('resolved_at', 'is', null)
-  const { error, count } = await q.select('id', { count: 'exact', head: true })
+  const { error, count } = await q
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ ok: true, deleted: count ?? 0 })
 }

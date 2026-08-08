@@ -32,7 +32,7 @@ export default async function DashboardPage() {
   ] = (await Promise.all([
     supabase.rpc('dashboard_kpis_v2'),
     supabase.rpc('trends_12_months'),
-    supabase.rpc('dashboard_top_customers', { p_limit: 5 }),
+    supabase.rpc('dashboard_top_customers', { p_limit: 5 } as never),
     supabase.rpc('dashboard_breed_revenue'),
     supabase.rpc('dashboard_expense_breakdown'),
     supabase

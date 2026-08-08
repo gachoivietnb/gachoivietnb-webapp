@@ -25,7 +25,7 @@ export async function GET() {
       context: { tables: Object.keys(manifest.tables).length, size_kb: Math.round(buffer.byteLength / 1024) },
     })
 
-    return new Response(buffer, {
+    return new Response(buffer as BodyInit, {
       status: 200,
       headers: {
         'Content-Type': 'application/zip',

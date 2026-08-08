@@ -29,6 +29,27 @@ export function FeedsManager({ items }: { items: Feed[] }) {
   const [stock, setStock] = useState<StockState>('')
   const [sortKey, setSortKey] = useState<SortKey>('name')
   const [view, setView] = useState<ViewMode>('grid')
+  const [editing, setEditing] = useState<Feed | null>(null)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
+
+  function startEdit(m: Feed) {
+    setAddOpen(false)
+    setEditing(m)
+    if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+  async function handleDelete(m: Feed) {
+    if (!window.confirm(`Xóa loại thức ăn "${m.name_vi}"?\n\nLịch sử nhập/xuất vẫn được giữ, nhưng loại này sẽ ẩn khỏi danh sách kho.`)) return
+    setDeletingId(m.id)
+    const res = await fetch(`/api/feeds/${m.id}`, { method: 'DELETE' })
+    if (!res.ok) {
+      const j = (await res.json().catch(() => ({}))) as { error?: string }
+      window.alert('Lỗi xóa: ' + (j.error ?? `HTTP ${res.status}`))
+      setDeletingId(null)
+      return
+    }
+    setDeletingId(null)
+    router.refresh()
+  }
 
   const qNorm = removeDiacritics(q.trim())
 
@@ -146,7 +167,7 @@ export function FeedsManager({ items }: { items: Feed[] }) {
       {/* Action bar */}
       <div className="flex gap-2 flex-wrap">
         <button
-          onClick={() => setAddOpen(!addOpen)}
+          onClick={() => { setEditing(null); setAddOpen((v) => !v) }}
           className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-3 py-2 text-sm font-medium"
         >
           {addOpen ? '✕ Đóng' : '+ Thêm loại thức ăn'}
@@ -159,7 +180,12 @@ export function FeedsManager({ items }: { items: Feed[] }) {
         </Link>
       </div>
 
-      {addOpen && <AddFeedForm onDone={() => { setAddOpen(false); router.refresh() }} />}
+      {(addOpen || editing) && (
+        <AddFeedForm
+          editing={editing}
+          onDone={() => { setAddOpen(false); setEditing(null); router.refresh() }}
+        />
+      )}
 
       {/* Filter bar */}
       <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-sm">
@@ -306,7 +332,7 @@ export function FeedsManager({ items }: { items: Feed[] }) {
 
       {/* Results */}
       {filtered.length === 0 ? (
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-12 text-center">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 md:p-12 text-center">
           <div className="text-5xl mb-2">🌾</div>
           <p className="text-gray-600 dark:text-gray-400 text-lg font-semibold">
             {items.length === 0 ? 'Chưa có loại thức ăn nào' : 'Không có loại nào khớp tiêu chí'}
@@ -326,11 +352,14 @@ export function FeedsManager({ items }: { items: Feed[] }) {
               stockStatus={stockStatus(m)}
               stockPct={stockPct(m)}
               onTx={() => setTxId(m.id)}
+              onEdit={() => startEdit(m)}
+              onDelete={() => handleDelete(m)}
+              deleting={deletingId === m.id}
             />
           ))}
         </div>
       ) : (
-        <ListView items={filtered} stockStatus={stockStatus} onTx={(id) => setTxId(id)} />
+        <ListView items={filtered} stockStatus={stockStatus} onTx={(id) => setTxId(id)} onEdit={startEdit} onDelete={handleDelete} deletingId={deletingId} />
       )}
 
       {txId && (() => {
@@ -363,11 +392,17 @@ function FeedCard({
   stockStatus,
   stockPct,
   onTx,
+  onEdit,
+  onDelete,
+  deleting,
 }: {
   m: Feed
   stockStatus: 'out' | 'low' | 'ok'
   stockPct: number
   onTx: () => void
+  onEdit: () => void
+  onDelete: () => void
+  deleting: boolean
 }) {
   let headerGrad = 'from-emerald-500 to-green-600'
   let urgentLabel = ''
@@ -477,6 +512,21 @@ function FeedCard({
         >
           📦 Nhập / Xuất kho
         </button>
+        <div className="grid grid-cols-2 gap-2 mt-2">
+          <button
+            onClick={onEdit}
+            className="rounded-lg py-1.5 text-xs font-semibold border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+          >
+            ✏️ Sửa
+          </button>
+          <button
+            onClick={onDelete}
+            disabled={deleting}
+            className="rounded-lg py-1.5 text-xs font-semibold border border-rose-300 dark:border-rose-800 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 disabled:opacity-50 transition"
+          >
+            {deleting ? '⏳ Đang xóa…' : '🗑️ Xóa'}
+          </button>
+        </div>
       </div>
     </div>
   )
@@ -487,10 +537,16 @@ function ListView({
   items,
   stockStatus,
   onTx,
+  onEdit,
+  onDelete,
+  deletingId,
 }: {
   items: Feed[]
   stockStatus: (m: Feed) => 'out' | 'low' | 'ok'
   onTx: (id: string) => void
+  onEdit: (m: Feed) => void
+  onDelete: (m: Feed) => void
+  deletingId: string | null
 }) {
   return (
     <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-x-auto shadow-sm">
@@ -562,12 +618,29 @@ function ListView({
                   )}
                 </td>
                 <td className="px-3 py-2 text-right">
-                  <button
-                    onClick={() => onTx(m.id)}
-                    className="text-xs px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold whitespace-nowrap"
-                  >
-                    📦 Nhập/Xuất
-                  </button>
+                  <div className="flex items-center justify-end gap-1.5">
+                    <button
+                      onClick={() => onTx(m.id)}
+                      className="text-xs px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold whitespace-nowrap"
+                    >
+                      📦 Nhập/Xuất
+                    </button>
+                    <button
+                      onClick={() => onEdit(m)}
+                      title="Sửa"
+                      className="text-xs px-2 py-1 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 font-semibold"
+                    >
+                      ✏️
+                    </button>
+                    <button
+                      onClick={() => onDelete(m)}
+                      disabled={deletingId === m.id}
+                      title="Xóa"
+                      className="text-xs px-2 py-1 rounded-lg border border-rose-300 dark:border-rose-800 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 disabled:opacity-50 font-semibold"
+                    >
+                      {deletingId === m.id ? '⏳' : '🗑️'}
+                    </button>
+                  </div>
                 </td>
               </tr>
             )
@@ -627,16 +700,17 @@ const FEED_UNIT_PRESETS = [
   { v: 'gram', emoji: '🥄' },
 ]
 
-function AddFeedForm({ onDone }: { onDone: () => void }) {
+function AddFeedForm({ editing, onDone }: { editing?: Feed | null; onDone: () => void }) {
+  const isEdit = !!editing
   const [form, setForm] = useState({
-    code: '',
-    name_vi: '',
-    unit: 'kg',
-    current_stock: 0,
-    min_stock_alert: 0,
-    cost_per_unit: 0,
+    code: editing?.code ?? '',
+    name_vi: editing?.name_vi ?? '',
+    unit: editing?.unit ?? 'kg',
+    current_stock: editing?.current_stock ?? 0,
+    min_stock_alert: editing?.min_stock_alert ?? 0,
+    cost_per_unit: editing?.cost_per_unit ?? 0,
   })
-  const [codeTouched, setCodeTouched] = useState(false)
+  const [codeTouched, setCodeTouched] = useState(!!editing)
   const [loading, setLoading] = useState(false)
   const [err, setErr] = useState<string | null>(null)
 
@@ -670,8 +744,8 @@ function AddFeedForm({ onDone }: { onDone: () => void }) {
     }
     setLoading(true)
     setErr(null)
-    const res = await fetch('/api/feeds', {
-      method: 'POST',
+    const res = await fetch(isEdit ? `/api/feeds/${editing!.id}` : '/api/feeds', {
+      method: isEdit ? 'PATCH' : 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         code: form.code,
@@ -679,7 +753,7 @@ function AddFeedForm({ onDone }: { onDone: () => void }) {
         unit: form.unit,
         current_stock: form.current_stock,
         min_stock_alert: form.min_stock_alert,
-        cost_per_unit: form.cost_per_unit || undefined,
+        cost_per_unit: form.cost_per_unit || (isEdit ? null : undefined),
       }),
     })
     const json = await res.json()
@@ -710,7 +784,7 @@ function AddFeedForm({ onDone }: { onDone: () => void }) {
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-xl">🌾</span>
           <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">
-            Thêm loại thức ăn
+            {isEdit ? 'Sửa loại thức ăn' : 'Thêm loại thức ăn'}
           </h3>
           <span className="text-[11px] text-gray-500 dark:text-gray-400 ml-1">
             Mã auto-suggest từ tên · Đơn vị có preset · Tồn + giá hiển thị giá trị kho
@@ -786,7 +860,7 @@ function AddFeedForm({ onDone }: { onDone: () => void }) {
               <SectionTitleFeed icon="📦" title="Tồn kho & Giá" />
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <FieldFeed
-                  label={`Tồn ban đầu (${form.unit})`}
+                  label={`${isEdit ? 'Tồn hiện tại' : 'Tồn ban đầu'} (${form.unit})`}
                   hint={
                     stockState === 'empty'
                       ? 'Có thể nhập 0 — bổ sung sau bằng giao dịch nhập'
@@ -905,7 +979,7 @@ function AddFeedForm({ onDone }: { onDone: () => void }) {
             disabled={loading || !form.code || !form.name_vi}
             className="bg-gradient-to-r from-amber-500 to-orange-600 text-white rounded-lg px-5 py-2 text-sm font-semibold shadow hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition"
           >
-            {loading ? '⏳ Đang lưu…' : '💾 Lưu thức ăn'}
+            {loading ? '⏳ Đang lưu…' : isEdit ? '💾 Cập nhật' : '💾 Lưu thức ăn'}
           </button>
         </div>
       </div>

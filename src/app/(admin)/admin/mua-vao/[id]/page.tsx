@@ -5,6 +5,7 @@ import { ArrowLeft } from 'lucide-react'
 import { formatDate, formatVnd } from '@/lib/utils/format'
 import { numberToVietnameseWords } from '@/lib/utils/number-to-words'
 import { PurchaseReceiptActions } from '@/components/admin/purchases/PurchaseReceiptActions'
+import { PurchaseActions } from '@/components/admin/purchases/PurchaseActions'
 
 export default async function PurchaseDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -84,7 +85,10 @@ export default async function PurchaseDetail({ params }: { params: Promise<{ id:
           >
             <ArrowLeft className="w-4 h-4" /> Quay lại danh sách
           </Link>
-          <PurchaseReceiptActions purchaseId={p.id} purchaseCode={p.purchase_code} />
+          <div className="flex items-center gap-2 flex-wrap">
+            <PurchaseActions purchaseId={p.id} purchaseCode={p.purchase_code} purchaseDate={p.purchase_date} notes={p.notes} />
+            <PurchaseReceiptActions purchaseId={p.id} purchaseCode={p.purchase_code} />
+          </div>
         </div>
       </div>
 

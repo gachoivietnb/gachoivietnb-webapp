@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
+import { requirePermission } from '@/lib/rbac/guard'
 
 export async function GET(
   _request: Request,
@@ -81,4 +82,33 @@ export async function PATCH(
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ data })
+}
+
+// Xóa lứa (CÓ BẢO VỆ): chặn nếu đã có gà con tốt nghiệp thành hồ sơ gà thật.
+export async function DELETE(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const ctx = await requirePermission('sinh_san', 'delete')
+  if ('error' in ctx) return NextResponse.json({ error: ctx.error }, { status: ctx.status })
+
+  const { id } = await params
+  const supabase = await createClient()
+
+  const { data: grad } = await supabase
+    .from('chickens')
+    .select('id')
+    .eq('breeding_litter_id', id)
+    .limit(1)
+  if ((grad ?? []).length > 0) {
+    return NextResponse.json(
+      { error: 'Không thể xóa: lứa này đã có gà con tốt nghiệp thành hồ sơ gà. Hãy xử lý các gà con trước.' },
+      { status: 409 }
+    )
+  }
+
+  await supabase.from('chick_groups').delete().eq('litter_id', id)
+  const { error } = await supabase.from('breeding_litters').delete().eq('id', id)
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  return NextResponse.json({ ok: true })
 }

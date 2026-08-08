@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { formatDate } from '@/lib/utils/format'
 import { LitterActions } from '@/components/admin/breeding/LitterActions'
+import { LitterDeleteButton } from '@/components/admin/breeding/LitterDeleteButton'
 
 const STATUS_LABELS: Record<string, { label: string; color: string }> = {
   dang_ap: { label: 'Đang ấp', color: 'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-300' },
@@ -139,6 +140,10 @@ export default async function LitterDetailPage({
         chickGroups={(chickGroups ?? []) as never}
         graduated={(graduated ?? []) as never}
       />
+
+      <div className="mt-4 flex justify-end">
+        <LitterDeleteButton litterId={litterId} graduatedCount={(graduated ?? []).length} />
+      </div>
 
       {l.notes && (
         <section className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 mt-4">

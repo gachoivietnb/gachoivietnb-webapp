@@ -20,7 +20,10 @@ type PnLData = {
 type RangeKey = 'this_month' | 'last_month' | 'q' | 'ytd' | '7d' | '30d' | '90d' | 'custom'
 
 function fmtDate(d: Date): string {
-  return d.toISOString().slice(0, 10)
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${y}-${m}-${day}`
 }
 
 function rangeFor(key: RangeKey): { from: string; to: string } | null {
@@ -163,7 +166,7 @@ export function PnLReport() {
       </section>
 
       {loading ? (
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-12 text-center text-gray-500 dark:text-gray-400">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 md:p-12 text-center text-gray-500 dark:text-gray-400">
           ⏳ Đang tải báo cáo…
         </div>
       ) : data ? (

@@ -215,7 +215,7 @@ export async function loadCustomerLedger(customerId: string): Promise<CustomerLe
         orderCode: o.order_code,
       })
     }
-    const settled = o.paid_amount - (o.deposit_amount ?? 0)
+    const settled = (o.paid_amount ?? 0) - (o.deposit_amount ?? 0)
     if (settled > 0 && o.delivered_date) {
       payments.push({
         date: o.delivered_date,

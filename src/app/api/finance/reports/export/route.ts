@@ -51,9 +51,11 @@ export async function GET(request: Request) {
   const farm =
     ((farmRow as { value?: FarmInfo } | null)?.value as FarmInfo) ?? { name: 'Gà Chọi Việt NB' }
 
+  const ymd = (d: Date) =>
+    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
   const today = new Date()
-  const defaultFrom = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().slice(0, 10)
-  const defaultTo = today.toISOString().slice(0, 10)
+  const defaultFrom = ymd(new Date(today.getFullYear(), today.getMonth(), 1))
+  const defaultTo = ymd(today)
   const fromD = from || defaultFrom
   const toD = to || defaultTo
 

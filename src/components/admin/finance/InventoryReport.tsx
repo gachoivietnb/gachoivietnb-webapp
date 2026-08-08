@@ -43,9 +43,11 @@ const EVENT_COLORS: Record<string, string> = {
   current: 'bg-indigo-100 dark:bg-indigo-900/40 text-indigo-800 dark:text-indigo-300',
 }
 
+const ymd = (d: Date) =>
+  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
 const today = new Date()
-const firstOfMonth = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().slice(0, 10)
-const todayIso = today.toISOString().slice(0, 10)
+const firstOfMonth = ymd(new Date(today.getFullYear(), today.getMonth(), 1))
+const todayIso = ymd(today)
 
 export function InventoryReport() {
   const [from, setFrom] = useState(firstOfMonth)
@@ -132,19 +134,19 @@ export function InventoryReport() {
   function presetRange(preset: 'this_month' | 'last_month' | 'this_year' | '30d' | '90d') {
     const now = new Date()
     if (preset === 'this_month') {
-      setFrom(new Date(now.getFullYear(), now.getMonth(), 1).toISOString().slice(0, 10))
+      setFrom(ymd(new Date(now.getFullYear(), now.getMonth(), 1)))
       setTo(todayIso)
     } else if (preset === 'last_month') {
-      setFrom(new Date(now.getFullYear(), now.getMonth() - 1, 1).toISOString().slice(0, 10))
-      setTo(new Date(now.getFullYear(), now.getMonth(), 0).toISOString().slice(0, 10))
+      setFrom(ymd(new Date(now.getFullYear(), now.getMonth() - 1, 1)))
+      setTo(ymd(new Date(now.getFullYear(), now.getMonth(), 0)))
     } else if (preset === 'this_year') {
-      setFrom(new Date(now.getFullYear(), 0, 1).toISOString().slice(0, 10))
+      setFrom(ymd(new Date(now.getFullYear(), 0, 1)))
       setTo(todayIso)
     } else if (preset === '30d') {
-      setFrom(new Date(now.getTime() - 30 * 86400000).toISOString().slice(0, 10))
+      setFrom(ymd(new Date(now.getTime() - 30 * 86400000)))
       setTo(todayIso)
     } else if (preset === '90d') {
-      setFrom(new Date(now.getTime() - 90 * 86400000).toISOString().slice(0, 10))
+      setFrom(ymd(new Date(now.getTime() - 90 * 86400000)))
       setTo(todayIso)
     }
   }

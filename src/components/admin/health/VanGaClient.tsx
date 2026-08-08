@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { formatDate } from '@/lib/utils/format'
 import { removeDiacritics } from '@/lib/utils/slugify'
@@ -89,6 +90,23 @@ export function VanGaClient({
   const [dateFrom, setDateFrom] = useState<string>('')
   const [dateTo, setDateTo] = useState<string>('')
   const [sortKey, setSortKey] = useState<'avg_total' | 'wins' | 'sessions' | 'recent'>('avg_total')
+  const router = useRouter()
+  const [editing, setEditing] = useState<Session | null>(null)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
+
+  async function handleDelete(s: Session) {
+    if (!window.confirm(`Xóa buổi vần ngày ${formatDate(s.session_date)} của ${s.chickens?.name ?? s.chickens?.chicken_code ?? 'gà này'}?`)) return
+    setDeletingId(s.id)
+    const res = await fetch(`/api/training-sessions/${s.id}`, { method: 'DELETE' })
+    if (!res.ok) {
+      const j = (await res.json().catch(() => ({}))) as { error?: string }
+      window.alert('Lỗi xóa: ' + (j.error ?? `HTTP ${res.status}`))
+      setDeletingId(null)
+      return
+    }
+    setDeletingId(null)
+    router.refresh()
+  }
 
   const q = removeDiacritics(query.trim())
 
@@ -397,7 +415,14 @@ export function VanGaClient({
       ) : filteredSessions.length === 0 ? (
         <EmptyState message="Không có buổi vần nào khớp tiêu chí" onClear={hasFilter ? clearFilters : null} />
       ) : (
-        <SessionsView items={filteredSessions} />
+        <SessionsView items={filteredSessions} onEdit={setEditing} onDelete={handleDelete} deletingId={deletingId} />
+      )}
+      {editing && (
+        <EditSessionModal
+          session={editing}
+          onClose={() => setEditing(null)}
+          onDone={() => { setEditing(null); router.refresh() }}
+        />
       )}
     </>
   )
@@ -568,7 +593,17 @@ function RankingTable({ items, startIndex }: { items: TopPerf[]; startIndex: num
 }
 
 /* === Sessions view (timeline cards) === */
-function SessionsView({ items }: { items: Session[] }) {
+function SessionsView({
+  items,
+  onEdit,
+  onDelete,
+  deletingId,
+}: {
+  items: Session[]
+  onEdit: (s: Session) => void
+  onDelete: (s: Session) => void
+  deletingId: string | null
+}) {
   return (
     <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-x-auto shadow-sm">
       <table className="w-full text-sm min-w-[900px]">
@@ -584,6 +619,7 @@ function SessionsView({ items }: { items: Session[] }) {
             <th className="px-3 py-2.5 text-center">⭐ Tổng</th>
             <th className="px-3 py-2.5 text-center">Kết quả</th>
             <th className="px-3 py-2.5 text-left">Đối thủ / Ghi chú</th>
+            <th className="px-3 py-2.5 text-center">Thao tác</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
@@ -626,6 +662,25 @@ function SessionsView({ items }: { items: Session[] }) {
                   {s.notes && <div className="line-clamp-2">{s.notes}</div>}
                   {!s.opponent_name && !s.notes && <span className="text-gray-400">—</span>}
                 </td>
+                <td className="px-3 py-2 text-center whitespace-nowrap">
+                  <div className="flex items-center justify-center gap-1.5">
+                    <button
+                      onClick={() => onEdit(s)}
+                      title="Sửa"
+                      className="text-xs px-2 py-1 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 font-semibold"
+                    >
+                      ✏️
+                    </button>
+                    <button
+                      onClick={() => onDelete(s)}
+                      disabled={deletingId === s.id}
+                      title="Xóa"
+                      className="text-xs px-2 py-1 rounded-lg border border-rose-300 dark:border-rose-800 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 disabled:opacity-50 font-semibold"
+                    >
+                      {deletingId === s.id ? '⏳' : '🗑️'}
+                    </button>
+                  </div>
+                </td>
               </tr>
             )
           })}
@@ -637,7 +692,7 @@ function SessionsView({ items }: { items: Session[] }) {
 
 function EmptyState({ message, onClear }: { message: string; onClear: (() => void) | null }) {
   return (
-    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-12 text-center">
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 md:p-12 text-center">
       <div className="text-5xl mb-2">🥊</div>
       <p className="text-gray-600 dark:text-gray-400 text-lg font-semibold">{message}</p>
       {onClear && (
@@ -690,6 +745,185 @@ function Kpi({
         </div>
         <span className="text-2xl">{icon}</span>
       </div>
+    </div>
+  )
+}
+
+/* === Edit session modal === */
+function EditSessionModal({
+  session,
+  onClose,
+  onDone,
+}: {
+  session: Session
+  onClose: () => void
+  onDone: () => void
+}) {
+  const [form, setForm] = useState({
+    session_date: session.session_date,
+    duration_minutes: session.duration_minutes ?? 0,
+    score_strength: session.score_strength ?? 0,
+    score_appearance: session.score_appearance ?? 0,
+    score_aggression: session.score_aggression ?? 0,
+    result: (session.result ?? '') as '' | 'thang' | 'thua' | 'hoa',
+    opponent_name: session.opponent_name ?? '',
+    notes: session.notes ?? '',
+  })
+  const [loading, setLoading] = useState(false)
+  const [err, setErr] = useState<string | null>(null)
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault()
+    setLoading(true)
+    setErr(null)
+    const res = await fetch(`/api/training-sessions/${session.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        session_date: form.session_date,
+        duration_minutes: form.duration_minutes || null,
+        score_strength: form.score_strength,
+        score_appearance: form.score_appearance,
+        score_aggression: form.score_aggression,
+        result: form.result || null,
+        opponent_name: form.opponent_name || null,
+        notes: form.notes || null,
+      }),
+    })
+    const j = (await res.json().catch(() => ({}))) as { error?: string }
+    if (!res.ok) {
+      setErr(typeof j.error === 'string' ? j.error : 'Lỗi cập nhật')
+      setLoading(false)
+      return
+    }
+    onDone()
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={onClose}>
+      <form
+        onClick={(e) => e.stopPropagation()}
+        onSubmit={submit}
+        className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto"
+      >
+        <div className="h-1.5 bg-gradient-to-r from-blue-500 to-indigo-500" />
+        <div className="p-4 md:p-5 space-y-4">
+          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">
+            🥊 Sửa buổi vần — {session.chickens?.name ?? session.chickens?.chicken_code ?? ''}
+          </h3>
+
+          <div className="grid grid-cols-2 gap-3">
+            <label className="text-xs font-medium text-gray-700 dark:text-gray-300">
+              Ngày vần
+              <input
+                type="date"
+                value={form.session_date}
+                onChange={(e) => setForm({ ...form, session_date: e.target.value })}
+                className="mt-1 w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg px-3 py-2 text-sm"
+              />
+            </label>
+            <label className="text-xs font-medium text-gray-700 dark:text-gray-300">
+              Thời lượng (phút)
+              <input
+                type="number"
+                min={0}
+                value={form.duration_minutes}
+                onChange={(e) => setForm({ ...form, duration_minutes: parseInt(e.target.value) || 0 })}
+                className="mt-1 w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg px-3 py-2 text-sm tabular-nums"
+              />
+            </label>
+          </div>
+
+          <div className="grid grid-cols-3 gap-3">
+            <label className="text-xs font-medium text-gray-700 dark:text-gray-300">
+              💪 Thể lực (0-10)
+              <input
+                type="number" min={0} max={10} step={0.5}
+                value={form.score_strength}
+                onChange={(e) => setForm({ ...form, score_strength: parseFloat(e.target.value) || 0 })}
+                className="mt-1 w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg px-3 py-2 text-sm tabular-nums"
+              />
+            </label>
+            <label className="text-xs font-medium text-gray-700 dark:text-gray-300">
+              🦚 Vóc dáng (0-10)
+              <input
+                type="number" min={0} max={10} step={0.5}
+                value={form.score_appearance}
+                onChange={(e) => setForm({ ...form, score_appearance: parseFloat(e.target.value) || 0 })}
+                className="mt-1 w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg px-3 py-2 text-sm tabular-nums"
+              />
+            </label>
+            <label className="text-xs font-medium text-gray-700 dark:text-gray-300">
+              🔥 Hung hăng (0-10)
+              <input
+                type="number" min={0} max={10} step={0.5}
+                value={form.score_aggression}
+                onChange={(e) => setForm({ ...form, score_aggression: parseFloat(e.target.value) || 0 })}
+                className="mt-1 w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg px-3 py-2 text-sm tabular-nums"
+              />
+            </label>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <label className="text-xs font-medium text-gray-700 dark:text-gray-300">
+              Kết quả
+              <select
+                value={form.result}
+                onChange={(e) => setForm({ ...form, result: e.target.value as typeof form.result })}
+                className="mt-1 w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg px-3 py-2 text-sm"
+              >
+                <option value="">— Không ghi —</option>
+                <option value="thang">🥇 Thắng</option>
+                <option value="thua">❌ Thua</option>
+                <option value="hoa">🤝 Hoà</option>
+              </select>
+            </label>
+            <label className="text-xs font-medium text-gray-700 dark:text-gray-300">
+              Đối thủ
+              <input
+                type="text"
+                value={form.opponent_name}
+                onChange={(e) => setForm({ ...form, opponent_name: e.target.value })}
+                placeholder="Tên gà đối thủ"
+                className="mt-1 w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg px-3 py-2 text-sm"
+              />
+            </label>
+          </div>
+
+          <label className="text-xs font-medium text-gray-700 dark:text-gray-300 block">
+            Ghi chú
+            <textarea
+              value={form.notes}
+              rows={2}
+              onChange={(e) => setForm({ ...form, notes: e.target.value })}
+              className="mt-1 w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg px-3 py-2 text-sm"
+            />
+          </label>
+
+          {err && (
+            <div className="bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900 text-rose-800 dark:text-rose-300 rounded-lg px-3 py-2 text-sm">
+              ✗ {err}
+            </div>
+          )}
+
+          <div className="flex items-center justify-end gap-2 border-t border-gray-100 dark:border-gray-700 pt-4">
+            <button
+              type="button"
+              onClick={onClose}
+              className="border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg px-4 py-2 text-sm"
+            >
+              Huỷ
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg px-5 py-2 text-sm font-semibold shadow hover:shadow-lg disabled:opacity-50 transition"
+            >
+              {loading ? '⏳ Đang lưu…' : '💾 Cập nhật'}
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
   )
 }

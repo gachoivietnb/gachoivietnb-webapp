@@ -1,4 +1,5 @@
 import 'server-only'
+import { randomUUID } from 'crypto'
 import type { SupabaseClient } from '@supabase/supabase-js'
 
 /**
@@ -8,6 +9,8 @@ import type { SupabaseClient } from '@supabase/supabase-js'
  * Caller is responsible for passing a service-role Supabase client
  * (createAdminClient()) so RLS doesn't block these batch operations.
  */
+
+export const MASTER_FARM_ID = '00000000-0000-0000-0000-000000000001'
 
 const dayOffset = (d: number) => {
   const dt = new Date()
@@ -603,4 +606,337 @@ export async function readFarmDataCounts(
     })
   )
   return result
+}
+
+/* ============================================================
+ * CLONE — copy data from master farm to target farm with new UUIDs
+ * ============================================================ */
+
+type IdMap = Map<string, string>
+type FkRemap = Record<string, IdMap | null>
+type ColOverride = Record<string, unknown>
+
+async function cloneTable(
+  admin: SupabaseClient,
+  tableName: string,
+  fromFarm: string,
+  toFarm: string,
+  fkRemap: FkRemap = {},
+  overrides: ColOverride = {},
+): Promise<IdMap> {
+  const idMap = new Map<string, string>()
+  const { data: src, error } = await admin
+    .from(tableName)
+    .select('*')
+    .eq('farm_id', fromFarm)
+  if (error) throw new Error(`Clone ${tableName}: ${error.message}`)
+  if (!src?.length) return idMap
+
+  const STRIP = ['created_at', 'updated_at']
+  const toInsert = src.map((row) => {
+    const r = row as Record<string, unknown>
+    const newId = randomUUID()
+    idMap.set(r.id as string, newId)
+    const out: Record<string, unknown> = { ...r, id: newId, farm_id: toFarm }
+    for (const k of STRIP) delete out[k]
+    for (const [col, map] of Object.entries(fkRemap)) {
+      if (map === null) {
+        out[col] = null
+      } else if (r[col]) {
+        out[col] = map.get(r[col] as string) ?? r[col]
+      }
+    }
+    Object.assign(out, overrides)
+    return out
+  })
+
+  for (let i = 0; i < toInsert.length; i += 100) {
+    const { error: insErr } = await admin.from(tableName).insert(toInsert.slice(i, i + 100))
+    if (insErr) throw new Error(`Clone ${tableName} insert: ${insErr.message}`)
+  }
+  return idMap
+}
+
+/**
+ * Clone all demo data from MASTER_FARM_ID into targetFarmId.
+ * Caller must wipe target first (or accept duplicates).
+ */
+export async function cloneDemoFromMaster(
+  admin: SupabaseClient,
+  targetFarmId: string,
+  targetOwnerId: string,
+): Promise<void> {
+  if (targetFarmId === MASTER_FARM_ID) {
+    throw new Error('Không thể clone master farm onto itself')
+  }
+
+  // Structural
+  const areaMap = await cloneTable(admin, 'areas', MASTER_FARM_ID, targetFarmId)
+  const rowMap = await cloneTable(admin, 'cage_rows', MASTER_FARM_ID, targetFarmId, { area_id: areaMap })
+  const cageMap = await cloneTable(admin, 'cages', MASTER_FARM_ID, targetFarmId, { row_id: rowMap })
+  const catMap = await cloneTable(admin, 'expense_categories', MASTER_FARM_ID, targetFarmId)
+  const vaccineMap = await cloneTable(admin, 'vaccines', MASTER_FARM_ID, targetFarmId)
+
+  // Master
+  const custMap = await cloneTable(admin, 'customers', MASTER_FARM_ID, targetFarmId)
+  const supMap = await cloneTable(admin, 'suppliers', MASTER_FARM_ID, targetFarmId)
+  const medMap = await cloneTable(admin, 'medicines', MASTER_FARM_ID, targetFarmId)
+  const feedMap = await cloneTable(admin, 'feeds', MASTER_FARM_ID, targetFarmId)
+  const accMap = await cloneTable(admin, 'cash_accounts', MASTER_FARM_ID, targetFarmId)
+
+  // qr_tags: clear chicken link first, fix after chickens cloned
+  const tagMap = await cloneTable(admin, 'qr_tags', MASTER_FARM_ID, targetFarmId, {}, {
+    chicken_id: null,
+    status: 'chua_su_dung',
+    assigned_at: null,
+  })
+
+  // chickens — pass 1: drop self-ref parent FKs
+  const chickenMap = await cloneTable(admin, 'chickens', MASTER_FARM_ID, targetFarmId, {
+    qr_tag_id: tagMap,
+    cage_id: cageMap,
+    customer_id: custMap,
+  }, {
+    parent_male_id: null,
+    parent_female_id: null,
+    created_by: targetOwnerId,
+  })
+
+  // chickens — pass 2: re-apply parent FKs via map
+  if (chickenMap.size > 0) {
+    const { data: srcChickens } = await admin
+      .from('chickens')
+      .select('id, parent_male_id, parent_female_id')
+      .eq('farm_id', MASTER_FARM_ID)
+    for (const sc of (srcChickens ?? []) as Array<{
+      id: string; parent_male_id: string | null; parent_female_id: string | null
+    }>) {
+      if (!sc.parent_male_id && !sc.parent_female_id) continue
+      const newId = chickenMap.get(sc.id)
+      if (!newId) continue
+      const update: Record<string, unknown> = {}
+      if (sc.parent_male_id) update.parent_male_id = chickenMap.get(sc.parent_male_id) ?? null
+      if (sc.parent_female_id) update.parent_female_id = chickenMap.get(sc.parent_female_id) ?? null
+      await admin.from('chickens').update(update).eq('id', newId)
+    }
+
+    // Re-link qr_tags to new chickens
+    const { data: srcTags } = await admin
+      .from('qr_tags')
+      .select('id, chicken_id, status, assigned_at')
+      .eq('farm_id', MASTER_FARM_ID)
+      .not('chicken_id', 'is', null)
+    for (const st of (srcTags ?? []) as Array<{
+      id: string; chicken_id: string; status: string; assigned_at: string | null
+    }>) {
+      const newTagId = tagMap.get(st.id)
+      const newChickenId = chickenMap.get(st.chicken_id)
+      if (newTagId && newChickenId) {
+        await admin.from('qr_tags').update({
+          chicken_id: newChickenId,
+          status: st.status,
+          assigned_at: st.assigned_at,
+        }).eq('id', newTagId)
+      }
+    }
+  }
+
+  // Children of chickens
+  await cloneTable(admin, 'chicken_media', MASTER_FARM_ID, targetFarmId, { chicken_id: chickenMap })
+  await cloneTable(admin, 'vaccinations', MASTER_FARM_ID, targetFarmId, {
+    chicken_id: chickenMap,
+    vaccine_id: vaccineMap,
+    area_id: areaMap,
+    cage_id: cageMap,
+  }, {
+    administered_by: targetOwnerId,
+  })
+
+  // Finance
+  await cloneTable(admin, 'expenses', MASTER_FARM_ID, targetFarmId, { category_id: catMap }, {
+    performed_by: targetOwnerId,
+  })
+  await cloneTable(admin, 'cash_transactions', MASTER_FARM_ID, targetFarmId, {
+    account_id: accMap,
+    expense_category_id: catMap,
+  }, {
+    ref_id: null,
+    ref_type: 'manual',
+    created_by: targetOwnerId,
+  })
+
+  // Sales
+  const orderMap = await cloneTable(admin, 'sales_orders', MASTER_FARM_ID, targetFarmId, {
+    customer_id: custMap,
+  }, {
+    performed_by: targetOwnerId,
+  })
+  await cloneTable(admin, 'sales_items', MASTER_FARM_ID, targetFarmId, {
+    sales_order_id: orderMap,
+    chicken_id: chickenMap,
+  })
+
+  // Purchases
+  const purchaseMap = await cloneTable(admin, 'purchases', MASTER_FARM_ID, targetFarmId, {
+    supplier_id: supMap,
+  }, {
+    performed_by: targetOwnerId,
+  })
+  await cloneTable(admin, 'purchase_items', MASTER_FARM_ID, targetFarmId, {
+    purchase_id: purchaseMap,
+  })
+
+  // Inventory transactions
+  await cloneTable(admin, 'medicine_transactions', MASTER_FARM_ID, targetFarmId, {
+    medicine_id: medMap,
+  })
+  await cloneTable(admin, 'feed_transactions', MASTER_FARM_ID, targetFarmId, {
+    feed_id: feedMap,
+  })
+
+  // Diary
+  const diaryMap = await cloneTable(admin, 'diary_entries', MASTER_FARM_ID, targetFarmId, {}, {
+    author_id: targetOwnerId,
+  })
+  await cloneTable(admin, 'diary_comments', MASTER_FARM_ID, targetFarmId, {
+    diary_entry_id: diaryMap,
+  }, {
+    author_id: targetOwnerId,
+  })
+
+  // Content
+  await cloneTable(admin, 'news_articles', MASTER_FARM_ID, targetFarmId)
+
+  // Assets
+  const assetMap = await cloneTable(admin, 'assets', MASTER_FARM_ID, targetFarmId)
+  await cloneTable(admin, 'asset_events', MASTER_FARM_ID, targetFarmId, { asset_id: assetMap })
+
+  // Thi đấu (matches + tournaments)
+  const tournMap = await cloneTable(admin, 'tournaments', MASTER_FARM_ID, targetFarmId)
+  await cloneTable(admin, 'matches', MASTER_FARM_ID, targetFarmId, {
+    chicken_id: chickenMap,
+    tournament_id: tournMap,
+  })
+}
+
+/* ============================================================
+ * GRANT / REVOKE / RESEED — high-level demo access management
+ * ============================================================ */
+
+export type DemoGrant = {
+  farm_id: string
+  granted_by: string | null
+  granted_at: string
+  last_reseeded_at: string | null
+  is_active: boolean
+  revoked_at: string | null
+  revoked_by: string | null
+  notes: string | null
+  created_at: string
+  updated_at: string
+}
+
+export async function listDemoGrants(admin: SupabaseClient): Promise<DemoGrant[]> {
+  const { data, error } = await admin
+    .from('demo_access_grants')
+    .select('*')
+    .order('granted_at', { ascending: false })
+  if (error) throw new Error(error.message)
+  return (data ?? []) as DemoGrant[]
+}
+
+async function masterHasContent(admin: SupabaseClient): Promise<boolean> {
+  const { count } = await admin
+    .from('chickens')
+    .select('id', { count: 'exact', head: true })
+    .eq('farm_id', MASTER_FARM_ID)
+  return (count ?? 0) > 0
+}
+
+async function populateFromTemplate(
+  admin: SupabaseClient,
+  targetFarmId: string,
+  targetOwnerId: string,
+): Promise<'cloned' | 'seeded'> {
+  if (await masterHasContent(admin)) {
+    await cloneDemoFromMaster(admin, targetFarmId, targetOwnerId)
+    return 'cloned'
+  }
+  // Master empty → fall back to randomized seed so target still gets demo
+  await seedDemoData(admin, targetFarmId, targetOwnerId)
+  return 'seeded'
+}
+
+export async function grantDemoAccess(
+  admin: SupabaseClient,
+  farmId: string,
+  targetOwnerId: string,
+  grantedBy: string,
+  notes?: string,
+): Promise<{ source: 'cloned' | 'seeded' }> {
+  if (farmId === MASTER_FARM_ID) {
+    throw new Error('Master farm là kho gốc, không cần cấp quyền')
+  }
+  const source = await populateFromTemplate(admin, farmId, targetOwnerId)
+  await admin.from('demo_access_grants').upsert({
+    farm_id: farmId,
+    granted_by: grantedBy,
+    granted_at: new Date().toISOString(),
+    last_reseeded_at: new Date().toISOString(),
+    is_active: true,
+    revoked_at: null,
+    revoked_by: null,
+    notes: notes ?? null,
+  })
+  await admin.from('farms').update({ data_mode: 'demo' }).eq('id', farmId)
+  return { source }
+}
+
+export async function revokeDemoAccess(
+  admin: SupabaseClient,
+  farmId: string,
+  revokedBy: string,
+): Promise<void> {
+  if (farmId === MASTER_FARM_ID) {
+    throw new Error('Không thể revoke master farm — đó là kho gốc')
+  }
+  await wipeFarmData(admin, farmId)
+  await admin.from('demo_access_grants').upsert({
+    farm_id: farmId,
+    is_active: false,
+    revoked_at: new Date().toISOString(),
+    revoked_by: revokedBy,
+  })
+}
+
+export async function reseedDemoFromTemplate(
+  admin: SupabaseClient,
+  farmId: string,
+  targetOwnerId: string,
+): Promise<{ source: 'cloned' | 'seeded' }> {
+  if (farmId === MASTER_FARM_ID) {
+    throw new Error('Không reseed master — chỉnh sửa master qua UI thông thường')
+  }
+  await wipeFarmData(admin, farmId)
+  const source = await populateFromTemplate(admin, farmId, targetOwnerId)
+  await admin.from('demo_access_grants').upsert({
+    farm_id: farmId,
+    last_reseeded_at: new Date().toISOString(),
+    is_active: true,
+    revoked_at: null,
+    revoked_by: null,
+  })
+  return { source }
+}
+
+/**
+ * Wipe master farm rồi nạp lại bằng seedDemoData. Dùng khi super admin
+ * muốn reset toàn bộ template về trạng thái mặc định.
+ */
+export async function initializeMasterDemo(
+  admin: SupabaseClient,
+  superAdminId: string,
+): Promise<void> {
+  await wipeFarmData(admin, MASTER_FARM_ID)
+  await seedDemoData(admin, MASTER_FARM_ID, superAdminId)
 }

@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { formatVnd } from '@/lib/utils/format'
 import { removeDiacritics } from '@/lib/utils/slugify'
@@ -64,6 +65,22 @@ export function HoSoGaIndexClient({
   const [view, setView] = useState<ViewMode>('grid')
   const [sortKey, setSortKey] = useState<SortKey>('newest')
   const [page, setPage] = useState(1)
+  const router = useRouter()
+  const [deletingId, setDeletingId] = useState<string | null>(null)
+
+  async function handleDelete(c: ChickenRow) {
+    if (!window.confirm(`Xóa / loại thải gà "${c.name ?? c.chicken_code}"?\n\nChủ trại: xóa hẳn (nếu không phải bố/mẹ trong gia phả). Nhân viên: đánh dấu "loại thải".`)) return
+    setDeletingId(c.id)
+    const res = await fetch(`/api/chickens/${c.id}`, { method: 'DELETE' })
+    if (!res.ok) {
+      const j = (await res.json().catch(() => ({}))) as { error?: string }
+      window.alert('Lỗi xóa: ' + (j.error ?? `HTTP ${res.status}`))
+      setDeletingId(null)
+      return
+    }
+    setDeletingId(null)
+    router.refresh()
+  }
 
   const qNorm = removeDiacritics(q.trim())
 
@@ -344,7 +361,7 @@ export function HoSoGaIndexClient({
 
       {/* Results */}
       {filtered.length === 0 ? (
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-12 text-center">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 md:p-12 text-center">
           <div className="text-5xl mb-2">🐓</div>
           <p className="text-gray-600 dark:text-gray-400 text-lg font-semibold">
             {chickens.length === 0 ? 'Chưa có gà nào' : 'Không có gà nào khớp tiêu chí'}
@@ -358,11 +375,11 @@ export function HoSoGaIndexClient({
       ) : view === 'grid' ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
           {pageItems.map((c) => (
-            <ChickenCard key={c.id} c={c} />
+            <ChickenCard key={c.id} c={c} onDelete={() => handleDelete(c)} deleting={deletingId === c.id} />
           ))}
         </div>
       ) : (
-        <ListView items={pageItems} />
+        <ListView items={pageItems} onDelete={handleDelete} deletingId={deletingId} />
       )}
 
       {/* Pagination */}
@@ -466,17 +483,17 @@ function Kpi({
 }
 
 /* ========= CARD ========= */
-function ChickenCard({ c }: { c: ChickenRow }) {
+function ChickenCard({ c, onDelete, deleting }: { c: ChickenRow; onDelete: () => void; deleting: boolean }) {
   const color = getBreedColor(c.breed_code)
   const tierLabel = c.breed_tier ? TIER_LABEL[c.breed_tier] : null
   const tierColor = c.breed_tier ? TIER_COLOR[c.breed_tier] : null
   const hasPedigree = !!(c.parent_male_id || c.parent_female_id)
 
   return (
-    <Link
-      href={`/admin/ho-so-ga/${c.id}`}
-      className={`group block bg-white dark:bg-gray-800 rounded-2xl overflow-hidden ring-1 ring-transparent ${color.border} hover:ring-2 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all`}
+    <div
+      className={`group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden ring-1 ring-transparent ${color.border} hover:ring-2 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all`}
     >
+      <Link href={`/admin/ho-so-ga/${c.id}`} className="block">
       {/* Cover */}
       <div className={`relative aspect-square ${color.bg} flex items-center justify-center overflow-hidden`}>
         {c.main_photo_url ? (
@@ -570,12 +587,36 @@ function ChickenCard({ c }: { c: ChickenRow }) {
           )}
         </div>
       </div>
-    </Link>
+      </Link>
+      <div className="flex border-t border-gray-100 dark:border-gray-700 divide-x divide-gray-100 dark:divide-gray-700">
+        <Link
+          href={`/admin/ho-so-ga/${c.id}/sua`}
+          className="flex-1 text-center py-1.5 text-xs font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+        >
+          ✏️ Sửa
+        </Link>
+        <button
+          onClick={onDelete}
+          disabled={deleting}
+          className="flex-1 py-1.5 text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 disabled:opacity-50"
+        >
+          {deleting ? '⏳ Đang xóa…' : '🗑️ Xóa'}
+        </button>
+      </div>
+    </div>
   )
 }
 
 /* ========= LIST VIEW ========= */
-function ListView({ items }: { items: ChickenRow[] }) {
+function ListView({
+  items,
+  onDelete,
+  deletingId,
+}: {
+  items: ChickenRow[]
+  onDelete: (c: ChickenRow) => void
+  deletingId: string | null
+}) {
   return (
     <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-x-auto shadow-sm">
       <table className="w-full text-sm min-w-[1000px]">
@@ -590,6 +631,7 @@ function ListView({ items }: { items: ChickenRow[] }) {
             <th className="px-3 py-2.5 text-center">QR</th>
             <th className="px-3 py-2.5 text-center">Trạng thái</th>
             <th className="px-3 py-2.5 text-right">Giá bán</th>
+            <th className="px-3 py-2.5 text-center">Thao tác</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
@@ -648,6 +690,25 @@ function ListView({ items }: { items: ChickenRow[] }) {
                   ) : (
                     <span className="text-gray-400 text-xs italic">—</span>
                   )}
+                </td>
+                <td className="px-3 py-2 text-center whitespace-nowrap">
+                  <div className="flex items-center justify-center gap-1.5">
+                    <Link
+                      href={`/admin/ho-so-ga/${c.id}/sua`}
+                      title="Sửa"
+                      className="text-xs px-2 py-1 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 font-semibold"
+                    >
+                      ✏️
+                    </Link>
+                    <button
+                      onClick={() => onDelete(c)}
+                      disabled={deletingId === c.id}
+                      title="Xóa"
+                      className="text-xs px-2 py-1 rounded-lg border border-rose-300 dark:border-rose-800 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 disabled:opacity-50 font-semibold"
+                    >
+                      {deletingId === c.id ? '⏳' : '🗑️'}
+                    </button>
+                  </div>
                 </td>
               </tr>
             )

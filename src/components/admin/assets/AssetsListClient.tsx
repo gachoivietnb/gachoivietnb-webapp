@@ -42,6 +42,22 @@ export function AssetsListClient({
   const [areaFilter, setAreaFilter] = useState<string>('')
   const [view, setView] = useState<ViewMode>('grid')
   const [addOpen, setAddOpen] = useState(false)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
+
+  async function handleDelete(a: AssetWithValue) {
+    if (!window.confirm(`Xóa tài sản "${a.name}"? Không thể hoàn tác.`)) return
+    setDeletingId(a.id)
+    const res = await fetch(`/api/assets/${a.id}`, { method: 'DELETE' })
+    if (!res.ok) {
+      const j = (await res.json().catch(() => ({}))) as { error?: string }
+      window.alert('Lỗi xóa: ' + (j.error ?? `HTTP ${res.status}`))
+      setDeletingId(null)
+      return
+    }
+    setDeletingId(null)
+    refresh()
+    router.refresh()
+  }
 
   async function refresh() {
     const params = new URLSearchParams()
@@ -198,7 +214,7 @@ export function AssetsListClient({
 
       {/* BODY */}
       {filtered.length === 0 ? (
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-12 text-center">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 md:p-12 text-center">
           <div className="text-6xl mb-3">🛠</div>
           <div className="text-base font-semibold mb-1">Chưa có tài sản nào</div>
           <div className="text-sm text-gray-500 dark:text-gray-400 mb-4">
@@ -216,11 +232,11 @@ export function AssetsListClient({
       ) : view === 'grid' ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
           {filtered.map((a) => (
-            <AssetCard key={a.id} asset={a} />
+            <AssetCard key={a.id} asset={a} onDelete={() => handleDelete(a)} deleting={deletingId === a.id} />
           ))}
         </div>
       ) : (
-        <AssetTable items={filtered} />
+        <AssetTable items={filtered} onDelete={handleDelete} deletingId={deletingId} />
       )}
 
       {addOpen && (
@@ -265,7 +281,7 @@ function FilterChip({ active, label, onClick }: { active: boolean; label: string
   )
 }
 
-function AssetCard({ asset }: { asset: AssetWithValue }) {
+function AssetCard({ asset, onDelete, deleting }: { asset: AssetWithValue; onDelete: () => void; deleting: boolean }) {
   const cat = categoryMeta(asset.category)
   const km = KIND_META[asset.kind]
   const sm = STATUS_META[asset.status]
@@ -274,10 +290,8 @@ function AssetCard({ asset }: { asset: AssetWithValue }) {
     asset.maintenance_status === 'due_soon' ? 'Sắp tới hạn bảo trì' : null
 
   return (
-    <Link
-      href={`/admin/tai-san/${asset.id}`}
-      className="group relative bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden hover:shadow-lg hover:border-orange-300 dark:hover:border-orange-700 transition flex flex-col"
-    >
+    <div className="group relative bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden hover:shadow-lg hover:border-orange-300 dark:hover:border-orange-700 transition flex flex-col">
+      <Link href={`/admin/tai-san/${asset.id}`} className="flex-1 flex flex-col">
       {/* Top stripe gradient theo kind */}
       <div className={`h-1.5 bg-gradient-to-r ${km.bar}`} />
 
@@ -378,11 +392,35 @@ function AssetCard({ asset }: { asset: AssetWithValue }) {
           )}
         </div>
       </div>
-    </Link>
+      </Link>
+      <div className="flex border-t border-gray-100 dark:border-gray-700 divide-x divide-gray-100 dark:divide-gray-700">
+        <Link
+          href={`/admin/tai-san/${asset.id}`}
+          className="flex-1 text-center py-1.5 text-xs font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+        >
+          ✏️ Sửa
+        </Link>
+        <button
+          onClick={onDelete}
+          disabled={deleting}
+          className="flex-1 py-1.5 text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 disabled:opacity-50"
+        >
+          {deleting ? '⏳ Đang xóa…' : '🗑️ Xóa'}
+        </button>
+      </div>
+    </div>
   )
 }
 
-function AssetTable({ items }: { items: AssetWithValue[] }) {
+function AssetTable({
+  items,
+  onDelete,
+  deletingId,
+}: {
+  items: AssetWithValue[]
+  onDelete: (a: AssetWithValue) => void
+  deletingId: string | null
+}) {
   return (
     <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
       <div className="overflow-x-auto">
@@ -397,6 +435,7 @@ function AssetTable({ items }: { items: AssetWithValue[] }) {
               <th className="px-3 py-2 text-right font-semibold">Giá mua</th>
               <th className="px-3 py-2 text-right font-semibold">Còn lại</th>
               <th className="px-3 py-2 text-center font-semibold">KH</th>
+              <th className="px-3 py-2 text-center font-semibold">Thao tác</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
@@ -441,6 +480,25 @@ function AssetTable({ items }: { items: AssetWithValue[] }) {
                   </td>
                   <td className="px-3 py-2 text-center text-xs">
                     {a.useful_life_months ? <span className={dep > 80 ? 'text-rose-600 font-bold' : ''}>{dep}%</span> : '—'}
+                  </td>
+                  <td className="px-3 py-2 text-center whitespace-nowrap">
+                    <div className="flex items-center justify-center gap-1.5">
+                      <Link
+                        href={`/admin/tai-san/${a.id}`}
+                        title="Sửa"
+                        className="text-xs px-2 py-1 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 font-semibold"
+                      >
+                        ✏️
+                      </Link>
+                      <button
+                        onClick={() => onDelete(a)}
+                        disabled={deletingId === a.id}
+                        title="Xóa"
+                        className="text-xs px-2 py-1 rounded-lg border border-rose-300 dark:border-rose-800 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 disabled:opacity-50 font-semibold"
+                      >
+                        {deletingId === a.id ? '⏳' : '🗑️'}
+                      </button>
+                    </div>
                   </td>
                 </tr>
               )

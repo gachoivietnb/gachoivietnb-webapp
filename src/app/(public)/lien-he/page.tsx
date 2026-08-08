@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { ContactForm } from '@/components/public/ContactForm'
 
 export const metadata = { title: 'Liên hệ | Gà Chọi Việt NB' }
+export const revalidate = 3600
 
 export default async function LienHePage() {
   const supabase = await createClient()

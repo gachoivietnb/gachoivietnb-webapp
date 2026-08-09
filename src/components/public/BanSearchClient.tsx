@@ -155,7 +155,7 @@ export function BanSearchClient({
       {loading ? (
         <SkeletonGrid />
       ) : results.length === 0 ? (
-        <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-12 text-center">
+        <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 md:p-12 text-center">
           <div className="text-6xl mb-3">🔍</div>
           <p className="text-lg font-semibold text-gray-800 dark:text-gray-200">Không tìm thấy gà nào phù hợp</p>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">

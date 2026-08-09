@@ -70,7 +70,7 @@ export function PedigreeTree({ chickenId, initialDepth = 3 }: { chickenId: strin
 
   if (loading) {
     return (
-      <div className="rounded-2xl bg-gradient-to-br from-emerald-50/40 via-white to-teal-50/40 dark:from-emerald-950/20 dark:via-gray-800 dark:to-teal-950/20 border border-emerald-100 dark:border-emerald-950/40 p-12 text-center">
+      <div className="rounded-2xl bg-gradient-to-br from-emerald-50/40 via-white to-teal-50/40 dark:from-emerald-950/20 dark:via-gray-800 dark:to-teal-950/20 border border-emerald-100 dark:border-emerald-950/40 p-6 md:p-12 text-center">
         <div className="text-4xl mb-2 animate-pulse">🌳</div>
         <p className="text-sm text-gray-500 dark:text-gray-400">Đang tải gia phả...</p>
       </div>

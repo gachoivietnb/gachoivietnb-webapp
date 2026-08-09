@@ -336,7 +336,7 @@ export function DiaryClient({
 
       {/* TIMELINE */}
       {grouped.length === 0 ? (
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-12 text-center">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 md:p-12 text-center">
           <div className="text-6xl mb-3">📔</div>
           <div className="text-base font-semibold mb-1">Chưa có nhật ký nào</div>
           <div className="text-sm text-gray-500 dark:text-gray-400 mb-4">

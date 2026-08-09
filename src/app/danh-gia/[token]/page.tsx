@@ -30,7 +30,7 @@ export default async function ReviewPage({
 
   if (r.reviewed_at) {
     return (
-      <div className="max-w-md mx-auto p-8 text-center">
+      <div className="max-w-md mx-auto p-4 md:p-8 text-center">
         <div className="text-5xl mb-3">✅</div>
         <h1 className="text-xl font-medium">Đã gửi đánh giá</h1>
         <p className="text-gray-600 dark:text-gray-400 mt-2">Cảm ơn bạn!</p>
@@ -43,7 +43,7 @@ export default async function ReviewPage({
 
   if (new Date(r.token_expires_at) < new Date()) {
     return (
-      <div className="max-w-md mx-auto p-8 text-center">
+      <div className="max-w-md mx-auto p-4 md:p-8 text-center">
         <div className="text-5xl mb-3">⏰</div>
         <h1 className="text-xl font-medium">Link đã hết hạn</h1>
         <p className="text-gray-600 dark:text-gray-400 mt-2">Vui lòng liên hệ trang trại để được gửi link mới.</p>
@@ -52,7 +52,7 @@ export default async function ReviewPage({
   }
 
   return (
-    <div className="max-w-md mx-auto p-6">
+    <div className="max-w-md mx-auto p-4 md:p-6">
       <h1 className="text-2xl font-medium mb-2">Đánh giá đơn hàng</h1>
       <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
         Cảm ơn <strong>{r.customer?.name ?? 'quý khách'}</strong> đã mua hàng (đơn{' '}

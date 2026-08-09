@@ -14,7 +14,7 @@ export default async function QrTagsGuidePage() {
   // Chỉ chủ trại được xem (theo yêu cầu)
   if (ctx.profile.role !== 'chu_trai') {
     return (
-      <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900 rounded-xl p-8 text-center max-w-lg mx-auto mt-10">
+      <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900 rounded-xl p-5 md:p-8 text-center max-w-lg mx-auto mt-10">
         <div className="text-5xl mb-3">🔒</div>
         <p className="text-amber-900 dark:text-amber-200 font-semibold">
           Tài liệu này dành riêng cho chủ trại

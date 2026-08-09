@@ -165,7 +165,7 @@ export function AccountsCrudClient({
       </div>
 
       {accounts.length === 0 ? (
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-12 text-center">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 md:p-12 text-center">
           <div className="text-5xl mb-3">🏦</div>
           <div className="text-base font-semibold mb-1">Chưa có tài khoản nào</div>
           <button

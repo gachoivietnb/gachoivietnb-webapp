@@ -120,7 +120,7 @@ export default async function GaBioPage({
       .maybeSingle()
     if (!tag) {
       return (
-        <div className="max-w-md mx-auto p-8 text-center">
+        <div className="max-w-md mx-auto p-4 md:p-8 text-center">
           <div className="text-5xl mb-4">❌</div>
           <h1 className="text-xl font-medium">Không tìm thấy</h1>
           <p className="text-gray-600 dark:text-gray-400 mt-2">Mã {tagNumber} không có trong hệ thống.</p>
@@ -135,7 +135,7 @@ export default async function GaBioPage({
     displayTag = tr.tag_number
     if (!chickenId) {
       return (
-        <div className="max-w-md mx-auto p-8 text-center">
+        <div className="max-w-md mx-auto p-4 md:p-8 text-center">
           <div className="text-5xl mb-4">🏷️</div>
           <h1 className="text-xl font-medium">Thẻ {tagNumber} chưa được kích hoạt</h1>
           <p className="text-gray-600 dark:text-gray-400 mt-2 mb-6">
@@ -157,7 +157,7 @@ export default async function GaBioPage({
 
   const c = bio as ChickenBio | null
   if (!c) {
-    return <div className="max-w-md mx-auto p-8 text-center text-gray-500 dark:text-gray-400">Không tìm thấy hồ sơ</div>
+    return <div className="max-w-md mx-auto p-4 md:p-8 text-center text-gray-500 dark:text-gray-400">Không tìm thấy hồ sơ</div>
   }
 
   const color = getBreedColor(c.breed_code)
@@ -233,7 +233,7 @@ export default async function GaBioPage({
         </nav>
       </div>
 
-      <article className={`container max-w-4xl mx-auto px-4 pb-8`}>
+      <article className={`container max-w-4xl mx-auto px-4 ${isSelling ? 'pb-32 md:pb-8' : 'pb-8'}`}>
         <div
           className={`bg-white dark:bg-gray-800 rounded-3xl shadow-2xl shadow-gray-900/10 dark:shadow-black/40 overflow-hidden ring-1 ${color.border}`}
         >
@@ -251,7 +251,7 @@ export default async function GaBioPage({
                 />
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-[180px] md:text-[220px] leading-none opacity-40 drop-shadow-2xl select-none">🐓</div>
+                  <div className="text-[100px] md:text-[180px] lg:text-[220px] leading-none opacity-40 drop-shadow-2xl select-none">🐓</div>
                 </div>
               )}
 
@@ -294,7 +294,7 @@ export default async function GaBioPage({
                 <div className="text-[11px] md:text-xs text-white/90 font-mono tracking-wide mb-1">
                   {c.chicken_code}
                 </div>
-                <h1 className="text-3xl md:text-5xl font-extrabold text-white leading-tight drop-shadow-lg">
+                <h1 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-white leading-tight drop-shadow-lg break-words">
                   {c.name ?? c.chicken_code}
                 </h1>
                 <div className="flex items-center gap-2 flex-wrap mt-2">

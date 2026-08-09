@@ -339,7 +339,7 @@ export function VaccinationsClient({
 
       {/* Content */}
       {filtered.length === 0 ? (
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-12 text-center">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 md:p-12 text-center">
           <div className="text-5xl mb-2">🎉</div>
           <p className="text-gray-600 dark:text-gray-400 text-lg font-semibold">
             {items.length === 0 ? 'Không có mũi tiêm nào trong 30 ngày tới' : 'Không có mũi tiêm nào khớp tiêu chí'}

@@ -11,7 +11,7 @@ export default async function BackupPage() {
 
   if (ctx.profile.role !== 'chu_trai') {
     return (
-      <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900 rounded-xl p-8 text-center max-w-lg mx-auto mt-10">
+      <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900 rounded-xl p-5 md:p-8 text-center max-w-lg mx-auto mt-10">
         <div className="text-5xl mb-3">🔒</div>
         <h1 className="text-lg font-bold text-amber-900 dark:text-amber-200 mb-1">
           Chỉ chủ trại được sao lưu / khôi phục

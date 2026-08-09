@@ -62,7 +62,7 @@ export default async function BangXepHangPage() {
       <ThiDauTabs />
 
       {top3.length === 0 ? (
-        <div className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-xl p-12 text-center">
+        <div className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-xl p-6 md:p-12 text-center">
           <div className="text-6xl mb-2 opacity-50">🥇</div>
           <p className="text-sm text-gray-500">Chưa có gà nào được xếp hạng — cần ghi nhận ít nhất 1 trận.</p>
         </div>

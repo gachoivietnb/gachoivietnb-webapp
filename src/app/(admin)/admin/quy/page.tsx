@@ -116,7 +116,7 @@ function MigrationNotApplied({ detail }: { detail: string }) {
         </h1>
       </div>
 
-      <div className="bg-amber-50 dark:bg-amber-950/30 border-2 border-amber-300 dark:border-amber-800 rounded-2xl p-6 md:p-8">
+      <div className="bg-amber-50 dark:bg-amber-950/30 border-2 border-amber-300 dark:border-amber-800 rounded-2xl p-4 md:p-8">
         <div className="flex items-start gap-4">
           <div className="text-5xl shrink-0">⚙️</div>
           <div className="min-w-0 flex-1">

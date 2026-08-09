@@ -10,7 +10,7 @@ export default async function OrdersPage() {
   const auth = await requireSuperAdmin()
   if (!auth.ok) {
     return (
-      <div className="bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900 rounded-xl p-8 text-center max-w-lg mx-auto mt-10">
+      <div className="bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900 rounded-xl p-5 md:p-8 text-center max-w-lg mx-auto mt-10">
         <div className="text-5xl mb-3">🚫</div>
         <p className="text-rose-800 dark:text-rose-300">Không có quyền truy cập.</p>
       </div>

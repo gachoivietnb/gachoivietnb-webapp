@@ -277,9 +277,13 @@ export function SupplyPurchaseForm({
 
       {error && <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 rounded-lg px-3 py-2">{error}</p>}
 
-      {fromStock && (
+      {fromStock ? (
         <p className="text-xs text-gray-500 dark:text-gray-400">
           ✅ Khi lưu, tồn kho {meta.noun} sẽ <b>tự động tăng</b> theo số lượng nhập.
+        </p>
+      ) : (
+        <p className="text-xs text-gray-500 dark:text-gray-400">
+          ✅ Khi lưu, phiếu này được ghi vào <b>chi phí (hạng mục Dự phòng)</b> để lên báo cáo lãi lỗ.
         </p>
       )}
 

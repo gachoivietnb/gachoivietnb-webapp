@@ -141,6 +141,29 @@ export async function POST(request: Request) {
     if (feedTx.length) await supabase.from('feed_transactions').insert(feedTx as never)
     if (medTx.length) await supabase.from('medicine_transactions').insert(medTx as never)
 
+    // Vật tư/khác → ghi 1 dòng chi phí (P&L, accrual theo tổng phiếu) — hạng mục Dự phòng.
+    // (Cám/thuốc là TỒN KHO nên KHÔNG ghi chi phí lúc mua; chi phí là khi tiêu thụ.)
+    // P&L đọc SUM(expenses), không đọc cash_transactions → không trùng với chi quỹ.
+    if (kind === 'vat_tu' || kind === 'khac') {
+      const { data: cat } = await supabase
+        .from('expense_categories')
+        .select('id')
+        .eq('code', 'du_phong')
+        .maybeSingle()
+      const categoryId = (cat as { id: string } | null)?.id
+      if (categoryId) {
+        const pcode = (purchase as { purchase_code?: string }).purchase_code ?? ''
+        await supabase.from('expenses').insert({
+          category_id: categoryId,
+          amount: Math.round(total),
+          expense_date: purchase_date,
+          description: `Mua vật tư từ NCC — phiếu ${pcode}`.trim(),
+          purchase_id: pid,
+          performed_by: ctx.userId,
+        } as never)
+      }
+    }
+
     // Trả ngay → ghi công nợ phải trả + chi quỹ (phần còn lại là nợ NCC)
     const paidNow = Math.min(Math.round(paid_amount ?? 0), Math.round(total))
     if (paidNow > 0) {

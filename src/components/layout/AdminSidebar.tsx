@@ -58,6 +58,7 @@ const NAV_GROUPS: { title: string; items: NavItem[] }[] = [
     title: 'Tài chính & Kế toán',
     items: [
       { href: '/admin/quy', label: 'Quản lý quỹ', emoji: '💰', moduleKey: 'quy' },
+      { href: '/admin/cong-no', label: 'Công nợ', emoji: '💳', moduleKey: 'cong_no' },
       { href: '/admin/tai-san', label: 'Tài sản / CCDC', emoji: '🛠', moduleKey: 'tai_san' },
       { href: '/admin/hoa-don', label: 'Hóa đơn điện tử', emoji: '🧾', moduleKey: 'hoa_don' },
       { href: '/admin/bao-cao-thue', label: 'Báo cáo thuế', emoji: '📑', moduleKey: 'bao_cao_thue' },

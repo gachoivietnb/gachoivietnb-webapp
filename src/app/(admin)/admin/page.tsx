@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { DashboardPro, type DashboardProData } from '@/components/admin/dashboard/DashboardPro'
 import { BackupReminderBanner } from '@/components/admin/backup/BackupReminderBanner'
 import { StockAlertsBanner } from '@/components/admin/dashboard/StockAlertsBanner'
+import { CongNoDashboardCard } from '@/components/admin/dashboard/CongNoDashboardCard'
 
 export const revalidate = 0
 
@@ -104,6 +105,7 @@ export default async function DashboardPage() {
     <>
       <BackupReminderBanner />
       <StockAlertsBanner />
+      <CongNoDashboardCard />
       <DashboardPro data={data} />
     </>
   )

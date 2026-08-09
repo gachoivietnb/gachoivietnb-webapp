@@ -37,6 +37,7 @@ export const MODULES: ModuleDef[] = [
   { key: 'nha_cung_cap', label: 'Nhà cung cấp',    group: 'Kinh doanh', supports: { read: true, write: true, delete: true } },
 
   { key: 'quy',          label: 'Quản lý quỹ',     group: 'Tài chính & Kế toán', supports: { read: true, write: true, delete: true } },
+  { key: 'cong_no',      label: 'Công nợ',         group: 'Tài chính & Kế toán', supports: { read: true, write: true, delete: false } },
   { key: 'tai_san',      label: 'Tài sản/CCDC',    group: 'Tài chính & Kế toán', supports: { read: true, write: true, delete: true } },
   { key: 'hoa_don',      label: 'Hóa đơn điện tử', group: 'Tài chính & Kế toán', supports: { read: true, write: true, delete: true } },
   { key: 'bao_cao_thue', label: 'Báo cáo thuế',    group: 'Tài chính & Kế toán', supports: { read: true, write: false, delete: false } },
@@ -83,6 +84,7 @@ export const DEFAULT_NHAN_VIEN_PERMISSIONS: PermissionsMap = {
   khach_hang: { read: true, write: true, delete: false },
   nha_cung_cap: { read: true, write: true, delete: false },
   quy: { read: false },
+  cong_no: { read: false },
   tai_chinh: { read: false },
   tai_san: { read: true, write: true, delete: false },
   hoa_don: { read: false },

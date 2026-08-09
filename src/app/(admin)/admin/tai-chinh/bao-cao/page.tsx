@@ -18,7 +18,7 @@ type ReportMeta = {
   description: string
   href: string
   icon: string
-  group: 'Lãi lỗ' | 'Chi tiết' | 'Khách hàng'
+  group: 'Lãi lỗ' | 'Chi tiết' | 'Khách hàng' | 'Nhà cung cấp'
   bar: string
   ring: string
   hint?: string
@@ -102,6 +102,17 @@ const REPORTS: ReportMeta[] = [
     ring: 'ring-cyan-400/30',
     hint: 'Đôn đốc thu hồi',
   },
+  {
+    id: 'cong-no-ncc',
+    title: 'Công nợ phải trả NCC',
+    description: 'NCC còn nợ · tổng phải trả · tuổi nợ · ghi trả từng phiếu (giảm nợ + chi quỹ)',
+    href: '/admin/tai-chinh/bao-cao/cong-no-ncc',
+    icon: '💸',
+    group: 'Nhà cung cấp',
+    bar: 'from-red-400 to-rose-500',
+    ring: 'ring-red-400/30',
+    hint: 'Chủ động thanh toán đúng hạn',
+  },
 ]
 
 export default async function ReportsIndexPage() {
@@ -140,7 +151,7 @@ export default async function ReportsIndexPage() {
     .filter((r) => Number(r.days_since_order) > 30)
     .reduce((s, r) => s + Number(r.amount_due ?? 0), 0)
 
-  const groups = ['Lãi lỗ', 'Chi tiết', 'Khách hàng'] as const
+  const groups = ['Lãi lỗ', 'Chi tiết', 'Khách hàng', 'Nhà cung cấp'] as const
 
   return (
     <div>
@@ -149,7 +160,7 @@ export default async function ReportsIndexPage() {
           📊 Báo cáo tài chính
         </h1>
         <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-          6 báo cáo theo chuẩn kế toán · Bộ lọc thông minh · Xuất Excel / PDF
+          7 báo cáo theo chuẩn kế toán · Bộ lọc thông minh · Xuất Excel / PDF
         </p>
       </div>
 

@@ -6,6 +6,7 @@ import { formatDate, formatVnd } from '@/lib/utils/format'
 import { numberToVietnameseWords } from '@/lib/utils/number-to-words'
 import { PurchaseReceiptActions } from '@/components/admin/purchases/PurchaseReceiptActions'
 import { PurchaseActions } from '@/components/admin/purchases/PurchaseActions'
+import { SupplierPaymentButton } from '@/components/admin/suppliers/SupplierPaymentButton'
 
 export default async function PurchaseDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -43,6 +44,8 @@ export default async function PurchaseDetail({ params }: { params: Promise<{ id:
     purchase_date: string
     total_quantity: number
     total_amount: number
+    paid_amount?: number | null
+    payment_status?: string | null
     notes: string | null
     supplier: {
       name: string
@@ -90,6 +93,8 @@ export default async function PurchaseDetail({ params }: { params: Promise<{ id:
   const brandPhone = farm.phone ?? ''
 
   const totalAmount = Number(p.total_amount)
+  const paidAmount = Number(p.paid_amount ?? 0)
+  const remainingDue = Math.max(0, totalAmount - paidAmount)
   const totalQty = p.total_quantity || p.purchase_items.length
   const totalInWords = `${numberToVietnameseWords(Math.round(totalAmount))} đồng`
 
@@ -105,6 +110,9 @@ export default async function PurchaseDetail({ params }: { params: Promise<{ id:
             <ArrowLeft className="w-4 h-4" /> Quay lại danh sách
           </Link>
           <div className="flex items-center gap-2 flex-wrap">
+            {remainingDue > 0 && (
+              <SupplierPaymentButton purchaseId={p.id} purchaseCode={p.purchase_code} remaining={remainingDue} />
+            )}
             <PurchaseActions purchaseId={p.id} purchaseCode={p.purchase_code} purchaseDate={p.purchase_date} notes={p.notes} />
             <PurchaseReceiptActions purchaseId={p.id} purchaseCode={p.purchase_code} />
           </div>
@@ -178,6 +186,14 @@ export default async function PurchaseDetail({ params }: { params: Promise<{ id:
                 value={formatVnd(totalAmount)}
                 highlight
               />
+              {remainingDue > 0 ? (
+                <>
+                  <Info label="Đã trả" value={formatVnd(paidAmount)} />
+                  <Info label="Còn nợ NCC" value={formatVnd(remainingDue)} highlight />
+                </>
+              ) : (
+                <Info label="Thanh toán" value="✓ Đã trả đủ" />
+              )}
             </InfoBlock>
           </div>
 

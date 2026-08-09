@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { SupplierPaymentButton } from '@/components/admin/suppliers/SupplierPaymentButton'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { getCurrentUserPermissions } from '@/lib/rbac/guard'
@@ -26,7 +27,7 @@ export default async function SupplierDetail({ params, searchParams }: {
     supabase.from('supplier_stats').select('*').eq('id', id).single(),
     supabase
       .from('purchases')
-      .select('id, purchase_code, purchase_date, total_quantity, total_amount, notes')
+      .select('id, purchase_code, purchase_date, total_quantity, total_amount, notes, paid_amount, payment_status, kind')
       .eq('supplier_id', id)
       .order('purchase_date', { ascending: false })
       .limit(50),
@@ -45,7 +46,8 @@ export default async function SupplierDetail({ params, searchParams }: {
   }
 
   const s = supRes.data as Record<string, unknown>
-  const purchases = (purchasesRes.data ?? []) as Array<{ id: string; purchase_code: string; purchase_date: string; total_quantity: number; total_amount: number; notes: string | null }>
+  const purchases = (purchasesRes.data ?? []) as Array<{ id: string; purchase_code: string; purchase_date: string; total_quantity: number; total_amount: number; notes: string | null; paid_amount: number | null; payment_status: string | null; kind: string | null }>
+  const totalDebt = purchases.reduce((sum, p) => sum + Math.max(0, Number(p.total_amount) - Number(p.paid_amount ?? 0)), 0)
 
   if (sp.edit === '1') {
     const { SupplierForm } = await import('@/components/admin/suppliers/SupplierForm')
@@ -138,7 +140,14 @@ export default async function SupplierDetail({ params, searchParams }: {
           {/* Lịch sử mua */}
           <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
             <div className="px-4 py-2 border-b bg-gray-50 dark:bg-gray-900/40 flex items-center justify-between">
-              <h3 className="font-bold text-sm">📦 Lịch sử mua hàng ({purchases.length})</h3>
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className="font-bold text-sm">📦 Lịch sử mua hàng ({purchases.length})</h3>
+                {totalDebt > 0 && (
+                  <span className="text-xs font-bold bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300 rounded-full px-2 py-0.5">
+                    Còn nợ {fmtVnd(totalDebt)}đ
+                  </span>
+                )}
+              </div>
               <Link href={`/admin/mua-vao/them-moi?kind=${purchaseKind}&supplier=${id}`} className="text-xs bg-emerald-500 text-white rounded px-3 py-1.5 font-semibold">
                 + Tạo phiếu mua
               </Link>
@@ -153,6 +162,8 @@ export default async function SupplierDetail({ params, searchParams }: {
                     <th className="text-left p-2">Ngày</th>
                     <th className="text-right p-2">SL</th>
                     <th className="text-right p-2">Tổng tiền</th>
+                    <th className="text-right p-2">Còn nợ</th>
+                    <th className="p-2"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -164,6 +175,19 @@ export default async function SupplierDetail({ params, searchParams }: {
                       <td className="p-2 text-xs">{p.purchase_date.split('-').reverse().join('/')}</td>
                       <td className="p-2 text-right font-mono">{p.total_quantity}</td>
                       <td className="p-2 text-right font-mono text-emerald-700 dark:text-emerald-400">{fmtVnd(Number(p.total_amount))}</td>
+                      {(() => {
+                        const remaining = Math.max(0, Number(p.total_amount) - Number(p.paid_amount ?? 0))
+                        return (
+                          <>
+                            <td className="p-2 text-right font-mono text-red-600 dark:text-red-400">
+                              {remaining > 0 ? fmtVnd(remaining) : '—'}
+                            </td>
+                            <td className="p-2 text-right">
+                              <SupplierPaymentButton purchaseId={p.id} purchaseCode={p.purchase_code} remaining={remaining} />
+                            </td>
+                          </>
+                        )
+                      })()}
                     </tr>
                   ))}
                 </tbody>

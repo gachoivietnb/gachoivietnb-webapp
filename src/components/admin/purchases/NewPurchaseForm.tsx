@@ -71,6 +71,8 @@ export function NewPurchaseForm({
   const [rows, setRows] = useState<Row[]>([])
   const [selected, setSelected] = useState<Set<string>>(new Set())
   const [notes, setNotes] = useState('')
+  const [paidNow, setPaidNow] = useState('')
+  const [payMethod, setPayMethod] = useState('tien_mat')
   const [loading, setLoading] = useState(false)
   const [err, setErr] = useState<string | null>(null)
 
@@ -183,6 +185,8 @@ export function NewPurchaseForm({
         supplier_name: supplierMode === 'new' ? newSupplierName.trim() : undefined,
         purchase_date: purchaseDate,
         items,
+        paid_amount: Math.round(Number(paidNow) || 0),
+        payment_method: payMethod,
         notes: notes || undefined,
       }),
     })
@@ -604,6 +608,52 @@ export function NewPurchaseForm({
               className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg px-3 py-2 text-sm"
             />
           </Field>
+
+          <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 items-start border-t border-gray-100 dark:border-gray-700 pt-4">
+            <div>
+              <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Trả ngay (đ)</label>
+              <input
+                type="number"
+                step={1}
+                min="0"
+                inputMode="numeric"
+                value={paidNow}
+                onChange={(e) => setPaidNow(e.target.value)}
+                placeholder="0"
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg px-3 py-2 text-sm text-right"
+              />
+              <button
+                type="button"
+                onClick={() => setPaidNow(String(Math.round(total)))}
+                className="mt-1 text-xs text-emerald-600 dark:text-emerald-400 hover:underline"
+              >
+                Trả đủ {formatVnd(total)}
+              </button>
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Hình thức</label>
+              <select
+                value={payMethod}
+                onChange={(e) => setPayMethod(e.target.value)}
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg px-3 py-2 text-sm"
+              >
+                <option value="tien_mat">Tiền mặt</option>
+                <option value="chuyen_khoan">Chuyển khoản</option>
+              </select>
+            </div>
+            <div className="text-right">
+              <div className="text-[11px] font-semibold text-gray-500 dark:text-gray-400 uppercase mb-1">Còn nợ NCC</div>
+              {(() => {
+                const paidVal = Math.min(Number(paidNow) || 0, total)
+                const debt = total - paidVal
+                return (
+                  <div className={`text-lg font-bold ${debt > 0 ? 'text-red-600 dark:text-red-400' : 'text-emerald-600 dark:text-emerald-400'}`}>
+                    {formatVnd(Math.max(0, debt))}
+                  </div>
+                )
+              })()}
+            </div>
+          </div>
         </section>
       </div>
 

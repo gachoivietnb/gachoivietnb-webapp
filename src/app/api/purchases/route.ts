@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { requirePermission } from '@/lib/rbac/guard'
+import { recordSupplierPayment } from '@/lib/purchases/payments'
 
 const ItemSchema = z.object({
   unit_price: z.number().positive(),
@@ -31,6 +32,8 @@ const PurchaseSchema = z.object({
   purchase_date: z.string(),
   items: z.array(ItemSchema).max(200).optional(),
   supply_items: z.array(SupplyItemSchema).max(200).optional(),
+  paid_amount: z.number().min(0).optional(), // trả ngay khi tạo phiếu (công nợ = tổng − trả ngay)
+  payment_method: z.string().optional(),
   notes: z.string().optional(),
 })
 
@@ -58,7 +61,8 @@ export async function POST(request: Request) {
   const parsed = PurchaseSchema.safeParse(await request.json())
   if (!parsed.success) return NextResponse.json({ error: parsed.error.issues }, { status: 400 })
 
-  const { kind, supplier_id, supplier_name, purchase_date, items, supply_items, notes } = parsed.data
+  const { kind, supplier_id, supplier_name, purchase_date, items, supply_items, paid_amount, payment_method, notes } =
+    parsed.data
 
   let finalSupplierId = supplier_id
   if (!finalSupplierId && supplier_name) {
@@ -137,6 +141,22 @@ export async function POST(request: Request) {
     if (feedTx.length) await supabase.from('feed_transactions').insert(feedTx as never)
     if (medTx.length) await supabase.from('medicine_transactions').insert(medTx as never)
 
+    // Trả ngay → ghi công nợ phải trả + chi quỹ (phần còn lại là nợ NCC)
+    const paidNow = Math.min(Math.round(paid_amount ?? 0), Math.round(total))
+    if (paidNow > 0) {
+      try {
+        await recordSupplierPayment({
+          purchaseId: pid,
+          amount: paidNow,
+          paymentDate: purchase_date,
+          paymentMethod: payment_method,
+          userId: ctx.userId,
+        })
+      } catch {
+        /* không chặn tạo phiếu nếu ghi thanh toán lỗi */
+      }
+    }
+
     return NextResponse.json({ data: purchase, count: supplyItems.length })
   }
 
@@ -210,6 +230,22 @@ export async function POST(request: Request) {
         { error: `Lỗi tạo chi tiết nhập: ${itemsError.message}` },
         { status: 500 }
       )
+    }
+  }
+
+  // Trả ngay → ghi công nợ phải trả + chi quỹ
+  const paidNowGa = Math.min(Math.round(paid_amount ?? 0), Math.round(totalAmount))
+  if (paidNowGa > 0) {
+    try {
+      await recordSupplierPayment({
+        purchaseId: purchaseRow.id,
+        amount: paidNowGa,
+        paymentDate: purchase_date,
+        paymentMethod: payment_method,
+        userId: ctx.userId,
+      })
+    } catch {
+      /* không chặn tạo phiếu */
     }
   }
 

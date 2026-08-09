@@ -39,6 +39,8 @@ export function SupplyPurchaseForm({
   const [supplierId, setSupplierId] = useState(defaultSupplierId ?? '')
   const [purchaseDate, setPurchaseDate] = useState(todayISO())
   const [notes, setNotes] = useState('')
+  const [paidNow, setPaidNow] = useState('')
+  const [payMethod, setPayMethod] = useState('tien_mat')
   const [rows, setRows] = useState<Row[]>([{ ref_id: '', item_name: '', quantity: '', unit_price: '' }])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -91,6 +93,8 @@ export function SupplyPurchaseForm({
           supplier_id: supplierId,
           purchase_date: purchaseDate,
           supply_items: clean,
+          paid_amount: Math.round(Number(paidNow) || 0),
+          payment_method: payMethod,
           notes: notes.trim() || undefined,
         }),
       })
@@ -219,6 +223,49 @@ export function SupplyPurchaseForm({
         <div className="px-4 py-3 bg-amber-50 dark:bg-amber-950/30 flex items-center justify-between">
           <span className="text-sm font-bold uppercase tracking-wide text-amber-900 dark:text-amber-300">Tổng cộng</span>
           <span className="text-lg font-bold tabular-nums text-amber-900 dark:text-amber-300">{total.toLocaleString('vi-VN')}đ</span>
+        </div>
+      </div>
+
+      {/* Thanh toán / công nợ */}
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 grid grid-cols-1 sm:grid-cols-3 gap-4 items-start">
+        <div>
+          <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Trả ngay (đ)</label>
+          <input
+            type="number"
+            step={1}
+            min="0"
+            inputMode="numeric"
+            value={paidNow}
+            onChange={(e) => setPaidNow(e.target.value)}
+            placeholder="0"
+            className={`${inputCls} text-right`}
+          />
+          <button
+            type="button"
+            onClick={() => setPaidNow(String(Math.round(total)))}
+            className="mt-1 text-xs text-emerald-600 dark:text-emerald-400 hover:underline"
+          >
+            Trả đủ {total.toLocaleString('vi-VN')}đ
+          </button>
+        </div>
+        <div>
+          <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Hình thức</label>
+          <select value={payMethod} onChange={(e) => setPayMethod(e.target.value)} className={inputCls}>
+            <option value="tien_mat">Tiền mặt</option>
+            <option value="chuyen_khoan">Chuyển khoản</option>
+          </select>
+        </div>
+        <div className="text-right">
+          <div className="text-[11px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">Còn nợ NCC</div>
+          {(() => {
+            const paidVal = Math.min(Number(paidNow) || 0, total)
+            const debt = total - paidVal
+            return (
+              <div className={`text-xl font-bold tabular-nums ${debt > 0 ? 'text-red-600 dark:text-red-400' : 'text-emerald-600 dark:text-emerald-400'}`}>
+                {Math.max(0, debt).toLocaleString('vi-VN')}đ
+              </div>
+            )
+          })()}
         </div>
       </div>
 

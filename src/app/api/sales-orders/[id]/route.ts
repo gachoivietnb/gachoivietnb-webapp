@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
+import { revalidatePublicChickens } from '@/lib/cache/revalidate-public'
 
 export async function GET(
   _request: Request,
@@ -56,5 +57,6 @@ export async function PATCH(
     .single()
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  revalidatePublicChickens()
   return NextResponse.json({ data })
 }

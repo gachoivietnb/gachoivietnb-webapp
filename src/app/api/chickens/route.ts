@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { requirePermission } from '@/lib/rbac/guard'
+import { revalidatePublicChickens } from '@/lib/cache/revalidate-public'
 
 const ChickenCreateSchema = z.object({
   name: z.string().optional(),
@@ -88,5 +89,6 @@ export async function POST(request: Request) {
     after_data: chicken,
   } as never)
 
+  revalidatePublicChickens()
   return NextResponse.json({ data: chicken })
 }

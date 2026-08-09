@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { slugifyVi } from '@/lib/utils/slugify'
+import { revalidatePublicNews } from '@/lib/cache/revalidate-public'
 
 async function requireChuTrai() {
   const supabase = await createClient()
@@ -67,5 +68,6 @@ export async function POST(request: Request) {
     .single()
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  revalidatePublicNews()
   return NextResponse.json({ data })
 }

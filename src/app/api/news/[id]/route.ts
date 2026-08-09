@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
+import { revalidatePublicNews } from '@/lib/cache/revalidate-public'
 
 async function requireChuTrai() {
   const supabase = await createClient()
@@ -45,6 +46,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     .single()
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  revalidatePublicNews()
   return NextResponse.json({ data })
 }
 
@@ -54,5 +56,6 @@ export async function DELETE(_: Request, { params }: { params: Promise<{ id: str
   const { id } = await params
   const { error } = await auth.supabase.from('news_articles').delete().eq('id', id)
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  revalidatePublicNews()
   return NextResponse.json({ success: true })
 }

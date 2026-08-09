@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
+import { revalidatePublicChickens } from '@/lib/cache/revalidate-public'
 
 export async function GET(
   _request: Request,
@@ -60,6 +61,7 @@ export async function PATCH(
     after_data: data,
   } as never)
 
+  revalidatePublicChickens()
   return NextResponse.json({ data })
 }
 
@@ -104,5 +106,6 @@ export async function DELETE(
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   }
 
+  revalidatePublicChickens()
   return NextResponse.json({ success: true })
 }

@@ -10,6 +10,7 @@ export default async function MuaVaoPage() {
     .select(
       `
       id, purchase_code, purchase_date, total_quantity, total_amount, notes,
+      kind, paid_amount, payment_status,
       supplier:suppliers (id, name, phone),
       items:purchase_items (
         unit_price,
@@ -30,6 +31,9 @@ export default async function MuaVaoPage() {
     total_quantity: number
     total_amount: number
     notes: string | null
+    kind: string | null
+    paid_amount: number | null
+    payment_status: string | null
     supplier: { id: string; name: string; phone: string | null } | null
     items: Array<{
       unit_price: number
@@ -59,6 +63,10 @@ export default async function MuaVaoPage() {
       total_amount: Number(p.total_amount),
       avg_price: avgPrice,
       notes: p.notes,
+      kind: p.kind ?? 'ga',
+      paid_amount: Number(p.paid_amount ?? 0),
+      payment_status: p.payment_status ?? 'chua_tra',
+      amount_due: Math.max(0, Number(p.total_amount) - Number(p.paid_amount ?? 0)),
       supplier_id: p.supplier?.id ?? null,
       supplier_name: p.supplier?.name ?? null,
       supplier_phone: p.supplier?.phone ?? null,
@@ -94,7 +102,7 @@ export default async function MuaVaoPage() {
             📥 Mua vào
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Quản lý phiếu nhập gà · Lọc thông minh · Theo dõi NCC, giống, chi phí
+            Phiếu nhập gà · cám · thuốc · vật tư · Lọc theo loại · Theo dõi NCC & công nợ
           </p>
         </div>
         <div className="flex gap-2 flex-wrap">
@@ -108,7 +116,7 @@ export default async function MuaVaoPage() {
             href="/admin/mua-vao/them-moi"
             className="inline-flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-sm font-medium"
           >
-            <Plus className="w-4 h-4" /> Nhập gà mới
+            <Plus className="w-4 h-4" /> Phiếu nhập mới
           </Link>
         </div>
       </div>

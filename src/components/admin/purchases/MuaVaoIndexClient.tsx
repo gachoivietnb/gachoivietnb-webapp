@@ -22,6 +22,10 @@ export type PurchaseRow = {
   item_count: number
   chicken_codes: string[]
   chicken_names: string[]
+  kind: string
+  paid_amount: number
+  payment_status: string
+  amount_due: number
 }
 
 type Supplier = { id: string; name: string }
@@ -31,6 +35,24 @@ type ViewMode = 'grid' | 'list'
 type DateRange = '' | '7d' | '30d' | '90d' | 'this_month' | 'last_month' | 'this_year'
 
 const todayIso = new Date().toISOString().slice(0, 10)
+
+const KIND_META: Record<string, { label: string; emoji: string; badge: string; noun: string }> = {
+  ga: { label: 'Gà', emoji: '🐓', badge: 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300', noun: 'con' },
+  thuc_an: { label: 'Cám', emoji: '🌾', badge: 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300', noun: 'mục' },
+  thuoc: { label: 'Thuốc', emoji: '💊', badge: 'bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300', noun: 'mục' },
+  vat_tu: { label: 'Vật tư', emoji: '📦', badge: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300', noun: 'mục' },
+  khac: { label: 'Khác', emoji: '📦', badge: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300', noun: 'mục' },
+}
+function kindMeta(k: string) {
+  return KIND_META[k] ?? KIND_META.ga
+}
+const KIND_TABS: Array<[string, string]> = [
+  ['', 'Tất cả'],
+  ['ga', '🐓 Gà'],
+  ['thuc_an', '🌾 Cám'],
+  ['thuoc', '💊 Thuốc'],
+  ['vat_tu', '📦 Vật tư'],
+]
 
 export function MuaVaoIndexClient({
   purchases,
@@ -42,6 +64,7 @@ export function MuaVaoIndexClient({
   breeds: Breed[]
 }) {
   const [q, setQ] = useState('')
+  const [kind, setKind] = useState('')
   const [supplierId, setSupplierId] = useState('')
   const [breedCode, setBreedCode] = useState('')
   const [range, setRange] = useState<DateRange>('')
@@ -75,6 +98,7 @@ export function MuaVaoIndexClient({
     const rStart = rangeStartDate()
     const rEnd = rangeEndDate()
     const out = purchases.filter((p) => {
+      if (kind && (p.kind ?? 'ga') !== kind) return false
       if (qNorm) {
         const hay = removeDiacritics(
           `${p.purchase_code} ${p.supplier_name ?? ''} ${p.notes ?? ''} ${p.chicken_codes.join(' ')} ${p.chicken_names.join(' ')} ${p.breed_names.join(' ')}`
@@ -101,19 +125,33 @@ export function MuaVaoIndexClient({
     else if (sortKey === 'avg_asc') sorted.sort((a, b) => a.avg_price - b.avg_price)
     return sorted
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [purchases, qNorm, supplierId, breedCode, range, amountBand, sortKey])
+  }, [purchases, qNorm, kind, supplierId, breedCode, range, amountBand, sortKey])
 
   // KPI
   const totalPurchases = purchases.length
   const totalSpent = purchases.reduce((s, p) => s + p.total_amount, 0)
-  const totalQty = purchases.reduce((s, p) => s + p.total_quantity, 0)
-  const avgPriceOverall = totalQty > 0 ? totalSpent / totalQty : 0
+  const gaPurchases = purchases.filter((p) => (p.kind ?? 'ga') === 'ga')
+  const totalGaQty = gaPurchases.reduce((s, p) => s + p.total_quantity, 0)
+  const gaSpent = gaPurchases.reduce((s, p) => s + p.total_amount, 0)
+  const avgPriceOverall = totalGaQty > 0 ? gaSpent / totalGaQty : 0
+  const totalDue = purchases.reduce((s, p) => s + (p.amount_due ?? 0), 0)
 
-  const last30 = todayIso.slice(0, 8) // for comparison
   const dt30 = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10)
   const recent30 = purchases.filter((p) => p.purchase_date >= dt30)
   const spent30 = recent30.reduce((s, p) => s + p.total_amount, 0)
-  const qty30 = recent30.reduce((s, p) => s + p.total_quantity, 0)
+  const qty30 = recent30.filter((p) => (p.kind ?? 'ga') === 'ga').reduce((s, p) => s + p.total_quantity, 0)
+
+  // Chi mua theo loại (báo cáo nhanh)
+  const byKind = new Map<string, { amount: number; count: number; due: number }>()
+  for (const p of purchases) {
+    const k = p.kind ?? 'ga'
+    const c = byKind.get(k) ?? { amount: 0, count: 0, due: 0 }
+    c.amount += p.total_amount
+    c.count += 1
+    c.due += p.amount_due ?? 0
+    byKind.set(k, c)
+  }
+  const kindBreakdown = [...byKind.entries()].sort((a, b) => b[1].amount - a[1].amount)
 
   // Top supplier (by amount)
   const supplierAgg = new Map<string, { name: string; amount: number; count: number }>()
@@ -126,9 +164,10 @@ export function MuaVaoIndexClient({
   }
   const topSupplier = [...supplierAgg.values()].sort((a, b) => b.amount - a.amount)[0]
 
-  const hasFilter = !!(q || supplierId || breedCode || range || amountBand)
+  const hasFilter = !!(q || kind || supplierId || breedCode || range || amountBand)
   function clearFilters() {
     setQ('')
+    setKind('')
     setSupplierId('')
     setBreedCode('')
     setRange('')
@@ -138,7 +177,7 @@ export function MuaVaoIndexClient({
   return (
     <div className="space-y-4">
       {/* KPI cards */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
         <Kpi
           label="Tổng phiếu"
           value={totalPurchases.toLocaleString('vi-VN')}
@@ -148,7 +187,7 @@ export function MuaVaoIndexClient({
         />
         <Kpi
           label="Tổng gà nhập"
-          value={totalQty.toLocaleString('vi-VN')}
+          value={totalGaQty.toLocaleString('vi-VN')}
           sub={`30 ngày: ${qty30}`}
           tint="emerald"
           icon="🐓"
@@ -161,9 +200,16 @@ export function MuaVaoIndexClient({
           icon="💸"
         />
         <Kpi
-          label="Giá TB / con"
+          label="Còn nợ NCC"
+          value={formatVnd(totalDue)}
+          sub={totalDue > 0 ? 'Chưa tất toán' : 'Đã trả hết'}
+          tint="rose"
+          icon="💳"
+        />
+        <Kpi
+          label="Giá TB / con (gà)"
           value={formatVnd(avgPriceOverall)}
-          sub="Trung bình toàn bộ"
+          sub="Trung bình gà nhập"
           tint="amber"
           icon="⚖️"
         />
@@ -175,6 +221,31 @@ export function MuaVaoIndexClient({
           icon="🏪"
         />
       </div>
+
+      {/* Chi mua theo loại */}
+      {kindBreakdown.length > 1 && (
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 shadow-sm">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">📊 Chi mua theo loại:</span>
+            {kindBreakdown.map(([k, v]) => {
+              const m = kindMeta(k)
+              return (
+                <button
+                  key={k}
+                  onClick={() => setKind(kind === k ? '' : k)}
+                  className={`text-xs rounded-full px-2.5 py-1 font-semibold border transition ${
+                    kind === k ? 'ring-2 ring-blue-400 ' : ''
+                  }${m.badge} border-transparent hover:opacity-80`}
+                  title={`${v.count} phiếu`}
+                >
+                  {m.emoji} {m.label}: {formatVnd(v.amount)}
+                  {v.due > 0 && <span className="ml-1 text-red-600 dark:text-red-300">· nợ {formatVnd(v.due)}</span>}
+                </button>
+              )
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Filter bar */}
       <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-sm">
@@ -228,6 +299,24 @@ export function MuaVaoIndexClient({
             <option value="medium">10 – 50 triệu</option>
             <option value="large">≥ 50 triệu</option>
           </select>
+        </div>
+
+        {/* Loại phiếu */}
+        <div className="mt-3 flex items-center gap-2 flex-wrap">
+          <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">🏷 Loại:</span>
+          {KIND_TABS.map(([k, l]) => (
+            <button
+              key={k || 'all'}
+              onClick={() => setKind(k)}
+              className={`text-xs px-2.5 py-1 rounded-full font-semibold transition ${
+                kind === k
+                  ? 'bg-blue-600 text-white shadow-sm'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200'
+              }`}
+            >
+              {l}
+            </button>
+          ))}
         </div>
 
         {/* Date range presets */}
@@ -336,6 +425,7 @@ function PurchaseCard({ p }: { p: PurchaseRow }) {
   // Use first breed color for accent
   const accentColor = getBreedColor(breeds[0]?.code ?? null)
   const daysSince = Math.floor((Date.now() - new Date(p.purchase_date).getTime()) / 86400000)
+  const m = kindMeta(p.kind)
 
   return (
     <Link
@@ -346,6 +436,22 @@ function PurchaseCard({ p }: { p: PurchaseRow }) {
       <div className={`relative h-2 ${accentColor.bg}`} />
 
       <div className="p-4">
+        {/* Badges: loại + công nợ */}
+        <div className="flex items-center gap-1.5 mb-2 flex-wrap">
+          <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${m.badge}`}>
+            {m.emoji} {m.label}
+          </span>
+          {p.amount_due > 0 ? (
+            <span className="text-[10px] px-1.5 py-0.5 rounded-full font-bold bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300">
+              Nợ {formatVnd(p.amount_due)}
+            </span>
+          ) : (
+            <span className="text-[10px] px-1.5 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
+              ✓ Đã trả
+            </span>
+          )}
+        </div>
+
         {/* Top: code + date */}
         <div className="flex items-start justify-between gap-2 mb-2">
           <div className="min-w-0 flex-1">
@@ -359,9 +465,11 @@ function PurchaseCard({ p }: { p: PurchaseRow }) {
             <div className="text-xl font-extrabold text-red-600 dark:text-red-400 tabular-nums leading-none">
               {formatVnd(p.total_amount)}
             </div>
-            <div className="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">
-              ≈ {formatVnd(p.avg_price)}/con
-            </div>
+            {p.kind === 'ga' && (
+              <div className="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">
+                ≈ {formatVnd(p.avg_price)}/con
+              </div>
+            )}
           </div>
         </div>
 
@@ -384,15 +492,26 @@ function PurchaseCard({ p }: { p: PurchaseRow }) {
             <div className="text-[9px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">Số lượng</div>
             <div className="text-lg font-extrabold tabular-nums text-emerald-700 dark:text-emerald-400 leading-tight">
               {p.total_quantity}
-              <span className="text-[10px] text-gray-500 dark:text-gray-400 font-normal ml-1">con</span>
+              <span className="text-[10px] text-gray-500 dark:text-gray-400 font-normal ml-1">{m.noun}</span>
             </div>
           </div>
           <div className="bg-gray-50 dark:bg-gray-900/40 rounded-lg p-2 text-center">
-            <div className="text-[9px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">Số giống</div>
-            <div className="text-lg font-extrabold tabular-nums text-blue-700 dark:text-blue-400 leading-tight">
-              {breeds.length}
-              <span className="text-[10px] text-gray-500 dark:text-gray-400 font-normal ml-1">loại</span>
-            </div>
+            {p.kind === 'ga' ? (
+              <>
+                <div className="text-[9px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">Số giống</div>
+                <div className="text-lg font-extrabold tabular-nums text-blue-700 dark:text-blue-400 leading-tight">
+                  {breeds.length}
+                  <span className="text-[10px] text-gray-500 dark:text-gray-400 font-normal ml-1">loại</span>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="text-[9px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">Đã trả</div>
+                <div className="text-sm font-extrabold tabular-nums text-emerald-700 dark:text-emerald-400 leading-tight mt-1.5">
+                  {formatVnd(p.paid_amount)}
+                </div>
+              </>
+            )}
           </div>
         </div>
 
@@ -437,6 +556,7 @@ function ListView({ items }: { items: PurchaseRow[] }) {
           <tr>
             <th className="px-3 py-2.5 text-left">Mã phiếu</th>
             <th className="px-3 py-2.5 text-left">Ngày</th>
+            <th className="px-3 py-2.5 text-left">Loại</th>
             <th className="px-3 py-2.5 text-left">NCC</th>
             <th className="px-3 py-2.5 text-left">Giống</th>
             <th className="px-3 py-2.5 text-right">SL</th>
@@ -453,6 +573,11 @@ function ListView({ items }: { items: PurchaseRow[] }) {
                 </Link>
               </td>
               <td className="px-3 py-2 text-gray-600 dark:text-gray-400 whitespace-nowrap">{formatDate(p.purchase_date)}</td>
+              <td className="px-3 py-2 whitespace-nowrap">
+                <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${kindMeta(p.kind).badge}`}>
+                  {kindMeta(p.kind).emoji} {kindMeta(p.kind).label}
+                </span>
+              </td>
               <td className="px-3 py-2">
                 <div className="font-medium truncate max-w-[200px]">{p.supplier_name ?? '—'}</div>
                 {p.supplier_phone && <div className="text-[10px] text-gray-500 dark:text-gray-400">{p.supplier_phone}</div>}
@@ -479,9 +604,14 @@ function ListView({ items }: { items: PurchaseRow[] }) {
               </td>
               <td className="px-3 py-2 text-right font-bold tabular-nums text-red-600 dark:text-red-400">
                 {formatVnd(p.total_amount)}
+                {p.amount_due > 0 ? (
+                  <div className="text-[10px] font-normal text-red-500">Nợ {formatVnd(p.amount_due)}</div>
+                ) : (
+                  <div className="text-[10px] font-normal text-emerald-600 dark:text-emerald-400">✓ đã trả</div>
+                )}
               </td>
               <td className="px-3 py-2 text-right text-xs text-gray-600 dark:text-gray-400 tabular-nums">
-                {formatVnd(p.avg_price)}
+                {p.kind === 'ga' ? formatVnd(p.avg_price) : '—'}
               </td>
             </tr>
           ))}
@@ -501,7 +631,7 @@ function Kpi({
   label: string
   value: string
   sub?: string
-  tint: 'blue' | 'emerald' | 'red' | 'amber' | 'purple'
+  tint: 'blue' | 'emerald' | 'red' | 'amber' | 'purple' | 'rose'
   icon: string
 }) {
   const map: Record<string, string> = {
@@ -510,6 +640,7 @@ function Kpi({
     red: 'from-red-500 to-rose-600',
     amber: 'from-amber-500 to-orange-600',
     purple: 'from-purple-500 to-fuchsia-600',
+    rose: 'from-rose-500 to-pink-600',
   }
   return (
     <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 shadow-sm relative overflow-hidden">

@@ -121,7 +121,12 @@ export async function DELETE(
       .in('chicken_id', chickenIds)
   }
 
-  // 4. Xóa line items → gà → giao dịch quỹ liên quan → đơn
+  // 4. Đảo tồn kho cho phiếu cám/thuốc: xóa transaction nhập gắn với phiếu
+  //    (trigger update_feed_stock/update_medicine_stock tự trừ current_stock khi DELETE)
+  await supabase.from('feed_transactions').delete().eq('purchase_id', id)
+  await supabase.from('medicine_transactions').delete().eq('purchase_id', id)
+
+  // 5. Xóa line items → gà → giao dịch quỹ liên quan → đơn
   await supabase.from('purchase_items').delete().eq('purchase_id', id)
   if (chickenIds.length > 0) {
     const { error: chErr } = await supabase.from('chickens').delete().in('id', chickenIds)

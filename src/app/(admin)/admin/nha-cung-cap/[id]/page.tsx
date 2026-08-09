@@ -60,6 +60,9 @@ export default async function SupplierDetail({ params, searchParams }: {
 
   const category = (s.supplier_category as SupplierCategory | null) ?? 'khac'
   const cm = CATEGORY_META[category]
+  // Loại phiếu nhập mặc định theo nhóm NCC (cám→thức ăn, thú y→thuốc, gà→gà, còn lại→vật tư)
+  const purchaseKind =
+    category === 'thuc_an' ? 'thuc_an' : category === 'thuoc_thu_y' ? 'thuoc' : category === 'ga' ? 'ga' : 'vat_tu'
 
   return (
     <div className="space-y-4">
@@ -136,7 +139,7 @@ export default async function SupplierDetail({ params, searchParams }: {
           <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
             <div className="px-4 py-2 border-b bg-gray-50 dark:bg-gray-900/40 flex items-center justify-between">
               <h3 className="font-bold text-sm">📦 Lịch sử mua hàng ({purchases.length})</h3>
-              <Link href={`/admin/mua-vao/them-moi?supplier=${id}`} className="text-xs bg-emerald-500 text-white rounded px-3 py-1.5 font-semibold">
+              <Link href={`/admin/mua-vao/them-moi?kind=${purchaseKind}&supplier=${id}`} className="text-xs bg-emerald-500 text-white rounded px-3 py-1.5 font-semibold">
                 + Tạo phiếu mua
               </Link>
             </div>

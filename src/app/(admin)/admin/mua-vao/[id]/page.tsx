@@ -23,7 +23,9 @@ export default async function PurchaseDetail({ params }: { params: Promise<{ id:
           chicken:chickens(
             id, chicken_code, name, status, weight_kg, color, gender,
             breeds(name_vi)
-          )
+          ),
+          feed:feeds(name_vi, unit),
+          medicine:medicines(name_vi, unit)
         )
       `
       )
@@ -36,6 +38,7 @@ export default async function PurchaseDetail({ params }: { params: Promise<{ id:
 
   const p = purchaseRes.data as {
     id: string
+    kind?: string
     purchase_code: string
     purchase_date: string
     total_quantity: number
@@ -50,6 +53,11 @@ export default async function PurchaseDetail({ params }: { params: Promise<{ id:
     purchase_items: Array<{
       unit_price: number
       notes: string | null
+      item_type?: string | null
+      item_name?: string | null
+      quantity?: number | null
+      feed?: { name_vi: string; unit: string | null } | null
+      medicine?: { name_vi: string; unit: string | null } | null
       chicken: {
         id: string
         chicken_code: string
@@ -62,6 +70,17 @@ export default async function PurchaseDetail({ params }: { params: Promise<{ id:
       } | null
     }>
   }
+
+  const kind = p.kind ?? 'ga'
+  const isGa = kind === 'ga'
+  const KIND_META: Record<string, { title: string; sub: string; noun: string }> = {
+    ga: { title: 'Phiếu Nhập Gà', sub: '(Biên nhận mua gà / phiếu nhập đàn)', noun: 'con' },
+    thuc_an: { title: 'Phiếu Nhập Thức Ăn', sub: '(Biên nhận mua cám / thức ăn)', noun: 'mục' },
+    thuoc: { title: 'Phiếu Nhập Thuốc', sub: '(Biên nhận mua thuốc thú y)', noun: 'mục' },
+    vat_tu: { title: 'Phiếu Nhập Vật Tư', sub: '(Biên nhận mua vật tư / dụng cụ)', noun: 'mục' },
+    khac: { title: 'Phiếu Nhập', sub: '(Biên nhận mua hàng)', noun: 'mục' },
+  }
+  const km = KIND_META[kind] ?? KIND_META.ga
 
   const farm =
     ((farmRes.data as { value?: Record<string, string> } | null)?.value as Record<string, string>) ??
@@ -133,10 +152,10 @@ export default async function PurchaseDetail({ params }: { params: Promise<{ id:
           {/* TITLE */}
           <div className="px-6 md:px-10 pt-6 md:pt-8 text-center">
             <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-gray-100 tracking-wide uppercase">
-              Phiếu Nhập Gà
+              {km.title}
             </h1>
             <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400 mt-1 italic">
-              (Biên nhận mua gà / phiếu nhập đàn)
+              {km.sub}
             </p>
             <div className="mx-auto mt-3 w-20 h-0.5 bg-blue-600 dark:bg-blue-500" />
           </div>
@@ -153,7 +172,7 @@ export default async function PurchaseDetail({ params }: { params: Promise<{ id:
             <InfoBlock title="Thông tin phiếu nhập" icon="📋">
               <Info label="Mã phiếu" value={p.purchase_code} mono />
               <Info label="Ngày nhập" value={formatDate(p.purchase_date)} />
-              <Info label="Số lượng" value={`${totalQty} con`} />
+              <Info label="Số lượng" value={`${totalQty} ${km.noun}`} />
               <Info
                 label="Tổng thanh toán"
                 value={formatVnd(totalAmount)}
@@ -166,9 +185,10 @@ export default async function PurchaseDetail({ params }: { params: Promise<{ id:
           <div className="px-6 md:px-10 pb-4">
             <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100 mb-2 flex items-center gap-2">
               <span>📦</span>
-              <span>Chi tiết từng con gà ({p.purchase_items.length})</span>
+              <span>{isGa ? 'Chi tiết từng con gà' : 'Chi tiết hàng nhập'} ({p.purchase_items.length})</span>
             </h3>
             <div className="overflow-x-auto border border-gray-200 dark:border-gray-700 rounded-lg">
+              {isGa ? (
               <table className="w-full text-sm">
                 <thead className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-[11px] uppercase tracking-wider">
                   <tr>
@@ -237,6 +257,49 @@ export default async function PurchaseDetail({ params }: { params: Promise<{ id:
                   </tr>
                 </tfoot>
               </table>
+              ) : (
+              <table className="w-full text-sm">
+                <thead className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white text-[11px] uppercase tracking-wider">
+                  <tr>
+                    <th className="px-3 py-2.5 text-center w-10">STT</th>
+                    <th className="px-3 py-2.5 text-left">Tên hàng</th>
+                    <th className="px-3 py-2.5 text-center w-20">ĐVT</th>
+                    <th className="px-3 py-2.5 text-right w-24">Số lượng</th>
+                    <th className="px-3 py-2.5 text-right w-32">Đơn giá</th>
+                    <th className="px-3 py-2.5 text-right w-36">Thành tiền</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
+                  {p.purchase_items.map((item, i) => {
+                    const nameObj = item.feed ?? item.medicine
+                    const name = nameObj?.name_vi ?? item.item_name ?? '—'
+                    const unit = nameObj?.unit ?? ''
+                    const qty = Number(item.quantity ?? 1)
+                    const lineTotal = qty * Number(item.unit_price)
+                    return (
+                      <tr key={i} className={`${i % 2 === 1 ? 'bg-gray-50/60 dark:bg-gray-900/30' : ''}`}>
+                        <td className="px-3 py-2 text-center text-gray-500 dark:text-gray-400 font-semibold">{i + 1}</td>
+                        <td className="px-3 py-2 font-medium text-gray-900 dark:text-gray-100">{name}</td>
+                        <td className="px-3 py-2 text-center text-xs text-gray-600 dark:text-gray-400">{unit || '—'}</td>
+                        <td className="px-3 py-2 text-right tabular-nums">{qty.toLocaleString('vi-VN')}</td>
+                        <td className="px-3 py-2 text-right tabular-nums">{formatVnd(item.unit_price)}</td>
+                        <td className="px-3 py-2 text-right font-semibold tabular-nums text-red-600 dark:text-red-400 print:text-gray-900">{formatVnd(lineTotal)}</td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+                <tfoot className="bg-amber-50 dark:bg-amber-950/30 print:bg-amber-50 font-bold">
+                  <tr>
+                    <td colSpan={5} className="px-3 py-3 text-right uppercase tracking-wider text-amber-900 dark:text-amber-300 print:text-amber-900">
+                      TỔNG CỘNG
+                    </td>
+                    <td className="px-3 py-3 text-right tabular-nums text-lg text-amber-900 dark:text-amber-300 print:text-amber-900">
+                      {formatVnd(totalAmount)}
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+              )}
             </div>
 
             {/* Amount in words */}

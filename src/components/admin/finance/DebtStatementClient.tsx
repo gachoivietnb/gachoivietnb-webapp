@@ -4,18 +4,15 @@ import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { formatVnd } from '@/lib/utils/format'
 import { removeDiacritics } from '@/lib/utils/slugify'
-
-export type StmtItem = {
-  id: string
-  code: string
-  date: string // YYYY-MM-DD (ngày nợ phát sinh)
-  total: number
-  paid: number
-  partner_id: string | null
-  partner_name: string | null
-  kind?: string | null
-}
-export type StmtPayment = { item_id: string; date: string; amount: number }
+import { FileSpreadsheet, Printer } from 'lucide-react'
+import {
+  groupPayments,
+  computeStmt,
+  statementByPartner,
+  filterItems,
+  type StmtItem,
+  type StmtPayment,
+} from '@/lib/reports/debt-statement'
 
 type Side = 'receivable' | 'payable'
 type Preset = 'this_month' | 'last_month' | 'this_quarter' | 'this_year' | 'all' | 'custom'
@@ -39,23 +36,6 @@ function periodRange(preset: Preset, cFrom: string, cTo: string): [string, strin
     case 'all': return ['0000-01-01', '9999-12-31']
     case 'custom': return [cFrom || fmt(new Date(y, m, 1)), cTo || fmt(d)]
   }
-}
-
-type Stmt = { opening: number; increase: number; decrease: number; closing: number }
-
-function computeStmt(items: StmtItem[], paysByItem: Map<string, StmtPayment[]>, from: string, to: string): Stmt {
-  let opening = 0, increase = 0, decrease = 0
-  for (const it of items) {
-    const pays = paysByItem.get(it.id) ?? []
-    if (it.date < from) {
-      // Số dư đầu kỳ: total − đã trả hiện tại + thanh toán từ 'from' trở đi (bền với dữ liệu cũ chưa có ngày)
-      const payGeFrom = pays.reduce((s, p) => (p.date >= from ? s + p.amount : s), 0)
-      opening += it.total - it.paid + payGeFrom
-    }
-    if (it.date >= from && it.date <= to) increase += it.total
-    decrease += pays.reduce((s, p) => (p.date >= from && p.date <= to ? s + p.amount : s), 0)
-  }
-  return { opening, increase, decrease, closing: opening + increase - decrease }
 }
 
 export function DebtStatementClient({
@@ -86,48 +66,26 @@ export function DebtStatementClient({
   const [from, to] = periodRange(preset, cFrom, cTo)
   const qn = removeDiacritics(q.trim())
 
-  const paysByItem = useMemo(() => {
-    const m = new Map<string, StmtPayment[]>()
-    for (const p of payments) {
-      const arr = m.get(p.item_id) ?? []
-      arr.push(p)
-      m.set(p.item_id, arr)
-    }
-    return m
-  }, [payments])
+  const paysByItem = useMemo(() => groupPayments(payments), [payments])
 
-  // Lọc theo NCC/khách + loại + tìm kiếm
-  const filteredItems = useMemo(() => {
-    return items.filter((it) => {
-      if (partnerId && it.partner_id !== partnerId) return false
-      if (kind && (it.kind ?? 'ga') !== kind) return false
-      if (qn) {
-        const hay = removeDiacritics(`${it.code} ${it.partner_name ?? ''}`)
-        if (!hay.includes(qn)) return false
-      }
-      return true
-    })
-  }, [items, partnerId, kind, qn])
-
+  const filteredItems = useMemo(
+    () => filterItems(items, { partnerId, kind, qNorm: qn, norm: removeDiacritics }),
+    [items, partnerId, kind, qn]
+  )
   const total = useMemo(() => computeStmt(filteredItems, paysByItem, from, to), [filteredItems, paysByItem, from, to])
+  const byPartner = useMemo(
+    () => statementByPartner(filteredItems, paysByItem, from, to),
+    [filteredItems, paysByItem, from, to]
+  )
 
-  // Bảng kê theo đối tác
-  const byPartner = useMemo(() => {
-    const groups = new Map<string, StmtItem[]>()
-    for (const it of filteredItems) {
-      const key = it.partner_id ?? '—'
-      const arr = groups.get(key) ?? []
-      arr.push(it)
-      groups.set(key, arr)
-    }
-    const rows = [...groups.entries()].map(([pid, its]) => {
-      const st = computeStmt(its, paysByItem, from, to)
-      return { partner_id: pid, partner_name: its[0]?.partner_name ?? '— Không rõ —', ...st }
-    })
-    return rows
-      .filter((r) => r.opening !== 0 || r.increase !== 0 || r.decrease !== 0 || r.closing !== 0)
-      .sort((a, b) => b.closing - a.closing)
-  }, [filteredItems, paysByItem, from, to])
+  // URL export (giữ đúng kỳ + bộ lọc hiện tại)
+  const exportUrl = (format: 'excel' | 'pdf') => {
+    const p = new URLSearchParams({ side, from, to, format })
+    if (partnerId) p.set('partnerId', partnerId)
+    if (kind) p.set('kind', kind)
+    if (q.trim()) p.set('q', q.trim())
+    return `/api/cong-no/statement/export?${p.toString()}`
+  }
 
   const toneText = tone === 'emerald' ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'
   const selCls = 'border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 rounded-lg px-3 py-2 text-sm'
@@ -138,6 +96,24 @@ export function DebtStatementClient({
 
   return (
     <div className="space-y-4">
+      {/* Toolbar export */}
+      <div className="flex justify-end gap-2">
+        <a
+          href={exportUrl('excel')}
+          className="inline-flex items-center gap-1.5 border border-emerald-500 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 rounded-lg px-3 py-1.5 text-sm font-medium"
+        >
+          <FileSpreadsheet className="w-4 h-4" /> Xuất Excel
+        </a>
+        <a
+          href={exportUrl('pdf')}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 border border-red-500 text-red-700 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-lg px-3 py-1.5 text-sm font-medium"
+        >
+          <Printer className="w-4 h-4" /> In / PDF
+        </a>
+      </div>
+
       {/* Bộ lọc thông minh */}
       <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 space-y-3">
         <div className="flex items-center gap-2 flex-wrap">
@@ -212,14 +188,14 @@ export function DebtStatementClient({
               </thead>
               <tbody>
                 {byPartner.map((r) => {
-                  const base = isRec ? '/admin/khach-hang' : '/admin/nha-cung-cap'
+                  const base = `/admin/cong-no/${isRec ? 'phai-thu' : 'phai-tra'}/so-chi-tiet`
                   return (
                     <tr key={r.partner_id} className="border-t border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-900/30">
                       <td className="p-2.5 font-medium">
-                        {isRec || r.partner_id === '—' ? (
+                        {r.partner_id === '—' ? (
                           r.partner_name
                         ) : (
-                          <Link href={`${base}/${r.partner_id}`} className="text-blue-600 dark:text-blue-400 hover:underline">{r.partner_name}</Link>
+                          <Link href={`${base}?partner=${r.partner_id}`} className="text-blue-600 dark:text-blue-400 hover:underline" title="Xem sổ chi tiết">{r.partner_name}</Link>
                         )}
                       </td>
                       <td className="p-2.5 text-right tabular-nums text-gray-600 dark:text-gray-400">{formatVnd(r.opening)}</td>

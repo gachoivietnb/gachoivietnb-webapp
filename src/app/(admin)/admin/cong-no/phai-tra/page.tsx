@@ -57,9 +57,14 @@ export default async function PhaiTraPage() {
             {canPay ? ' · Bấm “Trả” để ghi nhận (tự chi quỹ)' : ''}
           </p>
         </div>
-        <Link href="/admin/cong-no/phai-tra/bao-cao" className="inline-flex items-center gap-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg px-3 py-2 text-sm font-medium">
-          📊 Báo cáo theo kỳ
-        </Link>
+        <div className="flex gap-2 flex-wrap">
+          <Link href="/admin/cong-no/phai-tra/bao-cao" className="inline-flex items-center gap-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg px-3 py-2 text-sm font-medium">
+            📊 Báo cáo theo kỳ
+          </Link>
+          <Link href="/admin/cong-no/phai-tra/so-chi-tiet" className="inline-flex items-center gap-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg px-3 py-2 text-sm font-medium">
+            📒 Sổ chi tiết
+          </Link>
+        </div>
       </div>
 
       {rows.length === 0 ? (

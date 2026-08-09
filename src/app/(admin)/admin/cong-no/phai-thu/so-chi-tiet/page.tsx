@@ -3,12 +3,17 @@ import { getCurrentUserPermissions } from '@/lib/rbac/guard'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { DebtStatementClient } from '@/components/admin/finance/DebtStatementClient'
+import { DebtLedgerClient } from '@/components/admin/finance/DebtLedgerClient'
 import type { StmtItem, StmtPayment } from '@/lib/reports/debt-statement'
 
 export const revalidate = 0
 
-export default async function ReceivablesStatementPage() {
+export default async function ReceivablesLedgerPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ partner?: string }>
+}) {
+  const sp = await searchParams
   const ctx = await getCurrentUserPermissions()
   if (!ctx) redirect('/auth/login')
   if (!ctx.can('cong_no', 'read')) {
@@ -33,30 +38,14 @@ export default async function ReceivablesStatementPage() {
   ])
 
   type OrderRow = {
-    id: string
-    order_code: string
-    order_date: string
-    total_amount: number
-    paid_amount: number | null
+    id: string; order_code: string; order_date: string; total_amount: number; paid_amount: number | null
     customer: { id: string; name: string } | { id: string; name: string }[] | null
   }
-  const orders = (ordersRes.data ?? []) as OrderRow[]
-  const items: StmtItem[] = orders.map((o) => {
+  const items: StmtItem[] = ((ordersRes.data ?? []) as OrderRow[]).map((o) => {
     const c = Array.isArray(o.customer) ? o.customer[0] : o.customer
-    return {
-      id: o.id,
-      code: o.order_code,
-      date: o.order_date,
-      total: Number(o.total_amount),
-      paid: Number(o.paid_amount ?? 0),
-      partner_id: c?.id ?? null,
-      partner_name: c?.name ?? null,
-    }
+    return { id: o.id, code: o.order_code, date: o.order_date, total: Number(o.total_amount), paid: Number(o.paid_amount ?? 0), partner_id: c?.id ?? null, partner_name: c?.name ?? null }
   })
-
-  const payments: StmtPayment[] = (
-    (paysRes.data ?? []) as Array<{ ref_id: string; transaction_date: string; amount: number }>
-  ).map((p) => ({ item_id: p.ref_id, date: p.transaction_date, amount: Number(p.amount) }))
+  const payments: StmtPayment[] = ((paysRes.data ?? []) as Array<{ ref_id: string; transaction_date: string; amount: number }>).map((p) => ({ item_id: p.ref_id, date: p.transaction_date, amount: Number(p.amount) }))
 
   const pMap = new Map<string, string>()
   for (const it of items) if (it.partner_id && it.partner_name) pMap.set(it.partner_id, it.partner_name)
@@ -68,12 +57,12 @@ export default async function ReceivablesStatementPage() {
         <Link href="/admin/cong-no/phai-thu" className="inline-flex items-center gap-1 text-sm text-blue-600 dark:text-blue-400 hover:underline mb-2">
           <ArrowLeft className="w-4 h-4" /> Danh sách phải thu
         </Link>
-        <h1 className="text-2xl font-medium text-gray-900 dark:text-gray-100 flex items-center gap-2">📊 Báo cáo công nợ phải thu</h1>
+        <h1 className="text-2xl font-medium text-gray-900 dark:text-gray-100 flex items-center gap-2">📒 Sổ chi tiết công nợ phải thu</h1>
         <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-          Số dư đầu kỳ · phát sinh tăng/giảm · số dư cuối kỳ · lọc theo kỳ & khách hàng
+          Số dư đầu kỳ · từng phát sinh (bán chịu / thu tiền) · số dư lũy kế · số dư cuối kỳ
         </p>
       </div>
-      <DebtStatementClient side="receivable" items={items} payments={payments} partners={partners} />
+      <DebtLedgerClient side="receivable" items={items} payments={payments} partners={partners} defaultPartnerId={sp.partner} />
     </div>
   )
 }

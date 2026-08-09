@@ -23,6 +23,13 @@ export type ReportMeta = {
   subtitle?: string
   period?: string
   summary?: Array<[string, string]>
+  // Khối chữ ký cuối báo cáo (VD: [{role:'Người lập', name:'...'}, {role:'Chủ trang trại', name:'...'}])
+  signatures?: Array<{ role: string; name: string }>
+}
+
+function todayVN(): string {
+  const d = new Date()
+  return `Ngày ${d.getDate()} tháng ${d.getMonth() + 1} năm ${d.getFullYear()}`
 }
 
 // =====================================================
@@ -210,6 +217,39 @@ export async function buildExcel(
         }
       })
       fRow.height = 24
+    }
+
+    // Signatures (chỉ ở sheet cuối): Người lập / Chủ trang trại
+    if (i === sections.length - 1 && meta.signatures && meta.signatures.length > 0) {
+      const sigs = meta.signatures.slice(0, 2)
+      const midCol = Math.min(lastCol, Math.max(2, Math.ceil(lastCol / 2)))
+      const midL = colLetters(midCol)
+      const rStartL = colLetters(Math.min(lastCol, midCol + 1))
+      let sr = curRow + 3
+      ws.mergeCells(`${rStartL}${sr}:${endCol}${sr}`)
+      const dc = ws.getCell(`${rStartL}${sr}`)
+      dc.value = todayVN()
+      dc.font = { name: 'Arial', size: 10, italic: true, color: { argb: 'FF4B5563' } }
+      dc.alignment = { horizontal: 'center' }
+      sr += 1
+      const putPair = (row: number, left: string, right: string | undefined, font: Partial<ExcelJS.Font>) => {
+        ws.mergeCells(`A${row}:${midL}${row}`)
+        const lc = ws.getCell(`A${row}`)
+        lc.value = left
+        lc.font = font
+        lc.alignment = { horizontal: 'center' }
+        if (right !== undefined && sigs.length > 1) {
+          ws.mergeCells(`${rStartL}${row}:${endCol}${row}`)
+          const rc = ws.getCell(`${rStartL}${row}`)
+          rc.value = right
+          rc.font = font
+          rc.alignment = { horizontal: 'center' }
+        }
+      }
+      putPair(sr, sigs[0].role.toUpperCase(), sigs[1]?.role.toUpperCase(), { name: 'Arial', size: 11, bold: true, color: { argb: 'FF111827' } })
+      putPair(sr + 1, '(Ký, ghi rõ họ tên)', sigs[1] ? '(Ký, ghi rõ họ tên)' : undefined, { name: 'Arial', size: 9, italic: true, color: { argb: 'FF6B7280' } })
+      putPair(sr + 4, sigs[0].name || '', sigs[1]?.name || '', { name: 'Arial', size: 11, bold: true, color: { argb: 'FF111827' } })
+      curRow = sr + 5
     }
 
     // Freeze panes at top of table
@@ -419,6 +459,39 @@ export function buildPdf(
     })
 
     y = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 6
+  }
+
+  // Signature block (optional): Người lập / Chủ trang trại
+  if (meta.signatures && meta.signatures.length > 0) {
+    if (y + 42 > 196) {
+      doc.addPage()
+      y = 20
+    } else {
+      y += 8
+    }
+    const sigs = meta.signatures.slice(0, 2)
+    const centers = sigs.length > 1 ? [75, 222] : [148]
+    doc.setFont('Roboto', 'italic')
+    doc.setFontSize(9.5)
+    doc.setTextColor(75, 85, 99)
+    doc.text(todayVN(), centers[centers.length - 1], y, { align: 'center' })
+    y += 7
+    sigs.forEach((s, idx) => {
+      const cx = centers[idx]
+      doc.setFont('Roboto', 'bold')
+      doc.setFontSize(10.5)
+      doc.setTextColor(17, 24, 39)
+      doc.text(s.role.toUpperCase(), cx, y, { align: 'center' })
+      doc.setFont('Roboto', 'italic')
+      doc.setFontSize(8.5)
+      doc.setTextColor(107, 114, 128)
+      doc.text('(Ký, ghi rõ họ tên)', cx, y + 5, { align: 'center' })
+      doc.setFont('Roboto', 'bold')
+      doc.setFontSize(10.5)
+      doc.setTextColor(17, 24, 39)
+      doc.text(s.name || '.....................', cx, y + 26, { align: 'center' })
+    })
+    y += 30
   }
 
   // Footer on each page

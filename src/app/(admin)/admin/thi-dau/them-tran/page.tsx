@@ -20,7 +20,7 @@ export default async function NewMatchPage({
   const params = await searchParams
   const supabase = await createClient()
 
-  const [chickensRes, tournamentsRes, editingRes, statsRes, recentRes] = (await Promise.all([
+  const [chickensRes, tournamentsRes, editingRes, statsRes, recentRes, preselectedRes] = (await Promise.all([
     supabase
       .from('chickens')
       .select('id, chicken_code, name, image_url, status, gender, birth_date, weight_kg, breed_id, breeds(name_vi), area:areas(code, name_vi), combat_tier_manual')
@@ -43,12 +43,20 @@ export default async function NewMatchPage({
       .select('chicken_id, match_date')
       .order('match_date', { ascending: false })
       .limit(20),
+    params.chicken
+      ? supabase
+          .from('chickens')
+          .select('id, chicken_code, name, image_url, status, gender, birth_date, weight_kg, breed_id, breeds(name_vi), area:areas(code, name_vi), combat_tier_manual')
+          .eq('id', params.chicken)
+          .maybeSingle()
+      : Promise.resolve({ data: null }),
   ])) as [
     { data: Array<Record<string, unknown>> | null },
     { data: Array<Record<string, unknown>> | null },
     { data: Record<string, unknown> | null },
     { data: Array<Record<string, unknown>> | null },
-    { data: Array<{ chicken_id: string; match_date: string }> | null }
+    { data: Array<{ chicken_id: string; match_date: string }> | null },
+    { data: Record<string, unknown> | null }
   ]
 
   // Build stats map
@@ -64,8 +72,14 @@ export default async function NewMatchPage({
     if (recentIds.length >= 5) break
   }
 
+  // Đảm bảo gà được chỉ định sẵn (param.chicken) luôn có trong list, dù status nằm ngoài filter
+  const baseList = ((chickensRes.data ?? []) as Array<Record<string, unknown>>).slice()
+  if (preselectedRes.data && !baseList.some((c) => (c.id as string) === (preselectedRes.data!.id as string))) {
+    baseList.unshift(preselectedRes.data as Record<string, unknown>)
+  }
+
   // Inject stats vào chickens
-  const enriched = ((chickensRes.data ?? []) as Array<Record<string, unknown>>).map((c) => ({
+  const enriched = baseList.map((c) => ({
     ...c,
     stats: statsMap[c.id as string] ?? null,
   }))

@@ -705,9 +705,9 @@ export function MatchFormClient({
               <div className="md:col-span-3 text-xs font-semibold text-amber-900 dark:text-amber-300">
                 💰 Tài chính (KHÔNG hiển thị trên web public)
               </div>
-              <Field label="Tiền thưởng giải" type="number" value={prizeMoney} onChange={setPrizeMoney} step="100000" />
-              <Field label="Số tiền cược" type="number" value={bettingAmount} onChange={setBettingAmount} step="100000" />
-              <Field label="Cược thắng/thua" type="number" value={bettingWon} onChange={setBettingWon} step="100000" help="Dương = thắng, âm = thua" />
+              <Field label="Tiền thưởng giải" type="number" value={prizeMoney} onChange={setPrizeMoney} step="1" />
+              <Field label="Số tiền cược" type="number" value={bettingAmount} onChange={setBettingAmount} step="1" />
+              <Field label="Cược thắng/thua" type="number" value={bettingWon} onChange={setBettingWon} step="1" help="Dương = thắng, âm = thua" />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">

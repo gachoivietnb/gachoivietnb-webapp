@@ -454,7 +454,7 @@ export function InvoiceFormClient({
                           type="number"
                           value={it.unit_price}
                           onChange={(e) => updateItem(idx, { unit_price: Number(e.target.value) })}
-                          step="1000"
+                          step="1"
                           min={0}
                           className="w-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-700 rounded px-2 py-1 text-sm text-right font-mono"
                         />

@@ -260,7 +260,7 @@ export function ExpenseManager({
               <input
                 type="number"
                 min={0}
-                step={10000}
+                step={1}
                 value={form.amount || ''}
                 onChange={(e) =>
                   setForm({ ...form, amount: parseFloat(e.target.value) || 0 })

@@ -332,7 +332,7 @@ export function NewOrderForm({
                         <input
                           type="number"
                           min={0}
-                          step={10000}
+                          step={1}
                           value={c.unit_price}
                           onChange={(e) =>
                             setItemPrice(c.id, parseFloat(e.target.value) || 0)
@@ -575,7 +575,7 @@ export function NewOrderForm({
                   <input
                     type="number"
                     min={0}
-                    step={10000}
+                    step={1}
                     value={depositAmount}
                     onChange={(e) =>
                       setDepositAmount(parseFloat(e.target.value) || 0)

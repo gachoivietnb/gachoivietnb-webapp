@@ -107,7 +107,7 @@ export function SupplierForm({ editing }: { editing: SupplierStat | null }) {
             <Inp label="Số tài khoản" value={form.bank_account} onChange={(v) => setForm({ ...form, bank_account: v })} />
             <Inp label="Chi nhánh" value={form.bank_branch} onChange={(v) => setForm({ ...form, bank_branch: v })} />
             <Inp label="Điều khoản thanh toán" value={form.payment_terms} onChange={(v) => setForm({ ...form, payment_terms: v })} placeholder="Trả ngay / Công nợ 30 ngày" />
-            <Inp label="Hạn mức công nợ (đ)" type="number" value={form.credit_limit} onChange={(v) => setForm({ ...form, credit_limit: v })} step="1000000" />
+            <Inp label="Hạn mức công nợ (đ)" type="number" value={form.credit_limit} onChange={(v) => setForm({ ...form, credit_limit: v })} step="1" />
           </div>
         </Card>
 

@@ -228,7 +228,7 @@ export function RecordVaccinationForm({
               </select>
             </div>
             <Field label="Cân nặng (kg)" type="number" step="0.01" value={weight} onChange={setWeight} placeholder="2.5" />
-            <Field label="Chi phí (đ)" type="number" value={cost} onChange={setCost} step="1000" />
+            <Field label="Chi phí (đ)" type="number" value={cost} onChange={setCost} step="1" />
           </div>
         </Card>
 

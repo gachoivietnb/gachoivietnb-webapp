@@ -334,7 +334,7 @@ export function NewPurchaseForm({
                 <input
                   type="number"
                   min={0}
-                  step={10000}
+                  step={1}
                   value={defaultPrice}
                   onChange={(e) => setDefaultPrice(e.target.value)}
                   placeholder="VD: 1500000"
@@ -562,7 +562,7 @@ export function NewPurchaseForm({
                             <input
                               type="number"
                               min={0}
-                              step={10000}
+                              step={1}
                               value={r.unit_price}
                               onChange={(e) => updateRow(r.id, { unit_price: e.target.value })}
                               placeholder="bắt buộc"

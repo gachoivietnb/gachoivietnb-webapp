@@ -395,7 +395,7 @@ export function PayrollPanel() {
       )}
 
       {loading ? (
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-12 text-center text-gray-500 dark:text-gray-400">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 md:p-12 text-center text-gray-500 dark:text-gray-400">
           ⏳ Đang tải dữ liệu chấm công…
         </div>
       ) : filteredRows.length === 0 ? (
@@ -550,7 +550,7 @@ export function PayrollPanel() {
                         <input
                           type="number"
                           min={0}
-                          step={10000}
+                          step={1}
                           value={e.bonus || ''}
                           onChange={(ev) =>
                             edit(r.staff_id, { bonus: Number(ev.target.value) || 0 })
@@ -591,7 +591,7 @@ export function PayrollPanel() {
                         <input
                           type="number"
                           min={0}
-                          step={10000}
+                          step={1}
                           value={e.deduction || ''}
                           onChange={(ev) =>
                             edit(r.staff_id, { deduction: Number(ev.target.value) || 0 })
@@ -880,7 +880,7 @@ function SalaryConfigModal({
             <input
               type="number"
               min={0}
-              step={100000}
+              step={1}
               value={base}
               onChange={(e) => setBase(Number(e.target.value) || 0)}
               className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg px-3 py-2 text-base font-semibold tabular-nums"

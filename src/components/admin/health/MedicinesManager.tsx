@@ -964,7 +964,7 @@ function AddMedicineForm({ editing, onDone }: { editing?: Medicine | null; onDon
                   <input
                     type="number"
                     min={0}
-                    step={1000}
+                    step={1}
                     value={form.cost_per_unit}
                     onChange={(e) =>
                       setForm({ ...form, cost_per_unit: parseFloat(e.target.value) || 0 })
